@@ -5,611 +5,536 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CodePlatform — Puzzle Game</title>
 <style>
-  /* ===== RESET & ROOT ===== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg-deep:    #0d0f14;
-    --bg-panel:   #13161d;
-    --bg-editor:  #0b0d12;
-    --border:     #1f2533;
-    --accent:     #5b9cf6;
-    --accent2:    #a78bfa;
-    --success:    #34d399;
-    --danger:     #f87171;
-    --warn:       #fbbf24;
-    --text:       #e2e8f0;
-    --text-dim:   #64748b;
-    --splitter:   #2a3044;
-    --splitter-h: #5b9cf6;
-    --font-ui:    'Segoe UI', system-ui, sans-serif;
-    --font-code:  'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-    --arena-w:    720px;
-    --arena-h:    480px;
-  }
+/* ===== THEME VARIABLES ===== */
+:root {
+  --bg-deep:    #0d0f14;
+  --bg-panel:   #13161d;
+  --bg-editor:  #0b0d12;
+  --border:     #1f2533;
+  --accent:     #5b9cf6;
+  --accent2:    #a78bfa;
+  --success:    #34d399;
+  --danger:     #f87171;
+  --warn:       #fbbf24;
+  --text:       #e2e8f0;
+  --text-dim:   #64748b;
+  --splitter:   #2a3044;
+  --splitter-h: #5b9cf6;
+  --font-ui:    'Segoe UI', system-ui, sans-serif;
+  --font-code:  'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  --arena-w:    720px;
+  --arena-h:    480px;
+  /* intellisense */
+  --ac-bg:        #181c27;
+  --ac-border:    #2a3550;
+  --ac-hover:     rgba(91,156,246,.14);
+  --ac-selected:  rgba(91,156,246,.22);
+  --ac-shadow:    0 8px 32px rgba(0,0,0,.55);
+  /* code colors */
+  --c-tag:    #f97583;
+  --c-attr:   #79b8ff;
+  --c-val:    #9ecbff;
+  --c-str:    #b5e4a0;
+  --c-num:    #f8c555;
+  --c-cmnt:   #6a737d;
+  --c-text:   #a8d8ea;
+}
 
-  html, body {
-    width: 100%; height: 100%;
-    background: var(--bg-deep);
-    color: var(--text);
-    font-family: var(--font-ui);
-    overflow: hidden;
-    user-select: none;
-  }
+/* LIGHT THEME */
+:root[data-theme="light"] {
+  --bg-deep:   #f0f2f5;
+  --bg-panel:  #ffffff;
+  --bg-editor: #fafbfc;
+  --border:    #d1d9e0;
+  --text:      #1a202c;
+  --text-dim:  #718096;
+  --splitter:  #c8d0da;
+  --splitter-h:#5b9cf6;
+  /* intellisense */
+  --ac-bg:       #ffffff;
+  --ac-border:   #c8d0da;
+  --ac-hover:    rgba(91,156,246,.10);
+  --ac-selected: rgba(91,156,246,.18);
+  --ac-shadow:   0 8px 32px rgba(0,0,0,.18);
+  /* code colors */
+  --c-tag:  #d73a49;
+  --c-attr: #005cc5;
+  --c-val:  #032f62;
+  --c-str:  #22863a;
+  --c-num:  #e36209;
+  --c-cmnt: #6a737d;
+  --c-text: #24292e;
+}
 
-  /* ===== TOP BAR ===== */
-  #topbar {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: 44px;
-    background: var(--bg-panel);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 16px;
-    padding: 0 20px;
-    z-index: 100;
-  }
-  #topbar .logo {
-    font-size: 15px; font-weight: 700; letter-spacing: .5px;
-    color: var(--accent);
-    display: flex; align-items: center; gap: 8px;
-  }
-  #topbar .logo svg { width:20px; height:20px; }
-  #stage-label {
-    font-size: 12px; color: var(--text-dim);
-    margin-left: auto;
-  }
-  #stage-name {
-    font-size: 13px; font-weight: 600; color: var(--text);
-  }
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-ui);
+  overflow: hidden;
+  user-select: none;
+  transition: background .2s, color .2s;
+}
 
-  /* ===== MAIN CONTAINER ===== */
-  #main {
-    position: fixed;
-    top: 44px; left: 0; right: 0; bottom: 0;
-    display: flex;
-  }
+/* ===== TOP BAR ===== */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 44px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 20px;
+  z-index: 100;
+  transition: background .2s, border-color .2s;
+}
+#topbar .logo {
+  font-size: 15px; font-weight: 700; letter-spacing: .5px;
+  color: var(--accent);
+  display: flex; align-items: center; gap: 8px;
+}
+#topbar .logo svg { width:20px; height:20px; }
+#stage-label { font-size: 12px; color: var(--text-dim); margin-left: auto; }
+#stage-name  { font-size: 13px; font-weight: 600; color: var(--text); }
 
-  /* ===== LEFT PANEL (GAME ARENA) ===== */
-  #left-panel {
-    flex: none;
-    width: 60%;
-    background: var(--bg-deep);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
+/* ===== THEME TOGGLE BUTTON ===== */
+#theme-toggle {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  color: var(--text-dim);
+  transition: all .2s;
+  white-space: nowrap;
+}
+#theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-  #arena-wrapper {
-    flex: 1;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
+/* Toggle track */
+.toggle-track {
+  width: 28px; height: 16px;
+  background: var(--border);
+  border-radius: 8px;
+  position: relative;
+  transition: background .2s;
+  flex: none;
+}
+.toggle-thumb {
+  position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s, background .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+:root[data-theme="light"] .toggle-track { background: var(--accent); }
+:root[data-theme="light"] .toggle-thumb { transform: translateX(12px); background: #fff; }
 
-  /* Fixed logical size arena */
-  #arena {
-    position: relative;
-    width: var(--arena-w);
-    height: var(--arena-h);
-    background: #08090e;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    transform-origin: center center;
-    flex: none;
-  }
+/* ===== MAIN CONTAINER ===== */
+#main {
+  position: fixed;
+  top: 44px; left: 0; right: 0; bottom: 0;
+  display: flex;
+}
 
-  /* Arena grid bg */
-  #arena::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(91,156,246,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(91,156,246,.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-    pointer-events: none;
-  }
+/* ===== LEFT PANEL (GAME ARENA) ===== */
+#left-panel {
+  flex: none;
+  width: 60%;
+  background: var(--bg-deep);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: background .2s;
+}
+#arena-wrapper {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+#arena {
+  position: relative;
+  width: var(--arena-w); height: var(--arena-h);
+  background: #08090e;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transform-origin: center center;
+  flex: none;
+  transition: border-color .2s;
+}
+:root[data-theme="light"] #arena { background: #eef2f8; }
+#arena::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(91,156,246,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91,156,246,.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+:root[data-theme="light"] #arena::before {
+  background-image:
+    linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px);
+}
 
-  /* ===== GAME OBJECTS ===== */
-  .platform {
-    position: absolute;
-    background: #1e2d4a;
-    border: 1px solid #2a4278;
-    border-radius: 2px;
-  }
-  .platform.ground { background: #1a2a3e; border-color: #243558; }
-  .platform.ice {
-    background: #162d3a;
-    border-color: #1e4a5c;
-    box-shadow: inset 0 0 12px rgba(100,210,255,.08);
-  }
-  .platform.lava {
-    background: #3a1a0e;
-    border-color: #8b3a1a;
-    animation: lava-glow 2s ease-in-out infinite alternate;
-  }
-  @keyframes lava-glow {
-    from { box-shadow: inset 0 0 8px rgba(255,100,0,.2); }
-    to   { box-shadow: inset 0 0 20px rgba(255,100,0,.4); }
-  }
-  .platform.cloud {
-    background: rgba(200,220,255,.06);
-    border-color: rgba(200,220,255,.15);
-    border-radius: 8px;
-  }
+/* GAME OBJECTS */
+.platform { position:absolute; background:#1e2d4a; border:1px solid #2a4278; border-radius:2px; }
+.platform.ground { background:#1a2a3e; border-color:#243558; }
+.platform.ice    { background:#162d3a; border-color:#1e4a5c; box-shadow:inset 0 0 12px rgba(100,210,255,.08); }
+.platform.lava   { background:#3a1a0e; border-color:#8b3a1a; animation:lava-glow 2s ease-in-out infinite alternate; }
+@keyframes lava-glow {
+  from { box-shadow: inset 0 0 8px rgba(255,100,0,.2); }
+  to   { box-shadow: inset 0 0 20px rgba(255,100,0,.4); }
+}
+.platform.cloud { background:rgba(200,220,255,.06); border-color:rgba(200,220,255,.15); border-radius:8px; }
+:root[data-theme="light"] .platform         { background:#7ba7d8; border-color:#5585b5; }
+:root[data-theme="light"] .platform.ground  { background:#6694c5; border-color:#4a78a8; }
+:root[data-theme="light"] .platform.ice     { background:#a8d4e6; border-color:#7ab8d0; }
+:root[data-theme="light"] .platform.lava    { background:#d45a2a; border-color:#b03a10; }
 
-  /* SPIKE */
-  .spike {
-    position: absolute;
-    width: 0; height: 0;
-    pointer-events: none;
-  }
-  .spike.up {
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 20px solid #e53e3e;
-    filter: drop-shadow(0 0 4px rgba(229,62,62,.6));
-  }
-  .spike.down {
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 20px solid #e53e3e;
-    filter: drop-shadow(0 0 4px rgba(229,62,62,.6));
-  }
-  .spike.left {
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-right: 20px solid #e53e3e;
-    filter: drop-shadow(0 0 4px rgba(229,62,62,.6));
-  }
-  .spike.right {
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 20px solid #e53e3e;
-    filter: drop-shadow(0 0 4px rgba(229,62,62,.6));
-  }
+/* SPIKE */
+.spike { position:absolute; width:0; height:0; pointer-events:none; }
+.spike.up    { border-left:12px solid transparent; border-right:12px solid transparent; border-bottom:20px solid #e53e3e; filter:drop-shadow(0 0 4px rgba(229,62,62,.6)); }
+.spike.down  { border-left:12px solid transparent; border-right:12px solid transparent; border-top:20px solid #e53e3e; filter:drop-shadow(0 0 4px rgba(229,62,62,.6)); }
+.spike.left  { border-top:12px solid transparent; border-bottom:12px solid transparent; border-right:20px solid #e53e3e; filter:drop-shadow(0 0 4px rgba(229,62,62,.6)); }
+.spike.right { border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:20px solid #e53e3e; filter:drop-shadow(0 0 4px rgba(229,62,62,.6)); }
 
-  /* GOAL / EXIT DOOR */
-  #goal {
-    position: absolute;
-    width: 36px; height: 54px;
-    z-index: 10;
-  }
-  #goal .door-frame {
-    position: absolute; inset: 0;
-    border: 3px solid var(--success);
-    border-radius: 3px 3px 0 0;
-    box-shadow: 0 0 12px rgba(52,211,153,.4), inset 0 0 20px rgba(52,211,153,.1);
-  }
-  #goal .door-inner {
-    position: absolute;
-    inset: 3px; bottom: 0;
-    background: rgba(52,211,153,.08);
-    border-radius: 1px 1px 0 0;
-  }
-  #goal .door-glow {
-    position: absolute; inset: -4px;
-    border-radius: 3px;
-    animation: goal-pulse 1.6s ease-in-out infinite alternate;
-  }
-  @keyframes goal-pulse {
-    from { box-shadow: 0 0 8px rgba(52,211,153,.3); }
-    to   { box-shadow: 0 0 24px rgba(52,211,153,.7); }
-  }
-  #goal .star {
-    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-    font-size: 14px; animation: star-spin 3s linear infinite;
-  }
-  @keyframes star-spin { from { transform: translateX(-50%) rotate(0); } to { transform: translateX(-50%) rotate(360deg); } }
+/* GOAL */
+#goal { position:absolute; width:36px; height:54px; z-index:10; }
+#goal .door-frame { position:absolute; inset:0; border:3px solid var(--success); border-radius:3px 3px 0 0; box-shadow:0 0 12px rgba(52,211,153,.4),inset 0 0 20px rgba(52,211,153,.1); }
+#goal .door-inner { position:absolute; inset:3px; bottom:0; background:rgba(52,211,153,.08); border-radius:1px 1px 0 0; }
+#goal .door-glow  { position:absolute; inset:-4px; border-radius:3px; animation:goal-pulse 1.6s ease-in-out infinite alternate; }
+@keyframes goal-pulse { from{box-shadow:0 0 8px rgba(52,211,153,.3);} to{box-shadow:0 0 24px rgba(52,211,153,.7);} }
+#goal .star { position:absolute; top:-10px; left:50%; transform:translateX(-50%); font-size:14px; animation:star-spin 3s linear infinite; }
+@keyframes star-spin { from{transform:translateX(-50%) rotate(0);} to{transform:translateX(-50%) rotate(360deg);} }
 
-  /* PLAYER */
-  #player {
-    position: absolute;
-    width: 28px; height: 28px;
-    z-index: 50;
-    pointer-events: none;
-  }
-  #player .p-body {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-    border-radius: 4px;
-    border: 2px solid rgba(255,255,255,.3);
-    box-shadow: 0 0 12px rgba(91,156,246,.5);
-    transition: border-radius .1s;
-  }
-  #player .p-eye {
-    position: absolute; top: 6px; right: 7px;
-    width: 5px; height: 7px;
-    background: #fff;
-    border-radius: 50%;
-  }
-  #player .p-eye::after {
-    content: '';
-    position: absolute; top: 1px; left: 1px;
-    width: 3px; height: 4px;
-    background: #0d0f14;
-    border-radius: 50%;
-  }
-  #player.dead .p-body {
-    background: linear-gradient(135deg, var(--danger), #7f1d1d);
-    animation: death-shake .3s ease-out;
-  }
-  @keyframes death-shake {
-    0%,100%{transform:translate(0,0) rotate(0)}
-    25%{transform:translate(-3px,1px) rotate(-8deg)}
-    75%{transform:translate(3px,1px) rotate(8deg)}
-  }
-  #player.jumping .p-body { border-radius: 6px 6px 3px 3px; }
+/* PLAYER */
+#player { position:absolute; width:28px; height:28px; z-index:50; pointer-events:none; }
+#player .p-body { position:absolute; inset:0; background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%); border-radius:4px; border:2px solid rgba(255,255,255,.3); box-shadow:0 0 12px rgba(91,156,246,.5); transition:border-radius .1s; }
+#player .p-eye  { position:absolute; top:6px; right:7px; width:5px; height:7px; background:#fff; border-radius:50%; }
+#player .p-eye::after { content:''; position:absolute; top:1px; left:1px; width:3px; height:4px; background:#0d0f14; border-radius:50%; }
+#player.dead .p-body { background:linear-gradient(135deg,var(--danger),#7f1d1d); animation:death-shake .3s ease-out; }
+@keyframes death-shake {
+  0%,100%{transform:translate(0,0) rotate(0)}
+  25%{transform:translate(-3px,1px) rotate(-8deg)}
+  75%{transform:translate(3px,1px) rotate(8deg)}
+}
+#player.jumping .p-body { border-radius:6px 6px 3px 3px; }
 
-  /* SPAWN MARKER */
-  #spawn-marker {
-    position: absolute;
-    width: 28px; height: 4px;
-    background: var(--accent2);
-    border-radius: 2px;
-    opacity: .5;
-    z-index: 5;
-    pointer-events: none;
-  }
-  #spawn-marker::after {
-    content: 'SPAWN';
-    position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
-    font-size: 8px; color: var(--accent2); white-space: nowrap; opacity: .7;
-    font-family: var(--font-code);
-  }
+/* SPAWN MARKER */
+#spawn-marker {
+  position:absolute; width:28px; height:4px;
+  background:var(--accent2); border-radius:2px;
+  opacity:.5; z-index:5; pointer-events:none;
+}
+#spawn-marker::after {
+  content:'SPAWN'; position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  font-size:8px; color:var(--accent2); white-space:nowrap; opacity:.7;
+  font-family:var(--font-code);
+}
 
-  /* INJECTED USER ELEMENTS */
-  #user-elements {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    z-index: 20;
-  }
-  #user-elements > * { pointer-events: none !important; }
+/* USER ELEMENTS */
+#user-elements { position:absolute; inset:0; pointer-events:none; z-index:20; }
+#user-elements > * { pointer-events:none !important; }
 
-  /* HUD */
-  #hud {
-    position: absolute; top: 8px; right: 8px;
-    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
-    z-index: 80;
-  }
-  .hud-badge {
-    background: rgba(13,15,20,.8);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 11px; font-family: var(--font-code);
-    color: var(--text-dim);
-  }
-  .hud-badge span { color: var(--text); font-weight: 600; }
+/* HUD */
+#hud { position:absolute; top:8px; right:8px; display:flex; flex-direction:column; align-items:flex-end; gap:4px; z-index:80; }
+.hud-badge { background:rgba(13,15,20,.8); border:1px solid var(--border); border-radius:4px; padding:3px 8px; font-size:11px; font-family:var(--font-code); color:var(--text-dim); }
+:root[data-theme="light"] .hud-badge { background:rgba(255,255,255,.85); }
+.hud-badge span { color:var(--text); font-weight:600; }
 
-  /* DEATH flash */
-  #death-flash {
-    position: absolute; inset: 0;
-    background: rgba(248,113,113,.15);
-    pointer-events: none;
-    opacity: 0; z-index: 90;
-    transition: opacity .15s;
-  }
-  #death-flash.active { opacity: 1; }
+/* DEATH FLASH */
+#death-flash { position:absolute; inset:0; background:rgba(248,113,113,.15); pointer-events:none; opacity:0; z-index:90; transition:opacity .15s; }
+#death-flash.active { opacity:1; }
 
-  /* LEFT PANEL BOTTOM STATUS */
-  #arena-status {
-    height: 32px;
-    background: var(--bg-panel);
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; gap: 16px;
-    padding: 0 16px;
-    font-size: 11px; font-family: var(--font-code); color: var(--text-dim);
-  }
-  #arena-status .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--success);
-    display: inline-block; margin-right: 4px;
-  }
-  #arena-status .dot.dead { background: var(--danger); }
-  #coords { margin-left: auto; }
+/* ARENA STATUS */
+#arena-status {
+  height:32px; background:var(--bg-panel); border-top:1px solid var(--border);
+  display:flex; align-items:center; gap:16px; padding:0 16px;
+  font-size:11px; font-family:var(--font-code); color:var(--text-dim);
+  transition:background .2s, border-color .2s;
+}
+#arena-status .dot { width:6px; height:6px; border-radius:50%; background:var(--success); display:inline-block; margin-right:4px; }
+#arena-status .dot.dead { background:var(--danger); }
+#coords { margin-left:auto; }
 
-  /* ===== SPLITTER ===== */
-  #splitter {
-    flex: none;
-    width: 5px;
-    background: var(--splitter);
-    cursor: col-resize;
-    transition: background .15s;
-    position: relative;
-    z-index: 50;
-  }
-  #splitter:hover, #splitter.dragging { background: var(--splitter-h); }
-  #splitter::after {
-    content: '';
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: 2px; height: 40px;
-    background: currentColor;
-    border-radius: 1px;
-    opacity: .4;
-  }
+/* SPLITTER */
+#splitter { flex:none; width:5px; background:var(--splitter); cursor:col-resize; transition:background .15s; position:relative; z-index:50; }
+#splitter:hover, #splitter.dragging { background:var(--splitter-h); }
+#splitter::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:2px; height:40px; background:currentColor; border-radius:1px; opacity:.4; }
 
-  /* ===== RIGHT PANEL (CODE EDITOR) ===== */
-  #right-panel {
-    flex: 1;
-    min-width: 0;
-    background: var(--bg-panel);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
+/* ===== RIGHT PANEL ===== */
+#right-panel { flex:1; min-width:0; background:var(--bg-panel); display:flex; flex-direction:column; overflow:hidden; transition:background .2s; }
+#editor-header { height:44px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; padding:0 16px; flex:none; transition:border-color .2s; }
+#editor-header .tab { font-size:12px; color:var(--text-dim); padding:4px 10px; border-radius:3px; }
+#editor-header .tab.active { background:rgba(91,156,246,.12); color:var(--accent); font-family:var(--font-code); }
+#editor-body { flex:1; position:relative; display:flex; flex-direction:column; overflow:hidden; }
 
-  #editor-header {
-    height: 44px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 16px;
-    flex: none;
-  }
-  #editor-header .tab {
-    font-size: 12px; color: var(--text-dim);
-    padding: 4px 10px;
-    border-radius: 3px;
-  }
-  #editor-header .tab.active {
-    background: rgba(91,156,246,.12);
-    color: var(--accent);
-    font-family: var(--font-code);
-  }
+/* LINE NUMBERS */
+#editor-scroll { flex:1; display:flex; overflow:hidden; position:relative; }
+#line-numbers {
+  width:44px; flex:none; background:var(--bg-editor); border-right:1px solid var(--border);
+  padding:12px 8px 12px 0; font-size:12px; line-height:1.7; font-family:var(--font-code);
+  color:var(--text-dim); text-align:right; overflow:hidden; transition:background .2s, border-color .2s;
+  user-select:none; pointer-events:none;
+}
+#code-input {
+  flex:1; background:var(--bg-editor); color:var(--c-text); border:none; outline:none; resize:none;
+  font-family:var(--font-code); font-size:13px; line-height:1.7; padding:12px 14px;
+  tab-size:2; white-space:pre; overflow:auto; caret-color:var(--accent);
+  transition:background .2s, color .2s;
+}
+#code-input::selection { background:rgba(91,156,246,.25); }
+#code-input::placeholder { color:var(--text-dim); font-style:italic; }
 
-  #editor-body {
-    flex: 1;
-    position: relative;
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
+/* ===== INTELLISENSE / AUTOCOMPLETE DROPDOWN ===== */
+#ac-dropdown {
+  position: fixed;
+  z-index: 9999;
+  min-width: 280px;
+  max-width: 400px;
+  max-height: 260px;
+  overflow: hidden;
+  background: var(--ac-bg);
+  border: 1px solid var(--ac-border);
+  border-radius: 6px;
+  box-shadow: var(--ac-shadow);
+  display: none;
+  flex-direction: column;
+  font-family: var(--font-code);
+  font-size: 12px;
+  transition: background .2s, border-color .2s;
+}
+#ac-dropdown.visible { display: flex; }
 
-  /* Line numbers + textarea */
-  #editor-scroll {
-    flex: 1; display: flex; overflow: hidden;
-  }
-  #line-numbers {
-    width: 40px; flex: none;
-    background: var(--bg-editor);
-    border-right: 1px solid var(--border);
-    padding: 12px 0;
-    font-size: 12px; line-height: 1.7;
-    font-family: var(--font-code);
-    color: var(--text-dim);
-    text-align: right;
-    overflow: hidden;
-    padding-right: 8px;
-  }
-  #code-input {
-    flex: 1;
-    background: var(--bg-editor);
-    color: #a8d8ea;
-    border: none; outline: none; resize: none;
-    font-family: var(--font-code);
-    font-size: 13px; line-height: 1.7;
-    padding: 12px 14px;
-    tab-size: 2;
-    white-space: pre;
-    overflow: auto;
-    caret-color: var(--accent);
-  }
-  #code-input::selection { background: rgba(91,156,246,.25); }
-  #code-input::placeholder { color: var(--text-dim); font-style: italic; }
+#ac-list {
+  overflow-y: auto;
+  flex: 1;
+}
+#ac-list::-webkit-scrollbar { width: 4px; }
+#ac-list::-webkit-scrollbar-track { background: transparent; }
+#ac-list::-webkit-scrollbar-thumb { background: var(--ac-border); border-radius: 2px; }
 
-  /* Editor toolbar */
-  #editor-toolbar {
-    flex: none;
-    padding: 10px 16px;
-    border-top: 1px solid var(--border);
-    display: flex; gap: 8px; align-items: center;
-    background: var(--bg-panel);
-  }
-  .btn {
-    padding: 7px 16px;
-    border-radius: 5px;
-    font-size: 12px; font-weight: 600;
-    border: none; cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    transition: all .15s;
-    font-family: var(--font-ui);
-    letter-spacing: .3px;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn-run {
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 12px rgba(91,156,246,.3);
-  }
-  .btn-run:hover { background: #7bb0f8; box-shadow: 0 0 20px rgba(91,156,246,.45); }
-  .btn-reset {
-    background: transparent;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-  }
-  .btn-reset:hover { border-color: var(--danger); color: var(--danger); }
-  .btn-menu {
-    background: transparent;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    margin-left: auto;
-  }
-  .btn-menu:hover { border-color: var(--accent2); color: var(--accent2); }
+.ac-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  border-left: 2px solid transparent;
+  transition: background .08s;
+  color: var(--text);
+}
+.ac-item:hover    { background: var(--ac-hover); }
+.ac-item.selected { background: var(--ac-selected); border-left-color: var(--accent); }
 
-  /* Warning banner */
-  #warn-banner {
-    display: none;
-    align-items: center; gap: 8px;
-    padding: 7px 14px;
-    background: rgba(251,191,36,.08);
-    border-top: 1px solid rgba(251,191,36,.25);
-    font-size: 11px; color: var(--warn);
-    font-family: var(--font-code);
-  }
-  #warn-banner.visible { display: flex; }
-  #warn-banner .warn-icon { font-size: 14px; }
-  #warn-close {
-    margin-left: auto; cursor: pointer; opacity: .6;
-    background: none; border: none; color: var(--warn); font-size: 16px;
-  }
+.ac-icon {
+  width: 16px; height: 16px;
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700;
+  flex: none;
+}
+.ac-icon.tag  { background: rgba(249,117,131,.2); color: #f97583; }
+.ac-icon.prop { background: rgba(121,184,255,.2); color: #79b8ff; }
+.ac-icon.val  { background: rgba(158,203,255,.2); color: #9ecbff; }
+.ac-icon.snip { background: rgba(167,139,250,.2); color: #a78bfa; }
+.ac-icon.css  { background: rgba(248,197,85,.2);  color: #f8c555; }
+:root[data-theme="light"] .ac-icon.prop { background: rgba(0,92,197,.12); color: #005cc5; }
+:root[data-theme="light"] .ac-icon.val  { background: rgba(34,134,58,.12); color: #22863a; }
+:root[data-theme="light"] .ac-icon.css  { background: rgba(227,98,9,.12);  color: #e36209; }
 
-  /* Stage hint */
-  #stage-hint {
-    flex: none;
-    padding: 8px 16px;
-    background: rgba(91,156,246,.04);
-    border-top: 1px solid var(--border);
-    font-size: 11px; color: var(--text-dim);
-    line-height: 1.6;
-    max-height: 90px;
-    overflow-y: auto;
-  }
-  #stage-hint strong { color: var(--accent); }
+.ac-label {
+  flex: 1;
+  overflow: hidden; text-overflow: ellipsis;
+  color: var(--text);
+}
+.ac-label .ac-match { color: var(--accent); font-weight: 700; }
+.ac-detail {
+  font-size: 10px;
+  color: var(--text-dim);
+  flex: none;
+  max-width: 120px;
+  overflow: hidden; text-overflow: ellipsis;
+}
 
-  /* ===== STAGE SELECT SCREEN ===== */
-  #stage-screen {
-    position: fixed; inset: 0;
-    background: var(--bg-deep);
-    z-index: 200;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 32px;
-    overflow-y: auto;
-  }
-  #stage-screen.hidden { display: none; }
+/* AC documentation panel */
+#ac-doc {
+  border-top: 1px solid var(--ac-border);
+  padding: 7px 10px;
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  max-height: 72px;
+  overflow: hidden;
+  background: rgba(0,0,0,.15);
+  flex: none;
+}
+:root[data-theme="light"] #ac-doc { background: rgba(0,0,0,.04); }
+#ac-doc strong { color: var(--accent); }
+#ac-doc code   { color: var(--c-val); font-family: var(--font-code); }
 
-  .screen-title {
-    font-size: 28px; font-weight: 800;
-    color: var(--text);
-    letter-spacing: -1px;
-  }
-  .screen-title span { color: var(--accent); }
+/* AC status bar */
+#ac-status {
+  display: flex; justify-content: space-between;
+  padding: 3px 10px;
+  font-size: 10px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--ac-border);
+  flex: none;
+  background: rgba(0,0,0,.1);
+}
+:root[data-theme="light"] #ac-status { background: rgba(0,0,0,.03); }
+#ac-status kbd {
+  background: var(--border);
+  border-radius: 2px;
+  padding: 0 4px;
+  font-size: 9px;
+  color: var(--text-dim);
+}
 
-  .screen-sub {
-    font-size: 13px; color: var(--text-dim);
-    margin-top: -20px;
-    text-align: center;
-  }
+/* WARN BANNER */
+#warn-banner {
+  display:none; align-items:center; gap:8px; padding:7px 14px;
+  background:rgba(251,191,36,.08); border-top:1px solid rgba(251,191,36,.25);
+  font-size:11px; color:var(--warn); font-family:var(--font-code);
+}
+#warn-banner.visible { display:flex; }
+.warn-icon { font-size:14px; }
+#warn-close { margin-left:auto; cursor:pointer; opacity:.6; background:none; border:none; color:var(--warn); font-size:16px; }
 
-  #stage-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 140px);
-    gap: 12px;
-  }
-  .stage-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 12px;
-    cursor: pointer;
-    transition: all .15s;
-    text-align: center;
-  }
-  .stage-card:hover {
-    border-color: var(--accent);
-    background: rgba(91,156,246,.08);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(91,156,246,.15);
-  }
-  .stage-card.locked {
-    opacity: .4; cursor: not-allowed;
-    pointer-events: none;
-  }
-  .stage-card.completed { border-color: var(--success); }
-  .stage-card.completed:hover { border-color: var(--success); background: rgba(52,211,153,.08); }
-  .stage-num {
-    font-size: 24px; font-weight: 800;
-    color: var(--accent); font-family: var(--font-code);
-  }
-  .stage-card.completed .stage-num { color: var(--success); }
-  .stage-title { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
-  .stage-diff {
-    margin-top: 8px;
-    font-size: 9px; font-family: var(--font-code);
-    padding: 2px 6px; border-radius: 10px;
-    display: inline-block;
-  }
-  .diff-easy { background: rgba(52,211,153,.15); color: var(--success); }
-  .diff-med  { background: rgba(251,191,36,.12); color: var(--warn); }
-  .diff-hard { background: rgba(248,113,113,.12); color: var(--danger); }
+/* STAGE HINT */
+#stage-hint {
+  flex:none; padding:8px 16px; background:rgba(91,156,246,.04); border-top:1px solid var(--border);
+  font-size:11px; color:var(--text-dim); line-height:1.6; max-height:90px; overflow-y:auto;
+  transition:border-color .2s;
+}
+#stage-hint strong { color:var(--accent); }
+#stage-hint code { font-family:var(--font-code); color:var(--c-val); font-size:11px; }
 
-  /* ===== MODAL OVERLAY ===== */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,.7);
-    backdrop-filter: blur(4px);
-    z-index: 300;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .modal-overlay.hidden { display: none; }
-  .modal {
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 32px;
-    min-width: 340px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
-  }
-  .modal-icon { font-size: 40px; margin-bottom: 12px; }
-  .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-  .modal-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; line-height: 1.6; }
-  .modal-btns { display: flex; flex-direction: column; gap: 8px; }
-  .modal-btns .btn { width: 100%; justify-content: center; padding: 10px; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #7bb0f8; }
-  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
-  .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-  .btn-danger:hover { background: rgba(248,113,113,.1); }
+/* EDITOR TOOLBAR */
+#editor-toolbar {
+  flex:none; padding:10px 16px; border-top:1px solid var(--border);
+  display:flex; gap:8px; align-items:center; background:var(--bg-panel);
+  transition:background .2s, border-color .2s;
+}
+.btn {
+  padding:7px 16px; border-radius:5px; font-size:12px; font-weight:600;
+  border:none; cursor:pointer; display:flex; align-items:center; gap:6px;
+  transition:all .15s; font-family:var(--font-ui); letter-spacing:.3px;
+}
+.btn:active { transform:scale(.97); }
+.btn-run   { background:var(--accent); color:#fff; box-shadow:0 0 12px rgba(91,156,246,.3); }
+.btn-run:hover { background:#7bb0f8; box-shadow:0 0 20px rgba(91,156,246,.45); }
+.btn-reset { background:transparent; color:var(--text-dim); border:1px solid var(--border); }
+.btn-reset:hover { border-color:var(--danger); color:var(--danger); }
+.btn-menu  { background:transparent; color:var(--text-dim); border:1px solid var(--border); margin-left:auto; }
+.btn-menu:hover { border-color:var(--accent2); color:var(--accent2); }
+.btn-kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-family: var(--font-code);
+  font-weight: 400;
+  letter-spacing: 0;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.7);
+  margin-left: 4px;
+  vertical-align: middle;
+  pointer-events: none;
+}
+:root[data-theme="light"] .btn-kbd {
+  background: rgba(0,0,0,.08);
+  border-color: rgba(0,0,0,.2);
+  color: rgba(0,0,0,.5);
+}
 
-  /* CONFIRM modal */
-  #confirm-modal .modal { min-width: 280px; }
+/* ===== STAGE SELECT SCREEN ===== */
+#stage-screen {
+  position:fixed; inset:0; background:var(--bg-deep); z-index:200;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:32px; overflow-y:auto; transition:background .2s;
+}
+#stage-screen.hidden { display:none; }
+.screen-title { font-size:28px; font-weight:800; color:var(--text); letter-spacing:-1px; }
+.screen-title span { color:var(--accent); }
+.screen-sub { font-size:13px; color:var(--text-dim); margin-top:-20px; text-align:center; }
+#stage-grid { display:grid; grid-template-columns:repeat(4,140px); gap:12px; }
+.stage-card {
+  background:var(--bg-panel); border:1px solid var(--border); border-radius:8px;
+  padding:16px 12px; cursor:pointer; transition:all .15s; text-align:center;
+}
+.stage-card:hover { border-color:var(--accent); background:rgba(91,156,246,.08); transform:translateY(-2px); box-shadow:0 4px 20px rgba(91,156,246,.15); }
+.stage-card.completed { border-color:var(--success); }
+.stage-card.completed:hover { border-color:var(--success); background:rgba(52,211,153,.08); }
+.stage-num { font-size:24px; font-weight:800; color:var(--accent); font-family:var(--font-code); }
+.stage-card.completed .stage-num { color:var(--success); }
+.stage-title { font-size:11px; color:var(--text-dim); margin-top:4px; }
+.stage-diff { margin-top:8px; font-size:9px; font-family:var(--font-code); padding:2px 6px; border-radius:10px; display:inline-block; }
+.diff-easy { background:rgba(52,211,153,.15); color:var(--success); }
+.diff-med  { background:rgba(251,191,36,.12);  color:var(--warn); }
+.diff-hard { background:rgba(248,113,113,.12); color:var(--danger); }
 
-  /* ===== WIN MODAL ===== */
-  #win-modal .modal-title { color: var(--success); }
+/* MODAL */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(4px); z-index:300; display:flex; align-items:center; justify-content:center; }
+.modal-overlay.hidden { display:none; }
+.modal { background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; padding:32px; min-width:340px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.5); transition:background .2s, border-color .2s; }
+.modal-icon  { font-size:40px; margin-bottom:12px; }
+.modal-title { font-size:20px; font-weight:700; margin-bottom:8px; }
+.modal-sub   { font-size:13px; color:var(--text-dim); margin-bottom:24px; line-height:1.6; }
+.modal-btns  { display:flex; flex-direction:column; gap:8px; }
+.modal-btns .btn { width:100%; justify-content:center; padding:10px; }
+.btn-primary   { background:var(--accent); color:#fff; }
+.btn-primary:hover { background:#7bb0f8; }
+.btn-secondary { background:transparent; border:1px solid var(--border); color:var(--text); }
+.btn-secondary:hover { border-color:var(--accent2); color:var(--accent2); }
+.btn-danger    { background:transparent; border:1px solid var(--danger); color:var(--danger); }
+.btn-danger:hover { background:rgba(248,113,113,.1); }
+#confirm-modal .modal { min-width:280px; }
+#win-modal .modal-title { color:var(--success); }
 
-  /* Particle effect */
-  .particle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 400;
-    border-radius: 50%;
-    animation: particle-fly .8s ease-out forwards;
-  }
-  @keyframes particle-fly {
-    from { opacity: 1; transform: translate(0,0) scale(1); }
-    to   { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
-  }
+/* PARTICLES */
+.particle {
+  position:fixed; pointer-events:none; z-index:400; border-radius:50%;
+  animation:particle-fly .8s ease-out forwards;
+}
+@keyframes particle-fly {
+  from { opacity:1; transform:translate(0,0) scale(1); }
+  to   { opacity:0; transform:translate(var(--tx),var(--ty)) scale(0); }
+}
 
-  /* ===== SCROLLBAR ===== */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+/* SCROLLBAR */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:10px; }
+::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
 
-  /* keyboard hint */
-  #key-hints {
-    position: absolute; bottom: 8px; left: 8px;
-    display: flex; gap: 6px; z-index: 60;
-  }
-  .key-chip {
-    background: rgba(13,15,20,.8);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 3px 7px;
-    font-size: 10px; font-family: var(--font-code);
-    color: var(--text-dim);
-  }
+/* KEY HINTS */
+#key-hints { position:absolute; bottom:8px; left:8px; display:flex; gap:6px; z-index:60; }
+.key-chip { background:rgba(13,15,20,.8); border:1px solid var(--border); border-radius:4px; padding:3px 7px; font-size:10px; font-family:var(--font-code); color:var(--text-dim); }
+:root[data-theme="light"] .key-chip { background:rgba(255,255,255,.85); }
 </style>
 </head>
 <body>
 
-<!-- ===== STAGE SELECT ===== -->
+<!-- STAGE SELECT -->
 <div id="stage-screen">
   <div class="screen-title">Code<span>Platform</span></div>
   <div class="screen-sub">Tulis kode HTML/CSS untuk membangun jalan — lompat ke pintu keluar!</div>
   <div id="stage-grid"></div>
 </div>
 
-<!-- ===== TOP BAR ===== -->
+<!-- TOP BAR -->
 <div id="topbar">
   <div class="logo">
     <svg viewBox="0 0 20 20" fill="none">
@@ -621,43 +546,40 @@
   </div>
   <div id="stage-label">Stage</div>
   <div id="stage-name">—</div>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Switch tema">
+    <span id="theme-icon">🌙</span>
+    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    <span id="theme-label">Dark</span>
+  </button>
   <button class="btn btn-menu" onclick="showStageScreen()">⊞ Pilih Stage</button>
 </div>
 
-<!-- ===== MAIN ===== -->
+<!-- MAIN -->
 <div id="main">
-
   <!-- LEFT: GAME ARENA -->
   <div id="left-panel">
     <div id="arena-wrapper">
       <div id="arena">
-        <!-- Spawn marker -->
         <div id="spawn-marker"></div>
-        <!-- Goal -->
         <div id="goal">
           <div class="door-glow"></div>
           <div class="door-frame"></div>
           <div class="door-inner"></div>
           <div class="star">★</div>
         </div>
-        <!-- Player -->
         <div id="player">
           <div class="p-body"></div>
           <div class="p-eye"></div>
         </div>
-        <!-- User injected elements -->
         <div id="user-elements"></div>
-        <!-- HUD -->
         <div id="hud">
           <div class="hud-badge">Deaths: <span id="death-count">0</span></div>
           <div class="hud-badge">Runs: <span id="run-count">0</span></div>
         </div>
-        <!-- Key hints -->
         <div id="key-hints">
           <div class="key-chip">← →</div>
           <div class="key-chip">SPACE / ↑</div>
         </div>
-        <!-- Death flash -->
         <div id="death-flash"></div>
       </div>
     </div>
@@ -685,24 +607,34 @@
       <div id="editor-scroll">
         <div id="line-numbers">1</div>
         <textarea id="code-input"
-          placeholder="<!-- Tulis HTML/CSS di sini untuk membuat platform -->
-<!-- Contoh: -->
-<div style=&quot;position:absolute;left:100px;bottom:120px;width:200px;height:20px;background:#2a4278;&quot;></div>"
-          spellcheck="false"></textarea>
+          placeholder="<!-- Tulis HTML/CSS di sini -->
+<!-- Contoh platform: -->
+<div style=&quot;position:absolute;left:200px;bottom:120px;width:180px;height:20px;background:#2a4278;&quot;></div>"
+          spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
       </div>
       <div id="stage-hint"></div>
     </div>
     <div id="editor-toolbar">
-      <button class="btn btn-run" onclick="runCode()">
+      <button class="btn btn-run" onclick="runCode()" title="Jalankan kode (Ctrl+R)">
         <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 1l9 5-9 5V1z" fill="currentColor"/></svg>
-        Run Code
+        Run Code <kbd class="btn-kbd">Ctrl+R</kbd>
       </button>
-      <button class="btn btn-reset" onclick="confirmReset()">↺ Reset Level</button>
+      <button class="btn btn-reset" onclick="confirmReset()" title="Reset level (Ctrl+E)">↺ Reset Level <kbd class="btn-kbd">Ctrl+E</kbd></button>
     </div>
   </div>
 </div>
 
-<!-- ===== WIN MODAL ===== -->
+<!-- INTELLISENSE DROPDOWN -->
+<div id="ac-dropdown">
+  <div id="ac-list"></div>
+  <div id="ac-doc"></div>
+  <div id="ac-status">
+    <span><kbd>↑</kbd><kbd>↓</kbd> navigasi &nbsp;<kbd>↵</kbd> pilih &nbsp;<kbd>Esc</kbd> tutup</span>
+    <span id="ac-count">0 saran</span>
+  </div>
+</div>
+
+<!-- WIN MODAL -->
 <div id="win-modal" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-icon">🎉</div>
@@ -716,7 +648,7 @@
   </div>
 </div>
 
-<!-- ===== CONFIRM RESET MODAL ===== -->
+<!-- CONFIRM RESET MODAL -->
 <div id="confirm-modal" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-icon">⚠️</div>
@@ -731,937 +663,716 @@
 
 <script>
 // =====================================================================
-//  STAGE DATA — 12 stages with increasing difficulty
+//  STAGE DATA — 12 stages
 // =====================================================================
 const STAGES = [
   {
-    id: 1, title: "Jembatan Pertama", diff: "easy",
-    hint: "Buat sebuah <strong>platform</strong> untuk menjembatani jurang.\n<code>style=\"position:absolute; left:Xpx; bottom:Ypx; width:Wpx; height:20px; background:#2a4278;\"</code>",
-    spawn: { x: 30, y: 380 },
-    goal:  { x: 650, y: 370 },
-    platforms: [
-      { x:0,   y:440, w:180, h:40, type:'ground' },
-      { x:520, y:440, w:200, h:40, type:'ground' },
-    ],
-    spikes: [],
+    id:1, title:"Jembatan Pertama", diff:"easy",
+    hint:"Buat sebuah <strong>platform</strong> untuk menjembatani jurang.<br><code>style=\"position:absolute; left:Xpx; bottom:Ypx; width:Wpx; height:20px; background:#2a4278;\"</code>",
+    spawn:{x:30,y:380}, goal:{x:650,y:370},
+    platforms:[{x:0,y:440,w:180,h:40,type:'ground'},{x:520,y:440,w:200,h:40,type:'ground'}],
+    spikes:[]
   },
   {
-    id: 2, title: "Tangga Naik", diff: "easy",
-    hint: "Buat beberapa <strong>platform bertingkat</strong> untuk naik ke atas. Gunakan <code>bottom</code> yang berbeda untuk setiap tingkat.",
-    spawn: { x: 30, y: 400 },
-    goal:  { x: 650, y: 60 },
-    platforms: [
-      { x:0,   y:440, w:160, h:40, type:'ground' },
-      { x:540, y:80, w:180, h:40, type:'ground' },
-    ],
-    spikes: [],
+    id:2, title:"Tangga Naik", diff:"easy",
+    hint:"Buat beberapa <strong>platform bertingkat</strong> untuk naik ke atas. Gunakan <code>bottom</code> yang berbeda.",
+    spawn:{x:30,y:400}, goal:{x:650,y:60},
+    platforms:[{x:0,y:440,w:160,h:40,type:'ground'},{x:540,y:80,w:180,h:40,type:'ground'}],
+    spikes:[]
   },
   {
-    id: 3, title: "Lompat Spike", diff: "easy",
-    hint: "Hati-hati dengan <strong>duri merah</strong>! Buat platform di atas spike untuk melewatinya dengan aman.",
-    spawn: { x: 30, y: 380 },
-    goal:  { x: 660, y: 380 },
-    platforms: [
-      { x:0,   y:440, w:720, h:40, type:'ground' },
-    ],
-    spikes: [
-      { x:200, y:420, dir:'up' },
-      { x:224, y:420, dir:'up' },
-      { x:248, y:420, dir:'up' },
-      { x:340, y:420, dir:'up' },
-      { x:364, y:420, dir:'up' },
-      { x:388, y:420, dir:'up' },
-      { x:412, y:420, dir:'up' },
-      { x:460, y:420, dir:'up' },
-      { x:484, y:420, dir:'up' },
-    ],
+    id:3, title:"Lompat Spike", diff:"easy",
+    hint:"Hati-hati dengan <strong>duri merah</strong>! Buat platform di atas spike untuk melewatinya.",
+    spawn:{x:30,y:380}, goal:{x:660,y:380},
+    platforms:[{x:0,y:440,w:720,h:40,type:'ground'}],
+    spikes:[{x:200,y:420,dir:'up'},{x:224,y:420,dir:'up'},{x:248,y:420,dir:'up'},{x:340,y:420,dir:'up'},{x:364,y:420,dir:'up'},{x:388,y:420,dir:'up'},{x:412,y:420,dir:'up'},{x:460,y:420,dir:'up'},{x:484,y:420,dir:'up'}]
   },
   {
-    id: 4, title: "Plafon Rendah", diff: "easy",
-    hint: "Perlu ada <strong>celah</strong> yang tepat untuk dilewati. Buat platform yang ada celahnya bukan yang panjang terus-menerus.",
-    spawn: { x: 30, y: 390 },
-    goal:  { x: 670, y: 390 },
-    platforms: [
-      { x:0,   y:440, w:720, h:40, type:'ground' },
-      { x:0,   y:0,   w:280, h:40, type:'ground' },
-      { x:360, y:0,   w:360, h:40, type:'ground' },
-    ],
-    spikes: [
-      { x:140, y:420, dir:'up' },
-      { x:164, y:420, dir:'up' },
-    ],
+    id:4, title:"Plafon Rendah", diff:"easy",
+    hint:"Perlu ada <strong>celah</strong> untuk dilewati. Buat platform dengan gap yang tepat.",
+    spawn:{x:30,y:390}, goal:{x:670,y:390},
+    platforms:[{x:0,y:440,w:720,h:40,type:'ground'},{x:0,y:0,w:280,h:40,type:'ground'},{x:360,y:0,w:360,h:40,type:'ground'}],
+    spikes:[{x:140,y:420,dir:'up'},{x:164,y:420,dir:'up'}]
   },
   {
-    id: 5, title: "Pulau Melayang", diff: "med",
-    hint: "Buat <strong>beberapa platform kecil</strong> seperti batu loncatan. Ukuran tiap platform bisa 80-120px lebar.",
-    spawn: { x: 30, y: 380 },
-    goal:  { x: 660, y: 120 },
-    platforms: [
-      { x:0,   y:440, w:120, h:40, type:'ground' },
-      { x:580, y:160, w:140, h:40, type:'ground' },
-    ],
-    spikes: [
-      { x:200, y:440, dir:'up' },
-      { x:224, y:440, dir:'up' },
-      { x:350, y:440, dir:'up' },
-      { x:374, y:440, dir:'up' },
-      { x:480, y:440, dir:'up' },
-    ],
+    id:5, title:"Pulau Melayang", diff:"med",
+    hint:"Buat <strong>beberapa platform kecil</strong> seperti batu loncatan. Ukuran tiap platform 80–120px lebar.",
+    spawn:{x:30,y:380}, goal:{x:660,y:120},
+    platforms:[{x:0,y:440,w:120,h:40,type:'ground'},{x:580,y:160,w:140,h:40,type:'ground'}],
+    spikes:[{x:200,y:440,dir:'up'},{x:224,y:440,dir:'up'},{x:350,y:440,dir:'up'},{x:374,y:440,dir:'up'},{x:480,y:440,dir:'up'}]
   },
   {
-    id: 6, title: "Labirin Bawah", diff: "med",
-    hint: "Navigasi melalui <strong>labirin vertikal</strong>. Kamu perlu turun, bukan naik. Gunakan platform untuk mengontrol jatuhmu.",
-    spawn: { x: 50, y: 30 },
-    goal:  { x: 640, y: 400 },
-    platforms: [
-      { x:0,   y:0,   w:720, h:60, type:'ground' },
-      { x:0,   y:440, w:160, h:40, type:'ground' },
-      { x:240, y:440, w:200, h:40, type:'ground' },
-      { x:540, y:440, w:180, h:40, type:'ground' },
-      { x:0,   y:300, w:500, h:20, type:'platform' },
-      { x:220, y:180, w:500, h:20, type:'platform' },
-    ],
-    spikes: [
-      { x:160, y:420, dir:'up' },
-      { x:184, y:420, dir:'up' },
-      { x:440, y:420, dir:'up' },
-      { x:464, y:420, dir:'up' },
-      { x:488, y:420, dir:'up' },
-      { x:512, y:420, dir:'up' },
-    ],
+    id:6, title:"Labirin Bawah", diff:"med",
+    hint:"Navigasi melalui <strong>labirin vertikal</strong>. Kamu perlu turun, bukan naik.",
+    spawn:{x:50,y:30}, goal:{x:640,y:400},
+    platforms:[{x:0,y:0,w:720,h:60,type:'ground'},{x:0,y:440,w:160,h:40,type:'ground'},{x:240,y:440,w:200,h:40,type:'ground'},{x:540,y:440,w:180,h:40,type:'ground'},{x:0,y:300,w:500,h:20,type:'platform'},{x:220,y:180,w:500,h:20,type:'platform'}],
+    spikes:[{x:160,y:420,dir:'up'},{x:184,y:420,dir:'up'},{x:440,y:420,dir:'up'},{x:464,y:420,dir:'up'},{x:488,y:420,dir:'up'},{x:512,y:420,dir:'up'}]
   },
   {
-    id: 7, title: "Duri di Atas", diff: "med",
-    hint: "Spike ada di <strong>langit-langit</strong>! Gunakan platform untuk bergerak rendah dan aman.",
-    spawn: { x: 30, y: 380 },
-    goal:  { x: 660, y: 380 },
-    platforms: [
-      { x:0,   y:440, w:720, h:40, type:'ground' },
-      { x:0,   y:0,   w:720, h:30, type:'ground' },
-    ],
-    spikes: [
-      { x:200, y:30, dir:'down' },
-      { x:224, y:30, dir:'down' },
-      { x:248, y:30, dir:'down' },
-      { x:272, y:30, dir:'down' },
-      { x:320, y:30, dir:'down' },
-      { x:344, y:30, dir:'down' },
-      { x:368, y:30, dir:'down' },
-      { x:392, y:30, dir:'down' },
-      { x:430, y:30, dir:'down' },
-      { x:454, y:30, dir:'down' },
-      { x:478, y:30, dir:'down' },
-      { x:502, y:30, dir:'down' },
-    ],
+    id:7, title:"Duri di Atas", diff:"med",
+    hint:"Spike ada di <strong>langit-langit</strong>! Bergerak rendah dan aman.",
+    spawn:{x:30,y:380}, goal:{x:660,y:380},
+    platforms:[{x:0,y:440,w:720,h:40,type:'ground'},{x:0,y:0,w:720,h:30,type:'ground'}],
+    spikes:[{x:200,y:30,dir:'down'},{x:224,y:30,dir:'down'},{x:248,y:30,dir:'down'},{x:272,y:30,dir:'down'},{x:320,y:30,dir:'down'},{x:344,y:30,dir:'down'},{x:368,y:30,dir:'down'},{x:392,y:30,dir:'down'},{x:430,y:30,dir:'down'},{x:454,y:30,dir:'down'},{x:478,y:30,dir:'down'},{x:502,y:30,dir:'down'}]
   },
   {
-    id: 8, title: "Zigzag Maut", diff: "med",
-    hint: "Rute <strong>zigzag</strong> penuh bahaya. Buat platform pendek di posisi strategis untuk melewati spike.",
-    spawn: { x: 30, y: 100 },
-    goal:  { x: 660, y: 390 },
-    platforms: [
-      { x:0,   y:0,   w:200, h:140, type:'ground' },
-      { x:520, y:440, w:200, h:40, type:'ground' },
-      { x:0,   y:440, w:80,  h:40, type:'ground' },
-    ],
-    spikes: [
-      { x:200, y:120, dir:'right' },
-      { x:420, y:440, dir:'up' },
-      { x:444, y:440, dir:'up' },
-      { x:468, y:440, dir:'up' },
-      { x:492, y:440, dir:'up' },
-      { x:400, y:0,   dir:'down' },
-      { x:424, y:0,   dir:'down' },
-    ],
+    id:8, title:"Zigzag Maut", diff:"med",
+    hint:"Rute <strong>zigzag</strong> penuh bahaya. Buat platform pendek di posisi strategis.",
+    spawn:{x:30,y:100}, goal:{x:660,y:390},
+    platforms:[{x:0,y:0,w:200,h:140,type:'ground'},{x:520,y:440,w:200,h:40,type:'ground'},{x:0,y:440,w:80,h:40,type:'ground'}],
+    spikes:[{x:200,y:120,dir:'right'},{x:420,y:440,dir:'up'},{x:444,y:440,dir:'up'},{x:468,y:440,dir:'up'},{x:492,y:440,dir:'up'},{x:400,y:0,dir:'down'},{x:424,y:0,dir:'down'}]
   },
   {
-    id: 9, title: "Menara Ganda", diff: "hard",
-    hint: "Ada <strong>dua menara</strong> yang harus didaki. Buat platform di sisi kiri menara 1, lalu menara 2.",
-    spawn: { x: 30, y: 400 },
-    goal:  { x: 680, y: 50 },
-    platforms: [
-      { x:0,   y:440, w:100, h:40, type:'ground' },
-      { x:100, y:0,   w:20,  h:380, type:'ground' }, // wall 1
-      { x:360, y:0,   w:20,  h:380, type:'ground' }, // wall 2
-      { x:620, y:80,  w:100, h:40, type:'ground' },  // top right
-    ],
-    spikes: [
-      { x:120, y:420, dir:'up' },
-      { x:144, y:420, dir:'up' },
-      { x:168, y:420, dir:'up' },
-      { x:192, y:420, dir:'up' },
-      { x:216, y:420, dir:'up' },
-      { x:240, y:420, dir:'up' },
-      { x:264, y:420, dir:'up' },
-      { x:288, y:420, dir:'up' },
-      { x:312, y:420, dir:'up' },
-      { x:336, y:420, dir:'up' },
-      { x:380, y:420, dir:'up' },
-      { x:404, y:420, dir:'up' },
-      { x:428, y:420, dir:'up' },
-      { x:452, y:420, dir:'up' },
-      { x:476, y:420, dir:'up' },
-      { x:500, y:420, dir:'up' },
-      { x:524, y:420, dir:'up' },
-      { x:548, y:420, dir:'up' },
-      { x:572, y:420, dir:'up' },
-      { x:596, y:420, dir:'up' },
-    ],
+    id:9, title:"Menara Ganda", diff:"hard",
+    hint:"Ada <strong>dua menara</strong> yang harus didaki. Buat platform di sisi kiri setiap menara.",
+    spawn:{x:30,y:400}, goal:{x:680,y:50},
+    platforms:[{x:0,y:440,w:100,h:40,type:'ground'},{x:100,y:0,w:20,h:380,type:'ground'},{x:360,y:0,w:20,h:380,type:'ground'},{x:620,y:80,w:100,h:40,type:'ground'}],
+    spikes:[{x:120,y:420,dir:'up'},{x:144,y:420,dir:'up'},{x:168,y:420,dir:'up'},{x:192,y:420,dir:'up'},{x:216,y:420,dir:'up'},{x:240,y:420,dir:'up'},{x:264,y:420,dir:'up'},{x:288,y:420,dir:'up'},{x:312,y:420,dir:'up'},{x:336,y:420,dir:'up'},{x:380,y:420,dir:'up'},{x:404,y:420,dir:'up'},{x:428,y:420,dir:'up'},{x:452,y:420,dir:'up'},{x:476,y:420,dir:'up'},{x:500,y:420,dir:'up'},{x:524,y:420,dir:'up'},{x:548,y:420,dir:'up'},{x:572,y:420,dir:'up'},{x:596,y:420,dir:'up'}]
   },
   {
-    id: 10, title: "Gua Berapi", diff: "hard",
-    hint: "Platform <strong>lava</strong> itu solid tapi sangat berbahaya jika kamu jatuh! Pergi cepat dan jangan terlalu rendah.",
-    spawn: { x: 30, y: 60 },
-    goal:  { x: 660, y: 60 },
-    platforms: [
-      { x:0,   y:0,   w:120, h:100, type:'ground' },
-      { x:580, y:0,   w:140, h:100, type:'ground' },
-      { x:0,   y:380, w:720, h:100, type:'lava' },
-      { x:0,   y:200, w:200, h:20, type:'platform' },
-      { x:500, y:200, w:220, h:20, type:'platform' },
-    ],
-    spikes: [
-      { x:200, y:0,   dir:'down' },
-      { x:224, y:0,   dir:'down' },
-      { x:248, y:0,   dir:'down' },
-      { x:272, y:0,   dir:'down' },
-      { x:380, y:0,   dir:'down' },
-      { x:404, y:0,   dir:'down' },
-      { x:428, y:0,   dir:'down' },
-      { x:452, y:0,   dir:'down' },
-      { x:380, y:380, dir:'up' },
-      { x:404, y:380, dir:'up' },
-      { x:428, y:380, dir:'up' },
-    ],
+    id:10, title:"Gua Berapi", diff:"hard",
+    hint:"Platform <strong>lava</strong> itu solid tapi berbahaya! Jangan turun terlalu rendah.",
+    spawn:{x:30,y:60}, goal:{x:660,y:60},
+    platforms:[{x:0,y:0,w:120,h:100,type:'ground'},{x:580,y:0,w:140,h:100,type:'ground'},{x:0,y:380,w:720,h:100,type:'lava'},{x:0,y:200,w:200,h:20,type:'platform'},{x:500,y:200,w:220,h:20,type:'platform'}],
+    spikes:[{x:200,y:0,dir:'down'},{x:224,y:0,dir:'down'},{x:248,y:0,dir:'down'},{x:272,y:0,dir:'down'},{x:380,y:0,dir:'down'},{x:404,y:0,dir:'down'},{x:428,y:0,dir:'down'},{x:452,y:0,dir:'down'},{x:380,y:380,dir:'up'},{x:404,y:380,dir:'up'},{x:428,y:380,dir:'up'}]
   },
   {
-    id: 11, title: "Teka-Teki Kotak", diff: "hard",
-    hint: "Semua jalan tertutup! Gunakan <strong>ukuran dan posisi div yang presisi</strong>. Celah hanya 40px. Ingat: kamu bisa buat beberapa div.",
-    spawn: { x: 30, y: 400 },
-    goal:  { x: 670, y: 60 },
-    platforms: [
-      { x:0,   y:440, w:100, h:40, type:'ground' },
-      { x:180, y:320, w:380, h:20, type:'platform' },
-      { x:620, y:200, w:100, h:40, type:'ground' },
-      { x:0,   y:0,   w:500, h:100, type:'ground' },
-      { x:0,   y:180, w:120, h:20, type:'platform' },
-    ],
-    spikes: [
-      { x:100, y:420, dir:'up' },
-      { x:124, y:420, dir:'up' },
-      { x:148, y:420, dir:'up' },
-      { x:172, y:420, dir:'up' },
-      { x:560, y:300, dir:'up' },
-      { x:584, y:300, dir:'up' },
-      { x:608, y:300, dir:'up' },
-      { x:180, y:100, dir:'down' },
-      { x:204, y:100, dir:'down' },
-      { x:228, y:100, dir:'down' },
-    ],
+    id:11, title:"Teka-Teki Kotak", diff:"hard",
+    hint:"Gunakan <strong>ukuran dan posisi div yang presisi</strong>. Celah hanya 40px. Bisa buat beberapa div.",
+    spawn:{x:30,y:400}, goal:{x:670,y:60},
+    platforms:[{x:0,y:440,w:100,h:40,type:'ground'},{x:180,y:320,w:380,h:20,type:'platform'},{x:620,y:200,w:100,h:40,type:'ground'},{x:0,y:0,w:500,h:100,type:'ground'},{x:0,y:180,w:120,h:20,type:'platform'}],
+    spikes:[{x:100,y:420,dir:'up'},{x:124,y:420,dir:'up'},{x:148,y:420,dir:'up'},{x:172,y:420,dir:'up'},{x:560,y:300,dir:'up'},{x:584,y:300,dir:'up'},{x:608,y:300,dir:'up'},{x:180,y:100,dir:'down'},{x:204,y:100,dir:'down'},{x:228,y:100,dir:'down'}]
   },
   {
-    id: 12, title: "Grand Finale", diff: "hard",
-    hint: "Stage terakhir! Kombinasi semua skill yang kamu pelajari. Buat <strong>jalur kompleks</strong> melewati semua rintangan. Good luck! 🎯",
-    spawn: { x: 30, y: 390 },
-    goal:  { x: 680, y: 30 },
-    platforms: [
-      { x:0,   y:440, w:160, h:40, type:'ground' },
-      { x:0,   y:0,   w:720, h:50, type:'ground' },
-      { x:580, y:50,  w:140, h:40, type:'ground' },
-      { x:0,   y:280, w:120, h:20, type:'platform' },
-      { x:240, y:350, w:120, h:20, type:'platform' },
-      { x:420, y:250, w:100, h:20, type:'ice' },
-    ],
-    spikes: [
-      { x:160, y:420, dir:'up' },
-      { x:184, y:420, dir:'up' },
-      { x:208, y:420, dir:'up' },
-      { x:232, y:420, dir:'up' },
-      { x:380, y:440, dir:'up' },
-      { x:404, y:440, dir:'up' },
-      { x:428, y:440, dir:'up' },
-      { x:452, y:440, dir:'up' },
-      { x:530, y:440, dir:'up' },
-      { x:554, y:440, dir:'up' },
-      { x:120, y:260, dir:'right' },
-      { x:540, y:50,  dir:'down' },
-      { x:564, y:50,  dir:'down' },
-      { x:240, y:0,   dir:'down' },
-      { x:264, y:0,   dir:'down' },
-      { x:288, y:0,   dir:'down' },
-      { x:380, y:0,   dir:'down' },
-      { x:404, y:0,   dir:'down' },
-    ],
-  },
+    id:12, title:"Grand Finale", diff:"hard",
+    hint:"Stage terakhir! Kombinasi semua skill. Buat <strong>jalur kompleks</strong> melewati semua rintangan. Good luck! 🎯",
+    spawn:{x:30,y:390}, goal:{x:680,y:30},
+    platforms:[{x:0,y:440,w:160,h:40,type:'ground'},{x:0,y:0,w:720,h:50,type:'ground'},{x:580,y:50,w:140,h:40,type:'ground'},{x:0,y:280,w:120,h:20,type:'platform'},{x:240,y:350,w:120,h:20,type:'platform'},{x:420,y:250,w:100,h:20,type:'ice'}],
+    spikes:[{x:160,y:420,dir:'up'},{x:184,y:420,dir:'up'},{x:208,y:420,dir:'up'},{x:232,y:420,dir:'up'},{x:380,y:440,dir:'up'},{x:404,y:440,dir:'up'},{x:428,y:440,dir:'up'},{x:452,y:440,dir:'up'},{x:530,y:440,dir:'up'},{x:554,y:440,dir:'up'},{x:120,y:260,dir:'right'},{x:540,y:50,dir:'down'},{x:564,y:50,dir:'down'},{x:240,y:0,dir:'down'},{x:264,y:0,dir:'down'},{x:288,y:0,dir:'down'},{x:380,y:0,dir:'down'},{x:404,y:0,dir:'down'}]
+  }
 ];
 
 // =====================================================================
 //  GAME STATE
 // =====================================================================
-const ARENA_W = 720, ARENA_H = 480;
-const PLAYER_W = 28,  PLAYER_H = 28;
-const GRAVITY   = 0.55;
-const JUMP_VEL  = -12;
-const MOVE_SPD  = 3.8;
-const MAX_FALL  = 18;
+const ARENA_W=720, ARENA_H=480, PLAYER_W=28, PLAYER_H=28;
+const GRAVITY=0.55, JUMP_VEL=-12, MOVE_SPD=3.8, MAX_FALL=18, HAZARD_INSET=4;
 
-// Hazard hitbox inset (each side)
-const HAZARD_INSET = 4;
+let currentStageIndex=0, deathCount=0, runCount=0;
+let completedStages = new Set(JSON.parse(localStorage.getItem('cp_completed')||'[]'));
+let player={x:0,y:0,vx:0,vy:0,onGround:false,dead:false};
+let keys={}, animFrame=null, gameRunning=false, invincible=false;
 
-let currentStageIndex = 0;
-let deathCount = 0;
-let runCount = 0;
-let completedStages = new Set(JSON.parse(localStorage.getItem('cp_completed') || '[]'));
+const arena      = document.getElementById('arena');
+const playerEl   = document.getElementById('player');
+const goalEl     = document.getElementById('goal');
+const spawnEl    = document.getElementById('spawn-marker');
+const userEls    = document.getElementById('user-elements');
+const deathFlash = document.getElementById('death-flash');
+const statusDot  = document.getElementById('status-dot');
+const statusText = document.getElementById('status-text');
+const coordsEl   = document.getElementById('coords');
+const deathCountEl=document.getElementById('death-count');
+const runCountEl  =document.getElementById('run-count');
+const stageNameEl =document.getElementById('stage-name');
+const stageLabelEl=document.getElementById('stage-label');
+const stageHintEl =document.getElementById('stage-hint');
+const codeInput   =document.getElementById('code-input');
+const lineNumbers =document.getElementById('line-numbers');
+const warnBanner  =document.getElementById('warn-banner');
+const warnText    =document.getElementById('warn-text');
 
-let player = {
-  x: 0, y: 0,
-  vx: 0, vy: 0,
-  onGround: false,
-  dead: false,
-};
-let keys = {};
-let animFrame = null;
-let gameRunning = false;
-let invincible = false; // brief invincibility after death to prevent instant re-death
+// =====================================================================
+//  THEME TOGGLE
+// =====================================================================
+let isDark = (localStorage.getItem('cp_theme') !== 'light');
 
-// DOM refs
-const arena        = document.getElementById('arena');
-const playerEl     = document.getElementById('player');
-const goalEl       = document.getElementById('goal');
-const spawnEl      = document.getElementById('spawn-marker');
-const userEls      = document.getElementById('user-elements');
-const deathFlash   = document.getElementById('death-flash');
-const statusDot    = document.getElementById('status-dot');
-const statusText   = document.getElementById('status-text');
-const coordsEl     = document.getElementById('coords');
-const deathCountEl = document.getElementById('death-count');
-const runCountEl   = document.getElementById('run-count');
-const stageNameEl  = document.getElementById('stage-name');
-const stageLabelEl = document.getElementById('stage-label');
-const stageHintEl  = document.getElementById('stage-hint');
-const codeInput    = document.getElementById('code-input');
-const lineNumbers  = document.getElementById('line-numbers');
-const warnBanner   = document.getElementById('warn-banner');
-const warnText     = document.getElementById('warn-text');
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+  localStorage.setItem('cp_theme', isDark ? 'dark' : 'light');
+}
+
+function toggleTheme() {
+  isDark = !isDark;
+  applyTheme();
+}
 
 // =====================================================================
 //  STAGE SETUP
 // =====================================================================
 function loadStage(idx) {
-  currentStageIndex = idx;
-  const stage = STAGES[idx];
-  deathCount = 0; runCount = 0;
-  deathCountEl.textContent = 0;
-  runCountEl.textContent = 0;
-  codeInput.value = '';
-  updateLineNumbers();
-  closeWarn();
+  currentStageIndex=idx;
+  const stage=STAGES[idx];
+  deathCount=0; runCount=0;
+  deathCountEl.textContent=0; runCountEl.textContent=0;
+  codeInput.value=''; updateLineNumbers(); closeWarn(); hideAC();
 
-  stageNameEl.textContent = `${stage.id}. ${stage.title}`;
-  stageLabelEl.textContent = `Stage ${stage.id}/12`;
-  stageHintEl.innerHTML = `<strong>💡 Petunjuk:</strong> ${stage.hint}`;
+  stageNameEl.textContent=`${stage.id}. ${stage.title}`;
+  stageLabelEl.textContent=`Stage ${stage.id}/12`;
+  stageHintEl.innerHTML=`<strong>💡 Petunjuk:</strong> ${stage.hint}`;
 
-  // Clear old static objects
-  arena.querySelectorAll('.platform, .spike, .stage-obj').forEach(e => e.remove());
-  userEls.innerHTML = '';
+  arena.querySelectorAll('.platform,.spike,.stage-obj').forEach(e=>e.remove());
+  userEls.innerHTML='';
 
-  // Place platforms
-  stage.platforms.forEach(p => {
-    const el = document.createElement('div');
-    el.className = `platform ${p.type || 'platform'} stage-obj`;
-    el.style.cssText = `left:${p.x}px;bottom:${p.y}px;width:${p.w}px;height:${p.h}px;`;
+  stage.platforms.forEach(p=>{
+    const el=document.createElement('div');
+    el.className=`platform ${p.type||'platform'} stage-obj`;
+    el.style.cssText=`left:${p.x}px;bottom:${p.y}px;width:${p.w}px;height:${p.h}px;`;
+    arena.appendChild(el);
+  });
+  stage.spikes.forEach(s=>{
+    const el=document.createElement('div');
+    el.className=`spike ${s.dir} stage-obj`;
+    if(s.dir==='up')   el.style.cssText=`left:${s.x}px;bottom:${s.y}px;`;
+    else if(s.dir==='down') el.style.cssText=`left:${s.x}px;top:${s.y}px;`;
+    else el.style.cssText=`left:${s.x}px;top:${s.y}px;`;
     arena.appendChild(el);
   });
 
-  // Place spikes
-  stage.spikes.forEach(s => {
-    const el = document.createElement('div');
-    el.className = `spike ${s.dir} stage-obj`;
-    // Position spikes — center them on grid
-    if (s.dir === 'up') {
-      el.style.cssText = `left:${s.x}px;bottom:${s.y}px;`;
-    } else if (s.dir === 'down') {
-      el.style.cssText = `left:${s.x}px;top:${s.y}px;`;
-    } else if (s.dir === 'left') {
-      el.style.cssText = `left:${s.x}px;top:${s.y}px;`;
-    } else if (s.dir === 'right') {
-      el.style.cssText = `left:${s.x}px;top:${s.y}px;`;
-    }
-    arena.appendChild(el);
-  });
-
-  // Place goal
-  goalEl.style.left = stage.goal.x + 'px';
-  goalEl.style.bottom = (ARENA_H - stage.goal.y - 54) + 'px';
-
-  // Spawn player
+  goalEl.style.left=stage.goal.x+'px';
+  goalEl.style.bottom=(ARENA_H-stage.goal.y-54)+'px';
   spawnPlayer();
   hideStageScreen();
   startGame();
 }
 
-function spawnPlayer() {
-  const stage = STAGES[currentStageIndex];
-  player.x = stage.spawn.x;
-  player.y = stage.spawn.y;
-  player.vx = 0; player.vy = 0;
-  player.onGround = false;
-  player.dead = false;
-  invincible = false;
+function spawnPlayer(){
+  const stage=STAGES[currentStageIndex];
+  player={x:stage.spawn.x,y:stage.spawn.y,vx:0,vy:0,onGround:false,dead:false};
+  invincible=false;
   playerEl.classList.remove('dead','jumping');
-
-  // Spawn marker
-  spawnEl.style.left = (stage.spawn.x) + 'px';
-  spawnEl.style.bottom = (ARENA_H - stage.spawn.y - PLAYER_H - 4) + 'px';
-
+  spawnEl.style.left=stage.spawn.x+'px';
+  spawnEl.style.bottom=(ARENA_H-stage.spawn.y-PLAYER_H-4)+'px';
   syncPlayerDOM();
 }
 
-function syncPlayerDOM() {
-  // Convert game coords (x, y from top-left) to CSS (left, bottom)
-  // player.y = distance from top
-  playerEl.style.left = player.x + 'px';
-  playerEl.style.top  = player.y + 'px';
-}
+function syncPlayerDOM(){ playerEl.style.left=player.x+'px'; playerEl.style.top=player.y+'px'; }
 
 // =====================================================================
-//  PHYSICS & COLLISION
+//  PHYSICS
 // =====================================================================
-function getRect(el) {
-  return el.getBoundingClientRect();
+function rectsOverlap(a,b){ return !(a.right<=b.left||a.left>=b.right||a.bottom<=b.top||a.top>=b.bottom); }
+
+function getSolids(){
+  const s=[...arena.querySelectorAll('.platform')];
+  userEls.querySelectorAll('div,section,header,footer,main,article,aside,nav,figure,span,p,h1,h2,h3,h4,h5,h6,table,tr,td,th,ul,ol,li,blockquote,pre,code,form,fieldset,button,input,textarea,select,label,a').forEach(el=>s.push(el));
+  return s;
 }
+function getSpikes(){ return [...arena.querySelectorAll('.spike')]; }
 
-function rectsOverlap(a, b) {
-  return !(a.right <= b.left || a.left >= b.right ||
-           a.bottom <= b.top || a.top >= b.bottom);
-}
+function gameLoop(){ if(!gameRunning)return; update(); animFrame=requestAnimationFrame(gameLoop); }
 
-// Get all solid elements (platforms + user elements that are solid)
-function getSolids() {
-  const solids = [];
-  arena.querySelectorAll('.platform').forEach(el => solids.push(el));
-  // User elements: div, section, header, footer, main, article, aside, nav, figure
-  userEls.querySelectorAll('div,section,header,footer,main,article,aside,nav,figure,span,p,h1,h2,h3,h4,h5,h6,table,tr,td,th,ul,ol,li,blockquote,pre,code,form,fieldset,button,input,textarea,select,label,a').forEach(el => {
-    solids.push(el);
-  });
-  return solids;
-}
-
-function getSpikes() {
-  return [...arena.querySelectorAll('.spike')];
-}
-
-function gameLoop() {
-  if (!gameRunning) return;
-  update();
-  animFrame = requestAnimationFrame(gameLoop);
-}
-
-function update() {
-  if (player.dead) return;
-
-  // Horizontal movement
-  let moving = false;
-  if (keys['ArrowLeft']  || keys['a']) { player.vx = -MOVE_SPD; moving = true; }
-  if (keys['ArrowRight'] || keys['d']) { player.vx =  MOVE_SPD; moving = true; }
-  if (!moving) player.vx = 0;
-
-  // Jump
-  if ((keys['ArrowUp'] || keys['Space'] || keys[' ']) && player.onGround) {
-    player.vy = JUMP_VEL;
-    player.onGround = false;
-    playerEl.classList.add('jumping');
+function update(){
+  if(player.dead)return;
+  let moving=false;
+  if(keys['ArrowLeft']||keys['a']){player.vx=-MOVE_SPD;moving=true;}
+  if(keys['ArrowRight']||keys['d']){player.vx=MOVE_SPD;moving=true;}
+  if(!moving)player.vx=0;
+  if((keys['ArrowUp']||keys['Space']||keys[' '])&&player.onGround){
+    player.vy=JUMP_VEL; player.onGround=false; playerEl.classList.add('jumping');
   }
-
-  // Gravity
-  player.vy += GRAVITY;
-  if (player.vy > MAX_FALL) player.vy = MAX_FALL;
-
-  // Move
-  player.x += player.vx;
-  player.y += player.vy;
-
-  // Arena bounds
-  if (player.x < 0) { player.x = 0; player.vx = 0; }
-  if (player.x + PLAYER_W > ARENA_W) { player.x = ARENA_W - PLAYER_W; player.vx = 0; }
-  if (player.y < 0) { player.y = 0; player.vy = 0; }
-  if (player.y + PLAYER_H > ARENA_H) {
-    // fell out bottom → kill (if no ground there)
-    player.y = ARENA_H + 100;
-  }
-
-  // Sync DOM before collision detection (getBoundingClientRect needs layout)
+  player.vy+=GRAVITY; if(player.vy>MAX_FALL)player.vy=MAX_FALL;
+  player.x+=player.vx; player.y+=player.vy;
+  if(player.x<0){player.x=0;player.vx=0;}
+  if(player.x+PLAYER_W>ARENA_W){player.x=ARENA_W-PLAYER_W;player.vx=0;}
+  if(player.y<0){player.y=0;player.vy=0;}
   syncPlayerDOM();
 
-  // Collision resolution
-  player.onGround = false;
-  const solids = getSolids();
-  const arenaRect = arena.getBoundingClientRect();
-
-  for (const solid of solids) {
-    const sr = solid.getBoundingClientRect();
-    const pr = playerEl.getBoundingClientRect();
-    if (!rectsOverlap(pr, sr)) continue;
-
-    // Compute overlap on each axis
-    const overlapLeft   = pr.right  - sr.left;
-    const overlapRight  = sr.right  - pr.left;
-    const overlapTop    = pr.bottom - sr.top;
-    const overlapBottom = sr.bottom - pr.top;
-
-    const minOverlapX = Math.min(overlapLeft, overlapRight);
-    const minOverlapY = Math.min(overlapTop, overlapBottom);
-
-    if (minOverlapY < minOverlapX) {
-      // Vertical collision
-      if (overlapTop < overlapBottom) {
-        // Landed on top
-        player.y -= overlapTop;
-        player.vy = 0;
-        player.onGround = true;
-        playerEl.classList.remove('jumping');
-      } else {
-        // Hit ceiling
-        player.y += overlapBottom;
-        if (player.vy < 0) player.vy = 0;
-      }
-    } else {
-      // Horizontal collision
-      if (overlapLeft < overlapRight) {
-        player.x -= overlapLeft;
-        player.vx = 0;
-      } else {
-        player.x += overlapRight;
-        player.vx = 0;
-      }
+  player.onGround=false;
+  for(const solid of getSolids()){
+    const sr=solid.getBoundingClientRect();
+    const pr=playerEl.getBoundingClientRect();
+    if(!rectsOverlap(pr,sr))continue;
+    const oL=pr.right-sr.left, oR=sr.right-pr.left, oT=pr.bottom-sr.top, oB=sr.bottom-pr.top;
+    const mX=Math.min(oL,oR), mY=Math.min(oT,oB);
+    if(mY<mX){
+      if(oT<oB){player.y-=oT;player.vy=0;player.onGround=true;playerEl.classList.remove('jumping');}
+      else{player.y+=oB;if(player.vy<0)player.vy=0;}
+    }else{
+      if(oL<oR){player.x-=oL;player.vx=0;}else{player.x+=oR;player.vx=0;}
     }
     syncPlayerDOM();
   }
 
-  // Check if player is buried inside solid (death condition)
-  if (!invincible) {
-    const pr2 = playerEl.getBoundingClientRect();
-    for (const solid of solids) {
-      const sr2 = solid.getBoundingClientRect();
-      // If more than 80% overlapping = buried
-      if (rectsOverlap(pr2, sr2)) {
-        const ix = Math.min(pr2.right, sr2.right) - Math.max(pr2.left, sr2.left);
-        const iy = Math.min(pr2.bottom, sr2.bottom) - Math.max(pr2.top, sr2.top);
-        const pa = PLAYER_W * PLAYER_H;
-        if ((ix * iy) / pa > 0.8) {
-          killPlayer();
-          return;
-        }
+  if(!invincible){
+    const pr2=playerEl.getBoundingClientRect();
+    for(const solid of getSolids()){
+      const sr2=solid.getBoundingClientRect();
+      if(rectsOverlap(pr2,sr2)){
+        const ix=Math.min(pr2.right,sr2.right)-Math.max(pr2.left,sr2.left);
+        const iy=Math.min(pr2.bottom,sr2.bottom)-Math.max(pr2.top,sr2.top);
+        if((ix*iy)/(PLAYER_W*PLAYER_H)>0.8){killPlayer();return;}
       }
+    }
+    const pr3=playerEl.getBoundingClientRect();
+    const hz={left:pr3.left+HAZARD_INSET,right:pr3.right-HAZARD_INSET,top:pr3.top+HAZARD_INSET,bottom:pr3.bottom-HAZARD_INSET};
+    for(const spike of getSpikes()){
+      if(rectsOverlap(hz,spike.getBoundingClientRect())){killPlayer();return;}
     }
   }
 
-  // Spike collision (hazard hitbox — inset)
-  if (!invincible) {
-    const pr3 = playerEl.getBoundingClientRect();
-    const hazard = {
-      left:   pr3.left   + HAZARD_INSET,
-      right:  pr3.right  - HAZARD_INSET,
-      top:    pr3.top    + HAZARD_INSET,
-      bottom: pr3.bottom - HAZARD_INSET,
-    };
-    for (const spike of getSpikes()) {
-      const sr3 = spike.getBoundingClientRect();
-      if (rectsOverlap(hazard, sr3)) {
-        killPlayer();
-        return;
-      }
-    }
-  }
-
-  // Fall into void
-  if (player.y > ARENA_H + 60) {
-    killPlayer();
-    return;
-  }
-
-  // Goal check
+  if(player.y>ARENA_H+60){killPlayer();return;}
   checkGoal();
-
-  // Update HUD
-  coordsEl.textContent = `x:${Math.round(player.x)} y:${Math.round(player.y)}`;
+  coordsEl.textContent=`x:${Math.round(player.x)} y:${Math.round(player.y)}`;
   syncPlayerDOM();
 }
 
-function killPlayer() {
-  if (player.dead || invincible) return;
-  player.dead = true;
-  deathCount++;
-  deathCountEl.textContent = deathCount;
-  playerEl.classList.add('dead');
-  statusDot.classList.add('dead');
-  statusText.textContent = 'Mati!';
+function killPlayer(){
+  if(player.dead||invincible)return;
+  player.dead=true; deathCount++; deathCountEl.textContent=deathCount;
+  playerEl.classList.add('dead'); statusDot.classList.add('dead'); statusText.textContent='Mati!';
   deathFlash.classList.add('active');
-
-  setTimeout(() => {
-    deathFlash.classList.remove('active');
-    spawnPlayer();
-    statusDot.classList.remove('dead');
-    statusText.textContent = 'Aktif';
-    invincible = true;
-    setTimeout(() => { invincible = false; }, 600);
-  }, 400);
+  setTimeout(()=>{
+    deathFlash.classList.remove('active'); spawnPlayer();
+    statusDot.classList.remove('dead'); statusText.textContent='Aktif';
+    invincible=true; setTimeout(()=>{invincible=false;},600);
+  },400);
 }
 
-function checkGoal() {
-  const pr = playerEl.getBoundingClientRect();
-  const gr = goalEl.getBoundingClientRect();
-  if (rectsOverlap(pr, gr)) {
-    showWin();
-  }
+function checkGoal(){
+  const pr=playerEl.getBoundingClientRect(), gr=goalEl.getBoundingClientRect();
+  if(rectsOverlap(pr,gr))showWin();
 }
 
-// =====================================================================
-//  GAME CONTROL
-// =====================================================================
-function startGame() {
-  gameRunning = true;
-  if (animFrame) cancelAnimationFrame(animFrame);
-  animFrame = requestAnimationFrame(gameLoop);
-  statusText.textContent = 'Aktif';
+function startGame(){
+  gameRunning=true;
+  if(animFrame)cancelAnimationFrame(animFrame);
+  animFrame=requestAnimationFrame(gameLoop);
+  statusText.textContent='Aktif';
 }
-
-function stopGame() {
-  gameRunning = false;
-  if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+function stopGame(){
+  gameRunning=false;
+  if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}
 }
 
 // =====================================================================
-//  CODE EDITOR & RUN
+//  CODE SAFETY
 // =====================================================================
-// Forbidden patterns
-const FORBIDDEN_PATTERNS = [
-  { re: /<script[\s>]/i,           msg: 'Tag <script> tidak diizinkan (keamanan XSS).' },
-  { re: /javascript\s*:/i,         msg: 'Atribut "javascript:" tidak diizinkan.' },
-  { re: /on\w+\s*=/i,              msg: 'Event handler inline (onclick, onerror, dll) tidak diizinkan.' },
-  { re: /position\s*:\s*fixed/i,   msg: 'CSS "position:fixed" tidak diizinkan (merusak arena).' },
-  { re: /!important/i,             msg: 'CSS "!important" tidak diizinkan.' },
-  { re: /z-index\s*:\s*[5-9]\d{1,3}/i, msg: 'z-index sangat tinggi tidak diizinkan.' },
-  { re: /<iframe/i,                msg: 'Tag <iframe> tidak diizinkan.' },
-  { re: /<embed/i,                 msg: 'Tag <embed> tidak diizinkan.' },
-  { re: /<object/i,                msg: 'Tag <object> tidak diizinkan.' },
-  { re: /expression\s*\(/i,        msg: 'CSS expression() tidak diizinkan.' },
-  { re: /url\s*\(\s*data:/i,       msg: 'Data URLs tidak diizinkan.' },
+const FORBIDDEN_PATTERNS=[
+  {re:/<script[\s>]/i,         msg:'Tag <script> tidak diizinkan (keamanan XSS).'},
+  {re:/javascript\s*:/i,       msg:'Atribut "javascript:" tidak diizinkan.'},
+  {re:/on\w+\s*=/i,            msg:'Event handler inline (onclick, onerror, dll) tidak diizinkan.'},
+  {re:/position\s*:\s*fixed/i, msg:'CSS "position:fixed" tidak diizinkan (merusak arena).'},
+  {re:/!important/i,           msg:'CSS "!important" tidak diizinkan.'},
+  {re:/z-index\s*:\s*[5-9]\d{1,3}/i, msg:'z-index sangat tinggi tidak diizinkan.'},
+  {re:/<iframe/i,              msg:'Tag <iframe> tidak diizinkan.'},
+  {re:/<embed/i,               msg:'Tag <embed> tidak diizinkan.'},
+  {re:/<object/i,              msg:'Tag <object> tidak diizinkan.'},
+  {re:/expression\s*\(/i,      msg:'CSS expression() tidak diizinkan.'},
+  {re:/url\s*\(\s*data:/i,     msg:'Data URLs tidak diizinkan.'},
 ];
+function validateCode(code){ for(const p of FORBIDDEN_PATTERNS){if(p.re.test(code))return p.msg;} return null; }
+function sanitizeStyle(s){ return s.replace(/position\s*:\s*fixed[^;]*/gi,'').replace(/!important/gi,'').replace(/z-index\s*:\s*[5-9]\d{1,}[^;]*/gi,'').replace(/expression\s*\([^)]*\)/gi,''); }
 
-function validateCode(code) {
-  for (const p of FORBIDDEN_PATTERNS) {
-    if (p.re.test(code)) return p.msg;
-  }
-  return null;
+// =====================================================================
+//  RUN CODE
+// =====================================================================
+function runCode(){
+  const code=codeInput.value.trim(); runCount++; runCountEl.textContent=runCount;
+  const err=code?validateCode(code):null;
+  if(err){showWarn(err);return;}
+  closeWarn(); spawnPlayer(); userEls.innerHTML='';
+  if(!code)return;
+  try{
+    const tmp=document.createElement('div'); tmp.innerHTML=code;
+    tmp.querySelectorAll('[style]').forEach(el=>{el.style.cssText=sanitizeStyle(el.getAttribute('style')||'');});
+    tmp.querySelectorAll('*').forEach(el=>{[...el.attributes].forEach(a=>{if(/^on/i.test(a.name))el.removeAttribute(a.name);});});
+    [...tmp.childNodes].forEach(n=>userEls.appendChild(n.cloneNode(true)));
+  }catch(e){showWarn('Kode HTML tidak valid: '+e.message);userEls.innerHTML='';}
 }
 
-function sanitizeStyle(styleStr) {
-  // Remove forbidden CSS properties
-  return styleStr
-    .replace(/position\s*:\s*fixed[^;]*/gi, '')
-    .replace(/!important/gi, '')
-    .replace(/z-index\s*:\s*[5-9]\d{1,}[^;]*/gi, '')
-    .replace(/expression\s*\([^)]*\)/gi, '');
-}
-
-function runCode() {
-  const code = codeInput.value.trim();
-  runCount++;
-  runCountEl.textContent = runCount;
-
-  // Validate
-  const err = code ? validateCode(code) : null;
-  if (err) {
-    showWarn(err);
-    return;
-  }
-  closeWarn();
-
-  // Reset player to spawn
-  spawnPlayer();
-
-  // Clear previous user elements
-  userEls.innerHTML = '';
-
-  if (!code) return;
-
-  // Parse and inject HTML
-  try {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = code;
-
-    // Sanitize all style attributes
-    tempDiv.querySelectorAll('[style]').forEach(el => {
-      el.style.cssText = sanitizeStyle(el.getAttribute('style') || '');
-    });
-
-    // Remove event attributes
-    tempDiv.querySelectorAll('*').forEach(el => {
-      [...el.attributes].forEach(attr => {
-        if (/^on/i.test(attr.name)) el.removeAttribute(attr.name);
-      });
-    });
-
-    // Force position:absolute if not set (so elements work inside arena)
-    tempDiv.querySelectorAll('*').forEach(el => {
-      const pos = el.style.position;
-      if (!pos || pos === 'static' || pos === 'relative') {
-        // only top-level children get forced absolute
-      }
-    });
-
-    // Inject
-    [...tempDiv.childNodes].forEach(node => {
-      userEls.appendChild(node.cloneNode(true));
-    });
-  } catch(e) {
-    showWarn('Kode HTML tidak valid: ' + e.message);
-    userEls.innerHTML = '';
-  }
-}
-
-function showWarn(msg) {
-  warnText.textContent = msg;
-  warnBanner.classList.add('visible');
-}
-function closeWarn() {
-  warnBanner.classList.remove('visible');
-}
+function showWarn(msg){warnText.textContent=msg;warnBanner.classList.add('visible');}
+function closeWarn(){warnBanner.classList.remove('visible');}
 
 // =====================================================================
 //  RESET
 // =====================================================================
-function confirmReset() {
-  document.getElementById('confirm-modal').classList.remove('hidden');
-}
-function closeConfirm() {
-  document.getElementById('confirm-modal').classList.add('hidden');
-}
-function doReset() {
-  closeConfirm();
-  codeInput.value = '';
-  updateLineNumbers();
-  userEls.innerHTML = '';
-  spawnPlayer();
-  closeWarn();
+function confirmReset(){document.getElementById('confirm-modal').classList.remove('hidden');}
+function closeConfirm(){document.getElementById('confirm-modal').classList.add('hidden');}
+function doReset(){
+  closeConfirm(); codeInput.value=''; updateLineNumbers();
+  userEls.innerHTML=''; spawnPlayer(); closeWarn();
 }
 
 // =====================================================================
 //  WIN / STAGE SCREEN
 // =====================================================================
-function showWin() {
+function showWin(){
   stopGame();
-  const stage = STAGES[currentStageIndex];
+  const stage=STAGES[currentStageIndex];
   completedStages.add(stage.id);
-  localStorage.setItem('cp_completed', JSON.stringify([...completedStages]));
-
-  document.getElementById('win-sub').textContent =
-    `Stage ${stage.id}: "${stage.title}" selesai! Kematian: ${deathCount} | Kode dijalankan: ${runCount}x`;
+  localStorage.setItem('cp_completed',JSON.stringify([...completedStages]));
+  document.getElementById('win-sub').textContent=`Stage ${stage.id}: "${stage.title}" selesai! Kematian: ${deathCount} | Kode: ${runCount}x`;
   document.getElementById('win-modal').classList.remove('hidden');
   spawnParticles();
 }
-
-function hideWin() {
+function nextStage(){
   document.getElementById('win-modal').classList.add('hidden');
-  startGame();
+  if(currentStageIndex+1<STAGES.length)loadStage(currentStageIndex+1);
+  else showStageScreen();
 }
+function restartStage(){document.getElementById('win-modal').classList.add('hidden');loadStage(currentStageIndex);}
+function showStageScreen(){stopGame();document.getElementById('win-modal').classList.add('hidden');buildStageGrid();document.getElementById('stage-screen').classList.remove('hidden');}
+function hideStageScreen(){document.getElementById('stage-screen').classList.add('hidden');}
 
-function nextStage() {
-  document.getElementById('win-modal').classList.add('hidden');
-  if (currentStageIndex + 1 < STAGES.length) {
-    loadStage(currentStageIndex + 1);
-  } else {
-    showStageScreen();
-  }
-}
-
-function restartStage() {
-  document.getElementById('win-modal').classList.add('hidden');
-  loadStage(currentStageIndex);
-}
-
-function showStageScreen() {
-  stopGame();
-  document.getElementById('win-modal').classList.add('hidden');
-  buildStageGrid();
-  document.getElementById('stage-screen').classList.remove('hidden');
-}
-
-function hideStageScreen() {
-  document.getElementById('stage-screen').classList.add('hidden');
-}
-
-function buildStageGrid() {
-  const grid = document.getElementById('stage-grid');
-  grid.innerHTML = '';
-  STAGES.forEach((s, i) => {
-    const card = document.createElement('div');
-    const done = completedStages.has(s.id);
-    card.className = `stage-card${done ? ' completed' : ''}`;
-    const diffClass = { easy:'diff-easy', med:'diff-med', hard:'diff-hard' }[s.diff];
-    card.innerHTML = `
-      <div class="stage-num">${String(s.id).padStart(2,'0')}</div>
-      <div class="stage-title">${s.title}</div>
-      <div class="stage-diff ${diffClass}">${s.diff.toUpperCase()}</div>
-      ${done ? '<div style="font-size:16px;margin-top:6px;">✅</div>' : ''}
-    `;
-    card.onclick = () => loadStage(i);
+function buildStageGrid(){
+  const grid=document.getElementById('stage-grid'); grid.innerHTML='';
+  STAGES.forEach((s,i)=>{
+    const card=document.createElement('div');
+    const done=completedStages.has(s.id);
+    card.className=`stage-card${done?' completed':''}`;
+    const dc={easy:'diff-easy',med:'diff-med',hard:'diff-hard'}[s.diff];
+    card.innerHTML=`<div class="stage-num">${String(s.id).padStart(2,'0')}</div><div class="stage-title">${s.title}</div><div class="stage-diff ${dc}">${s.diff.toUpperCase()}</div>${done?'<div style="font-size:16px;margin-top:6px;">✅</div>':''}`;
+    card.onclick=()=>loadStage(i);
     grid.appendChild(card);
   });
 }
 
-function spawnParticles() {
-  const colors = ['#5b9cf6','#a78bfa','#34d399','#fbbf24','#f87171'];
-  const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-  for (let i = 0; i < 30; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const angle = (Math.random() * 360) * Math.PI / 180;
-    const dist  = 80 + Math.random() * 160;
-    const size  = 4 + Math.random() * 8;
-    p.style.cssText = `
-      left:${cx}px; top:${cy}px;
-      width:${size}px; height:${size}px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      --tx:${Math.cos(angle)*dist}px;
-      --ty:${Math.sin(angle)*dist}px;
-      animation-delay:${Math.random()*.2}s;
-      animation-duration:${.6+Math.random()*.4}s;
-    `;
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 1200);
+function spawnParticles(){
+  const colors=['#5b9cf6','#a78bfa','#34d399','#fbbf24','#f87171'];
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const ang=(Math.random()*360)*Math.PI/180, dist=80+Math.random()*160, size=4+Math.random()*8;
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};--tx:${Math.cos(ang)*dist}px;--ty:${Math.sin(ang)*dist}px;animation-delay:${Math.random()*.2}s;animation-duration:${.6+Math.random()*.4}s;`;
+    document.body.appendChild(p); setTimeout(()=>p.remove(),1200);
   }
 }
 
 // =====================================================================
-//  SPLITTER (RESIZABLE PANELS)
+//  SPLITTER
 // =====================================================================
-(function() {
-  const splitter   = document.getElementById('splitter');
-  const leftPanel  = document.getElementById('left-panel');
-  const rightPanel = document.getElementById('right-panel');
-  const arenaWrap  = document.getElementById('arena-wrapper');
-  const ARENA_LOGICAL_W = 720;
-  const ARENA_LOGICAL_H = 480;
-  const MIN_PCT = 0.20, MAX_PCT = 0.80;
+(function(){
+  const splitter=document.getElementById('splitter');
+  const leftPanel=document.getElementById('left-panel');
+  const arenaWrap=document.getElementById('arena-wrapper');
+  const MIN_PCT=0.20, MAX_PCT=0.80;
+  let dragging=false;
 
-  let dragging = false;
-
-  function applyScale() {
-    const wrapW = arenaWrap.offsetWidth;
-    const wrapH = arenaWrap.offsetHeight;
-    const scaleX = wrapW / ARENA_LOGICAL_W;
-    const scaleY = wrapH / ARENA_LOGICAL_H;
-    const scale  = Math.min(scaleX, scaleY, 1);
-    document.getElementById('arena').style.transform = `scale(${scale})`;
+  function applyScale(){
+    const scaleX=arenaWrap.offsetWidth/720, scaleY=arenaWrap.offsetHeight/480;
+    document.getElementById('arena').style.transform=`scale(${Math.min(scaleX,scaleY,1)})`;
   }
-
-  splitter.addEventListener('mousedown', e => {
-    dragging = true;
-    splitter.classList.add('dragging');
-    e.preventDefault();
+  splitter.addEventListener('mousedown',e=>{dragging=true;splitter.classList.add('dragging');e.preventDefault();});
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    const mr=document.getElementById('main').getBoundingClientRect();
+    let p=Math.max(MIN_PCT,Math.min(MAX_PCT,(e.clientX-mr.left)/mr.width));
+    leftPanel.style.width=(p*100)+'%'; applyScale();
   });
-
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const main = document.getElementById('main');
-    const mainRect = main.getBoundingClientRect();
-    let pct = (e.clientX - mainRect.left) / mainRect.width;
-    pct = Math.max(MIN_PCT, Math.min(MAX_PCT, pct));
-    leftPanel.style.width = (pct * 100) + '%';
-    applyScale();
-  });
-
-  document.addEventListener('mouseup', () => {
-    if (dragging) {
-      dragging = false;
-      splitter.classList.remove('dragging');
-    }
-  });
-
-  // Touch support
-  splitter.addEventListener('touchstart', e => {
-    dragging = true;
-    e.preventDefault();
-  }, { passive: false });
-  document.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const main = document.getElementById('main');
-    const mainRect = main.getBoundingClientRect();
-    let pct = (e.touches[0].clientX - mainRect.left) / mainRect.width;
-    pct = Math.max(MIN_PCT, Math.min(MAX_PCT, pct));
-    leftPanel.style.width = (pct * 100) + '%';
-    applyScale();
-    e.preventDefault();
-  }, { passive: false });
-  document.addEventListener('touchend', () => { dragging = false; });
-
-  window.addEventListener('resize', applyScale);
+  document.addEventListener('mouseup',()=>{if(dragging){dragging=false;splitter.classList.remove('dragging');}});
+  splitter.addEventListener('touchstart',e=>{dragging=true;e.preventDefault();},{passive:false});
+  document.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    const mr=document.getElementById('main').getBoundingClientRect();
+    let p=Math.max(MIN_PCT,Math.min(MAX_PCT,(e.touches[0].clientX-mr.left)/mr.width));
+    leftPanel.style.width=(p*100)+'%'; applyScale(); e.preventDefault();
+  },{passive:false});
+  document.addEventListener('touchend',()=>{dragging=false;});
+  window.addEventListener('resize',applyScale);
   applyScale();
 })();
 
 // =====================================================================
 //  LINE NUMBERS
 // =====================================================================
-function updateLineNumbers() {
-  const lines = codeInput.value.split('\n').length;
-  lineNumbers.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
-  // Sync scroll
-  lineNumbers.scrollTop = codeInput.scrollTop;
+function updateLineNumbers(){
+  const n=codeInput.value.split('\n').length;
+  lineNumbers.innerHTML=Array.from({length:n},(_,i)=>i+1).join('<br>');
+  lineNumbers.scrollTop=codeInput.scrollTop;
+}
+codeInput.addEventListener('input',updateLineNumbers);
+codeInput.addEventListener('scroll',()=>{lineNumbers.scrollTop=codeInput.scrollTop;});
+
+// =====================================================================
+//  KEYBOARD CONTROLS
+// =====================================================================
+document.addEventListener('keydown',e=>{
+  if(e.target===codeInput)return;
+  keys[e.key]=true;
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Space'].includes(e.key))e.preventDefault();
+});
+document.addEventListener('keyup',e=>{keys[e.key]=false;});
+codeInput.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runCode();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='r'){e.preventDefault();runCode();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='e'){e.preventDefault();confirmReset();}
+  if(e.key==='Tab'){
+    e.preventDefault();
+    if(acVisible()){acConfirm();return;}
+    const s=codeInput.selectionStart, end=codeInput.selectionEnd;
+    codeInput.value=codeInput.value.substring(0,s)+'  '+codeInput.value.substring(end);
+    codeInput.selectionStart=codeInput.selectionEnd=s+2; updateLineNumbers();
+  }
+});
+// Global shortcuts — works even when focus is on the arena (not the editor)
+document.addEventListener('keydown',e=>{
+  if(e.target===codeInput)return; // already handled above
+  if((e.ctrlKey||e.metaKey)&&e.key==='r'){e.preventDefault();runCode();}
+  if((e.ctrlKey||e.metaKey)&&e.key==='e'){e.preventDefault();confirmReset();}
+});
+document.getElementById('arena').addEventListener('click',()=>{document.activeElement?.blur?.();});
+
+// =====================================================================
+//  ██████████  INTELLISENSE / AUTOCOMPLETE  ██████████
+// =====================================================================
+
+// --- COMPLETION DATABASE ---
+const AC_DB = [
+  // ── HTML Tags ──
+  { label:'div',       kind:'tag',  insert:'<div style="position:absolute; left:0px; bottom:0px; width:100px; height:20px; background:#2a4278;"></div>', detail:'Block container', doc:'Buat elemen kotak solid sebagai platform. Gunakan <code>position:absolute</code> dan properti <code>left</code>, <code>bottom</code>, <code>width</code>, <code>height</code>.' },
+  { label:'div.platform', kind:'snip', insert:'<div style="position:absolute; left:${1:100}px; bottom:${2:120}px; width:${3:200}px; height:20px; background:#2a4278; border:1px solid #3a5a9a;"></div>', detail:'Platform snippet', doc:'Snippet cepat untuk membuat platform. Ganti nilai angka sesuai posisi yang diinginkan.' },
+  { label:'div.bridge',   kind:'snip', insert:'<div style="position:absolute; left:${1:180}px; bottom:${2:440}px; width:${3:340}px; height:20px; background:#1a2a3e;"></div>', detail:'Jembatan datar', doc:'Platform lebar untuk menjembatani jurang. Sesuaikan <code>left</code> dan <code>width</code>.' },
+  { label:'div.ladder',   kind:'snip', insert:'<div style="position:absolute; left:${1:200}px; bottom:${2:120}px; width:20px; height:${3:200}px; background:#1e2d4a;"></div>', detail:'Tangga vertikal', doc:'Kolom vertikal yang bisa digunakan sebagai tangga atau dinding pijakan.' },
+  { label:'div.stair',    kind:'snip', insert:'<div style="position:absolute; left:${1:200}px; bottom:${2:100}px; width:80px; height:20px; background:#2a4278;"></div>\n<div style="position:absolute; left:${3:280}px; bottom:${4:160}px; width:80px; height:20px; background:#2a4278;"></div>\n<div style="position:absolute; left:${5:360}px; bottom:${6:220}px; width:80px; height:20px; background:#2a4278;"></div>', detail:'Tangga bertingkat (3 step)', doc:'Tiga platform bertingkat. Setiap step naik 60px secara default.' },
+  { label:'div.wall',     kind:'snip', insert:'<div style="position:absolute; left:${1:300}px; bottom:0px; width:20px; height:${2:300}px; background:#1a2a3e;"></div>', detail:'Tembok vertikal', doc:'Dinding vertical. Atur <code>height</code> untuk ketinggian tembok.' },
+  { label:'p',            kind:'tag',  insert:'<p style="position:absolute; left:0px; bottom:0px; width:100px; height:20px;"></p>', detail:'Paragraph', doc:'Elemen paragraf — bisa digunakan sebagai platform tipis.' },
+  { label:'section',      kind:'tag',  insert:'<section style="position:absolute; left:0px; bottom:0px; width:200px; height:40px;"></section>', detail:'Section block', doc:'Elemen section, solid seperti div.' },
+  { label:'span',         kind:'tag',  insert:'<span style="position:absolute; left:0px; bottom:0px; width:60px; height:20px; display:block;"></span>', detail:'Inline (perlu display:block)', doc:'Span bersifat inline secara default, tambahkan <code>display:block</code> agar solid.' },
+
+  // ── CSS Properties (sering dipakai dalam style="") ──
+  { label:'position:absolute', kind:'prop', insert:'position:absolute; ', detail:'CSS property', doc:'Wajib untuk elemen dalam arena. Posisi relatif terhadap arena (720×480px).' },
+  { label:'left',              kind:'prop', insert:'left:${1:100}px; ',   detail:'Posisi X dari kiri', doc:'Jarak dari tepi kiri arena. Rentang: 0 – 720px.' },
+  { label:'bottom',            kind:'prop', insert:'bottom:${1:100}px; ', detail:'Posisi Y dari bawah', doc:'Jarak dari tepi bawah arena. Rentang: 0 – 480px. Lebih besar = lebih tinggi.' },
+  { label:'top',               kind:'prop', insert:'top:${1:100}px; ',    detail:'Posisi Y dari atas', doc:'Jarak dari tepi atas arena. Rentang: 0 – 480px.' },
+  { label:'right',             kind:'prop', insert:'right:${1:100}px; ',  detail:'Posisi X dari kanan', doc:'Jarak dari tepi kanan arena. Rentang: 0 – 720px.' },
+  { label:'width',             kind:'prop', insert:'width:${1:200}px; ',  detail:'Lebar elemen', doc:'Lebar platform dalam piksel. Untuk arena 720px, 80–300px cukup untuk platform lompat.' },
+  { label:'height',            kind:'prop', insert:'height:${1:20}px; ',  detail:'Tinggi elemen', doc:'Tinggi platform. 20px = platform tipis, 40px+ = platform tebal.' },
+  { label:'background',        kind:'css',  insert:'background:${1:#2a4278}; ', detail:'Warna latar', doc:'Warna background elemen. Bisa hex (#2a4278), rgb, hsl, atau nama warna.' },
+  { label:'background-color',  kind:'css',  insert:'background-color:${1:#2a4278}; ', detail:'Warna latar (longhand)', doc:'Sama seperti background, tapi khusus warna.' },
+  { label:'border',            kind:'css',  insert:'border:${1:1px solid #3a5a9a}; ', detail:'Garis tepi', doc:'Border di sekeliling elemen. Format: tebal jenis warna.' },
+  { label:'border-radius',     kind:'css',  insert:'border-radius:${1:4}px; ', detail:'Sudut membulat', doc:'Membuat sudut elemen membulat. 50% = lingkaran penuh.' },
+  { label:'opacity',           kind:'css',  insert:'opacity:${1:0.8}; ', detail:'Transparansi (0-1)', doc:'Transparansi elemen. 0 = tak terlihat, 1 = sepenuhnya terlihat. Elemen tetap solid!' },
+  { label:'transform:rotate',  kind:'css',  insert:'transform:rotate(${1:45}deg); ', detail:'Rotasi elemen', doc:'Memutar elemen. Meskipun terlihat miring, hitbox collide tetap berdasarkan rect aslinya.' },
+  { label:'transform:scale',   kind:'css',  insert:'transform:scale(${1:1.5}); ', detail:'Skala elemen', doc:'Memperbesar/memperkecil tampilan elemen secara visual.' },
+  { label:'display:block',     kind:'css',  insert:'display:block; ', detail:'Display block', doc:'Paksa elemen inline (span, a) menjadi block agar memiliki dimensi width/height.' },
+  { label:'box-shadow',        kind:'css',  insert:'box-shadow:${1:0 0 10px rgba(91,156,246,0.5)}; ', detail:'Bayangan kotak', doc:'Memberi efek cahaya atau bayangan pada elemen. Tidak mempengaruhi collide.' },
+
+  // ── CSS Color Values ──
+  { label:'#2a4278', kind:'val', insert:'#2a4278', detail:'Biru tua (platform)', doc:'Warna platform standar — biru gelap.' },
+  { label:'#1a2a3e', kind:'val', insert:'#1a2a3e', detail:'Biru lebih gelap (ground)', doc:'Warna ground/tanah — lebih gelap dari platform biasa.' },
+  { label:'#162d3a', kind:'val', insert:'#162d3a', detail:'Biru-hijau (ice)', doc:'Warna es — memberikan nuansa lantai beku.' },
+  { label:'#3a1a0e', kind:'val', insert:'#3a1a0e', detail:'Merah tua (lava)', doc:'Warna lava — merah kecokelatan gelap.' },
+  { label:'#34d399', kind:'val', insert:'#34d399', detail:'Hijau (sukses/goal)', doc:'Warna hijau cerah seperti pintu tujuan.' },
+  { label:'#5b9cf6', kind:'val', insert:'#5b9cf6', detail:'Biru accent', doc:'Biru terang seperti warna karakter.' },
+  { label:'#a78bfa', kind:'val', insert:'#a78bfa', detail:'Ungu accent', doc:'Ungu pastel accent.' },
+  { label:'#f97583', kind:'val', insert:'#f97583', detail:'Pink/merah muda', doc:'Merah muda cerah.' },
+  { label:'rgba(255,255,255,0.2)', kind:'val', insert:'rgba(255,255,255,0.2)', detail:'Putih semi-transparan', doc:'Warna putih 20% opacity, berguna untuk efek glossy.' },
+
+  // ── Platform Templates ──
+  { label:'!platform-kiri',    kind:'snip', insert:'<!-- Platform sisi kiri -->\n<div style="position:absolute; left:180px; bottom:160px; width:120px; height:20px; background:#2a4278; border:1px solid #3a5a9a;"></div>', detail:'Platform kiri arena', doc:'Platform siap pakai di sisi kiri tengah arena.' },
+  { label:'!platform-kanan',   kind:'snip', insert:'<!-- Platform sisi kanan -->\n<div style="position:absolute; left:420px; bottom:200px; width:120px; height:20px; background:#2a4278; border:1px solid #3a5a9a;"></div>', detail:'Platform kanan arena', doc:'Platform siap pakai di sisi kanan tengah arena.' },
+  { label:'!platform-tengah',  kind:'snip', insert:'<!-- Platform tengah -->\n<div style="position:absolute; left:260px; bottom:240px; width:200px; height:20px; background:#1e2d4a; border:1px solid #2a4278;"></div>', detail:'Platform tengah arena', doc:'Platform horizontal tepat di tengah arena.' },
+  { label:'!lompatan-pendek',  kind:'snip', insert:'<div style="position:absolute; left:180px; bottom:120px; width:80px; height:20px; background:#2a4278;"></div>\n<div style="position:absolute; left:320px; bottom:200px; width:80px; height:20px; background:#2a4278;"></div>\n<div style="position:absolute; left:460px; bottom:280px; width:80px; height:20px; background:#2a4278;"></div>', detail:'Batu loncatan (3 step naik)', doc:'Tiga stepping stone mengarah ke kiri-atas. Jarak antar platform ~60px horizontal dan 80px vertikal.' },
+];
+
+// ── AC STATE ──
+const acDropdown = document.getElementById('ac-dropdown');
+const acList     = document.getElementById('ac-list');
+const acDoc      = document.getElementById('ac-doc');
+const acCount    = document.getElementById('ac-count');
+let acItems = [], acIdx = -1, acTriggerPos = 0, acTriggerWord = '';
+
+function acVisible(){ return acDropdown.classList.contains('visible'); }
+function hideAC(){ acDropdown.classList.remove('visible'); acItems=[]; acIdx=-1; }
+
+// ── Get current word under cursor ──
+function getWordBefore(textarea){
+  const txt  = textarea.value;
+  const cur  = textarea.selectionStart;
+  // Walk back to find start of current token
+  let i = cur;
+  // allow letters, digits, -, :, #, ., !, px, <, /
+  while(i>0 && /[\w\-:#.!<\/]/.test(txt[i-1])) i--;
+  return { word: txt.substring(i, cur), start: i };
 }
 
-codeInput.addEventListener('input', updateLineNumbers);
-codeInput.addEventListener('scroll', () => {
-  lineNumbers.scrollTop = codeInput.scrollTop;
+// ── Compute dropdown position ──
+function getCaretCoords(textarea){
+  const div    = document.createElement('div');
+  const style  = window.getComputedStyle(textarea);
+  ['fontFamily','fontSize','lineHeight','padding','paddingLeft','paddingTop','border',
+   'boxSizing','whiteSpace','wordSpacing','letterSpacing','tabSize'].forEach(p=>{ div.style[p]=style[p]; });
+  div.style.position   = 'absolute';
+  div.style.visibility = 'hidden';
+  div.style.top        = '-9999px';
+  div.style.left       = '-9999px';
+  div.style.width      = textarea.offsetWidth+'px';
+  div.style.height     = 'auto';
+  div.style.overflow   = 'hidden';
+  div.style.whiteSpace = 'pre-wrap';
+  div.style.wordBreak  = 'break-all';
+  const text   = textarea.value.substring(0, textarea.selectionStart);
+  div.textContent = text;
+  const span = document.createElement('span');
+  span.textContent = '|';
+  div.appendChild(span);
+  document.body.appendChild(div);
+  const taRect  = textarea.getBoundingClientRect();
+  const spanRect= span.getBoundingClientRect();
+  // correct for scroll inside textarea
+  const cx = taRect.left + (span.offsetLeft - textarea.scrollLeft);
+  const cy = taRect.top  + (span.offsetTop  - textarea.scrollTop);
+  document.body.removeChild(div);
+  return { x: cx, y: cy };
+}
+
+// ── Position dropdown on screen ──
+function positionDropdown(x, y){
+  const dW = 300, dH = 280;
+  const vW = window.innerWidth, vH = window.innerHeight;
+  let left = x;
+  let top  = y + 18; // below caret
+  if(left + dW > vW - 8)  left = vW - dW - 8;
+  if(top  + dH > vH - 8)  top  = y - dH; // flip above
+  if(left < 4) left = 4;
+  if(top  < 4) top  = 4;
+  acDropdown.style.left = left + 'px';
+  acDropdown.style.top  = top  + 'px';
+}
+
+// ── Build & filter suggestions ──
+function computeSuggestions(word){
+  if(!word) return [];
+  const q = word.toLowerCase();
+  return AC_DB.filter(item => {
+    const l = item.label.toLowerCase();
+    return l.startsWith(q) || l.includes(q);
+  }).sort((a,b)=>{
+    const al=a.label.toLowerCase(), bl=b.label.toLowerCase();
+    const sa=al.startsWith(q)?0:1, sb=bl.startsWith(q)?0:1;
+    return sa-sb || al.localeCompare(bl);
+  }).slice(0,18);
+}
+
+// ── Highlight matching chars ──
+function highlightMatch(label, query){
+  if(!query) return label;
+  const q = query.toLowerCase();
+  const idx = label.toLowerCase().indexOf(q);
+  if(idx<0) return label;
+  return label.substring(0,idx) + `<span class="ac-match">${label.substring(idx,idx+q.length)}</span>` + label.substring(idx+q.length);
+}
+
+// ── Icon per kind ──
+function kindIcon(kind){
+  const map={tag:'T',prop:'P',val:'V',snip:'S',css:'C'};
+  return `<div class="ac-icon ${kind}">${map[kind]||'?'}</div>`;
+}
+
+// ── Render dropdown ──
+function renderAC(items, word){
+  acList.innerHTML='';
+  acCount.textContent=items.length+' saran';
+  items.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='ac-item'+(i===acIdx?' selected':'');
+    div.innerHTML=`${kindIcon(item.kind)}<span class="ac-label">${highlightMatch(item.label,word)}</span><span class="ac-detail">${item.detail}</span>`;
+    div.addEventListener('mousedown',e=>{e.preventDefault();acIdx=i;acConfirm();});
+    div.addEventListener('mousemove',()=>{ acIdx=i; renderAC(acItems,acTriggerWord); });
+    acList.appendChild(div);
+  });
+  // show doc for selected
+  const sel = items[acIdx];
+  if(sel && sel.doc){
+    acDoc.innerHTML = sel.doc;
+    acDoc.style.display='block';
+  } else {
+    acDoc.style.display='none';
+  }
+}
+
+// ── Confirm (insert) selected item ──
+function acConfirm(){
+  if(!acVisible()||acIdx<0||acIdx>=acItems.length)return;
+  const item   = acItems[acIdx];
+  const txt    = codeInput.value;
+  const cursor = codeInput.selectionStart;
+  // find the word start (same logic as getWordBefore)
+  let wStart = cursor;
+  while(wStart>0 && /[\w\-:#.!<\/]/.test(txt[wStart-1])) wStart--;
+
+  // Process snippet placeholders — resolve ${N:default} → default
+  const resolved = item.insert.replace(/\$\{(\d+):([^}]*)\}/g, (_,n,def)=>def).replace(/\$\d+/g,'');
+
+  const before = txt.substring(0, wStart);
+  const after  = txt.substring(cursor);
+  codeInput.value = before + resolved + after;
+
+  // Place cursor after inserted text
+  const newPos = wStart + resolved.length;
+  codeInput.selectionStart = codeInput.selectionEnd = newPos;
+  hideAC();
+  updateLineNumbers();
+  codeInput.focus();
+}
+
+// ── Navigate dropdown with keys ──
+function acNavigate(dir){
+  if(!acVisible()||!acItems.length)return;
+  acIdx = (acIdx + dir + acItems.length) % acItems.length;
+  renderAC(acItems, acTriggerWord);
+  // scroll selected into view
+  const selEl = acList.querySelector('.ac-item.selected');
+  if(selEl) selEl.scrollIntoView({block:'nearest'});
+}
+
+// ── Trigger: fires on every keystroke in textarea ──
+function triggerAC(){
+  const {word, start} = getWordBefore(codeInput);
+  acTriggerWord = word;
+  acTriggerPos  = start;
+
+  if(word.length < 1){ hideAC(); return; }
+
+  const suggestions = computeSuggestions(word);
+  if(!suggestions.length){ hideAC(); return; }
+
+  acItems = suggestions;
+  if(acIdx >= acItems.length) acIdx = 0;
+  if(acIdx < 0) acIdx = 0;
+
+  const coords = getCaretCoords(codeInput);
+  positionDropdown(coords.x, coords.y);
+  acDropdown.classList.add('visible');
+  renderAC(acItems, word);
+}
+
+// ── Wire up textarea events ──
+codeInput.addEventListener('input', () => {
+  updateLineNumbers();
+  triggerAC();
 });
 
-// Tab key in textarea
 codeInput.addEventListener('keydown', e => {
-  if (e.key === 'Tab') {
-    e.preventDefault();
-    const start = codeInput.selectionStart;
-    const end   = codeInput.selectionEnd;
-    codeInput.value = codeInput.value.substring(0, start) + '  ' + codeInput.value.substring(end);
-    codeInput.selectionStart = codeInput.selectionEnd = start + 2;
-    updateLineNumbers();
+  if(acVisible()){
+    if(e.key==='ArrowDown'){ e.preventDefault(); acNavigate(1); return; }
+    if(e.key==='ArrowUp')  { e.preventDefault(); acNavigate(-1); return; }
+    if(e.key==='Enter')    { e.preventDefault(); acConfirm(); return; }
+    if(e.key==='Escape')   { hideAC(); return; }
+    if(e.key==='Tab')      { e.preventDefault(); acConfirm(); return; }
   }
+  // Reposition on any keypress (caret moves)
+  requestAnimationFrame(triggerAC);
 });
 
-// =====================================================================
-//  KEYBOARD INPUT (game controls)
-// =====================================================================
-document.addEventListener('keydown', e => {
-  // Ignore when typing in code editor
-  if (e.target === codeInput) return;
-  keys[e.key] = true;
-  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Space'].includes(e.key)) {
-    e.preventDefault();
-  }
-});
-document.addEventListener('keyup', e => {
-  keys[e.key] = false;
-});
+codeInput.addEventListener('click',  () => { requestAnimationFrame(triggerAC); });
+codeInput.addEventListener('blur',   () => { setTimeout(hideAC, 150); });
+codeInput.addEventListener('focus',  () => { triggerAC(); });
 
-// Run on Ctrl+Enter
-codeInput.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-    e.preventDefault();
-    runCode();
-  }
-});
-
-// Focus game arena when clicking on it
-document.getElementById('arena').addEventListener('click', () => {
-  document.activeElement?.blur?.();
+// Close AC when clicking outside
+document.addEventListener('mousedown', e => {
+  if(!acDropdown.contains(e.target) && e.target!==codeInput) hideAC();
 });
 
 // =====================================================================
 //  INIT
 // =====================================================================
+applyTheme();
 updateLineNumbers();
 buildStageGrid();
-// Start at stage select screen (already visible by default)
 </script>
 </body>
 </html>
