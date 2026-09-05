@@ -49,10 +49,12 @@ function backFromGame(){if(currentStage?.custom&&playtestOrigin==='editor'){show
 /* ---------- THEME + AUDIO ---------- */
 let isDark=localStorage.getItem('cp_theme')!=='light';
 let bgmEnabled=localStorage.getItem('cp_bgm')==='on';
+let bgmVolume=clamp(Number(localStorage.getItem('cp_bgm_volume') ?? .45),0,1);
 function applyTheme(){document.documentElement.setAttribute('data-theme',isDark?'dark':'light');if($('theme-icon'))$('theme-icon').textContent=isDark?'🌙':'☀️';if($('theme-label'))$('theme-label').textContent=isDark?'Dark':'Light';localStorage.setItem('cp_theme',isDark?'dark':'light');syncSettingsUI()}
 function toggleTheme(){isDark=!isDark;applyTheme()}
-function syncSettingsUI(){if($('settings-theme-icon'))$('settings-theme-icon').textContent=isDark?'🌙':'☀️';if($('settings-theme-label'))$('settings-theme-label').textContent=isDark?'Dark':'Light';$('settings-play')?.classList.toggle('active',inputMode==='play');$('settings-code')?.classList.toggle('active',inputMode==='code');$('settings-bgm')?.classList.toggle('active',bgmEnabled);$('settings-bgm-state')?.replaceChildren(document.createTextNode(bgmEnabled?'On':'Off'))}
-function prepareBgm(){if(!bgm)return;if(bgm.src!==location.href+BGM_SRC && !bgm.src.endsWith('/'+BGM_SRC))bgm.src=BGM_SRC;bgm.loop=true;bgm.volume=.45}
+function syncSettingsUI(){if($('settings-theme-icon'))$('settings-theme-icon').textContent=isDark?'🌙':'☀️';if($('settings-theme-label'))$('settings-theme-label').textContent=isDark?'Dark':'Light';$('settings-play')?.classList.toggle('active',inputMode==='play');$('settings-code')?.classList.toggle('active',inputMode==='code');$('settings-bgm')?.classList.toggle('active',bgmEnabled);$('settings-bgm-state')?.replaceChildren(document.createTextNode(bgmEnabled?'On':'Off'));const slider=$('settings-bgm-volume');if(slider)slider.value=String(Math.round(bgmVolume*100));const output=$('settings-bgm-volume-value');if(output)output.textContent=Math.round(bgmVolume*100)+'%'}
+function prepareBgm(){if(!bgm)return;if(bgm.src!==location.href+BGM_SRC && !bgm.src.endsWith('/'+BGM_SRC))bgm.src=BGM_SRC;bgm.loop=true;bgm.volume=bgmVolume}
+function setBgmVolume(value){bgmVolume=clamp(Number(value)/100,0,1);localStorage.setItem('cp_bgm_volume',String(bgmVolume));if(bgm)bgm.volume=bgmVolume;const output=$('settings-bgm-volume-value');if(output)output.textContent=Math.round(bgmVolume*100)+'%';const slider=$('settings-bgm-volume');if(slider && slider.value!==String(Math.round(bgmVolume*100)))slider.value=String(Math.round(bgmVolume*100))}
 function syncBgm(){if(!bgm)return;bgmEnabled=!!bgmEnabled;localStorage.setItem('cp_bgm',bgmEnabled?'on':'off');syncSettingsUI();if(!bgmEnabled){bgm.pause();return;}prepareBgm();const p=bgm.play();if(p?.catch)p.catch(()=>toast('Backsound aktif, tetapi browser menunggu interaksi.'))}
 function toggleBgm(){bgmEnabled=!bgmEnabled;syncBgm()}
 

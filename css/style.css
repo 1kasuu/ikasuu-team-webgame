@@ -129,6 +129,15 @@ html, body {
 :root[data-theme="light"] .toggle-track { background: var(--accent); }
 :root[data-theme="light"] .toggle-thumb { transform: translateX(12px); background: #fff; }
 
+
+/* ===== BACKSOUND VOLUME CONTROL ===== */
+.bgm-settings-card .settings-actions { align-items: center; }
+.bgm-controls { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+.volume-control { display:flex; align-items:center; gap:8px; min-width:210px; font-size:11px; color:var(--text-dim); font-family:var(--font-code); }
+.volume-control input[type="range"] { flex:1; min-width:110px; accent-color:var(--accent); cursor:pointer; }
+.volume-control output { width:38px; text-align:right; color:var(--text); font-variant-numeric:tabular-nums; }
+@media (max-width:640px) { .bgm-settings-card .settings-actions { width:100%; } .bgm-controls { justify-content:flex-start; width:100%; } .volume-control { width:100%; min-width:0; } }
+
 /* ===== MAIN CONTAINER ===== */
 #main {
   position: fixed;
