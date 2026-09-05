@@ -3,123 +3,171 @@
   "title": "Spike School",
   "diff": "easy",
   "description": "Perkenalan pertama dengan hazard dan lompatan.",
-  "hint": "Kali ini kamu hanya perlu membuat jalur aman melewati deretan spike. Gunakan satu atau beberapa <strong>platform</strong> dan perhatikan tinggi lompatanmu.",
+  "hint": "Lompati deretan spike. Kamu tidak perlu menutup seluruh arena\u2014cukup buat platform aman di atas hazard.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
   "spawn": {
     "x": 34,
-    "y": 358
+    "y": 272
   },
   "goal": {
-    "x": 650,
-    "y": 354
+    "x": 640,
+    "y": 246
   },
   "objects": [
     {
       "type": "solid",
       "kind": "ground",
       "x": 0,
-      "y": 420,
+      "y": 300,
       "w": 720,
-      "h": 60
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 190,
-      "y": 396,
+      "x": 220,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 214,
-      "y": 396,
+      "x": 244,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 238,
-      "y": 396,
+      "x": 268,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 286,
-      "y": 396,
+      "x": 292,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 310,
-      "y": 396,
+      "x": 316,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 334,
-      "y": 396,
+      "x": 340,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 358,
-      "y": 396,
+      "x": 364,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 406,
-      "y": 396,
+      "x": 388,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 430,
-      "y": 396,
+      "x": 412,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 454,
-      "y": 396,
+      "x": 436,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     }
   ]
 }

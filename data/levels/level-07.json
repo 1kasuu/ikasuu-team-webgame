@@ -2,236 +2,389 @@
   "id": 7,
   "title": "Vertical Gauntlet",
   "diff": "medium",
-  "description": "Rute sempit dengan hazard dari atas dan bawah.",
-  "hint": "Jaga ketinggian karakter. Buat platform bertingkat untuk melewati koridor yang dijaga spike dari dua arah.",
+  "description": "Koridor vertikal dengan hazard dari atas dan bawah.",
+  "hint": "Atur platform untuk berpindah sisi. Hindari barisan spike yang mengunci jalur tengah.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
   "spawn": {
     "x": 34,
-    "y": 358
+    "y": 272
   },
   "goal": {
-    "x": 642,
-    "y": 76
+    "x": 650,
+    "y": 38
   },
   "objects": [
     {
       "type": "solid",
       "kind": "ground",
       "x": 0,
-      "y": 408,
-      "w": 110,
-      "h": 72
-    },
-    {
-      "type": "hazard",
-      "kind": "lava",
-      "x": 110,
-      "y": 450,
-      "w": 320,
-      "h": 30
+      "y": 300,
+      "w": 70,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "ground",
-      "x": 540,
-      "y": 322,
-      "w": 180,
-      "h": 158
+      "x": 650,
+      "y": 160,
+      "w": 70,
+      "h": 200,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
-      "kind": "wall",
-      "x": 210,
+      "kind": "platform",
+      "x": 80,
       "y": 0,
-      "w": 52,
-      "h": 450
+      "w": 640,
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
-      "type": "solid",
-      "kind": "wall",
-      "x": 408,
-      "y": 60,
-      "w": 52,
-      "h": 390
+      "type": "hazard",
+      "kind": "lava",
+      "x": 70,
+      "y": 330,
+      "w": 580,
+      "h": 30,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 210,
-      "y": 426,
+      "x": 180,
+      "y": 140,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 234,
-      "y": 426,
+      "x": 180,
+      "y": 164,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 258,
-      "y": 426,
+      "x": 180,
+      "y": 188,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 282,
-      "y": 426,
+      "x": 180,
+      "y": 212,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 408,
-      "y": 426,
+      "x": 180,
+      "y": 236,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 432,
-      "y": 426,
+      "x": 180,
+      "y": 260,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 210,
+      "x": 180,
+      "y": 284,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 100,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 124,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 148,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 172,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 196,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 220,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 244,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 260,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 234,
+      "x": 284,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 258,
+      "x": 308,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 282,
+      "x": 332,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 408,
+      "x": 356,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 432,
+      "x": 380,
       "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 262,
-      "y": 160,
+      "x": 404,
+      "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "right"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 286,
-      "y": 160,
+      "x": 428,
+      "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "right"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 310,
-      "y": 160,
+      "x": 452,
+      "y": 0,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 334,
-      "y": 160,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 358,
-      "y": 160,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 382,
-      "y": 160,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     }
   ]
 }

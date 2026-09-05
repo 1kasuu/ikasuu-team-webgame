@@ -1,18 +1,71 @@
-# CodePlatform — JSON Level Edition
+# CodePlatform
 
-## Struktur
-- `index.html` — Home, Stage List, Tutorial, Settings, Stage Editor, dan Game.
-- `css/style.css` — seluruh tampilan + responsive mobile.
-- `js/game.js` — game engine, physics, hitbox, input, editor, progression.
-- `data/levels/manifest.json` — daftar level resmi.
-- `data/levels/level-XX.json` — satu file JSON untuk satu stage.
-- `reference/` — screenshot layout level dari referensi.
+A browser-based coding puzzle platformer where players write HTML/CSS to build a safe route and reach the goal.
 
-## Menjalankan
-Karena level dibaca dengan `fetch()` dari JSON, buka project lewat local server, bukan double-click `index.html`. Contoh: VS Code + Live Server atau `python -m http.server`.
+## Run locally
 
-## Membuat stage
-Buka Home → **Buat Stage Sendiri**. Stage Editor mendukung tambah/drag object, inspector posisi/ukuran/rotasi, save ke localStorage, import JSON, export JSON, dan playtest. Stage custom tidak membutuhkan progress stage resmi.
+Use a local HTTP server because official stage data is loaded from JSON via `fetch()`.
 
-## Progression
-Stage resmi dibuka berurutan. Stage 1 selalu terbuka; Stage berikutnya terbuka setelah stage sebelumnya selesai. Custom Stage selalu dapat dimainkan.
+Example:
+
+```bash
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000` in your browser.
+
+## Project structure
+
+```text
+index.html
+css/style.css
+js/game.js
+data/levels/manifest.json
+data/levels/level-01.json ... level-10.json
+audio/background.opus      # optional, user supplied
+```
+
+## Level data
+
+Each official stage is stored in its own JSON file. Physics and collision logic remain in `js/game.js`, so editing a stage does not require editing the engine.
+
+The default official arena is 720×360. Custom stages may use another arena size through Stage Editor.
+
+## Stage Editor
+
+The editor supports:
+- Edit / Place / Delete tools
+- drag objects
+- Spawn / Goal drag
+- inspector values
+- grid snapping
+- Undo / Redo
+- Copy / Paste / Duplicate
+- JSON Import / Export
+- custom arena size
+- Playtest
+
+Custom stages are stored in browser `localStorage`. Exported JSON can be shared or versioned in Git.
+
+## Background music
+
+Place an Opus audio file at:
+
+```text
+audio/background.opus
+```
+
+Then enable **Backsound** in Settings. The game stores the toggle in `localStorage`.
+
+## GitHub releases
+
+Recommended version tags:
+
+```text
+v1.0.0  Initial release
+v1.1.0  Feature update
+v1.2.0  Collision/JSON architecture
+v1.3.0  Editor, responsive, audio hook, stage rebuild
+```
+
+See `CHANGELOG.md` for release history.

@@ -2,124 +2,204 @@
   "id": 4,
   "title": "Cross the Tower",
   "diff": "easy",
-  "description": "Navigasi vertikal dengan dinding yang diposisikan silang.",
-  "hint": "Kamu akan belajar bahwa platform tidak selalu horizontal. Gunakan beberapa platform kecil untuk membuat rute naik dan turun di sekitar dinding tengah.",
+  "description": "Navigasi vertikal dengan koridor silang dan dinding spike.",
+  "hint": "Bangun platform kecil untuk berpindah koridor. Dinding tengah dan spike memaksa kamu naik lalu berbelok ke kanan.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
   "spawn": {
-    "x": 34,
-    "y": 370
+    "x": 36,
+    "y": 272
   },
   "goal": {
-    "x": 648,
-    "y": 92
+    "x": 602,
+    "y": 56
   },
   "objects": [
     {
       "type": "solid",
       "kind": "ground",
       "x": 0,
-      "y": 410,
-      "w": 220,
-      "h": 70
+      "y": 300,
+      "w": 300,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
-      "type": "hazard",
-      "kind": "lava",
-      "x": 220,
-      "y": 450,
-      "w": 300,
-      "h": 30
+      "type": "solid",
+      "kind": "platform",
+      "x": 0,
+      "y": 88,
+      "w": 120,
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "ground",
-      "x": 520,
-      "y": 350,
-      "w": 200,
-      "h": 130
+      "x": 600,
+      "y": 110,
+      "w": 120,
+      "h": 250,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "wall",
-      "x": 285,
-      "y": 0,
-      "w": 26,
-      "h": 228
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 310,
-      "y": 252,
-      "w": 26,
-      "h": 228
+      "x": 300,
+      "y": 150,
+      "w": 30,
+      "h": 150,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "wall",
       "x": 330,
-      "y": 166,
+      "y": 150,
+      "w": 30,
+      "h": 150,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 330,
+      "y": 150,
       "w": 150,
-      "h": 22
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 150,
-      "y": 198,
+      "x": 120,
+      "y": 96,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 174,
-      "y": 198,
+      "x": 120,
+      "y": 120,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 285,
-      "y": 210,
+      "x": 120,
+      "y": 144,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "right"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 336,
-      "y": 228,
+      "x": 120,
+      "y": 168,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "left"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
       "x": 360,
-      "y": 228,
+      "y": 174,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "left"
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 384,
-      "y": 228,
+      "x": 360,
+      "y": 198,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "left"
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 222,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 246,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     }
   ]
 }

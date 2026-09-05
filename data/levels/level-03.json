@@ -2,88 +2,126 @@
   "id": 3,
   "title": "Low Ceiling",
   "diff": "easy",
-  "description": "Mulai menggabungkan lantai, dinding, dan jalur alternatif.",
-  "hint": "Buat platform untuk melompati spike tanpa menyentuh plafon rendah. Kode yang sama bisa dipakai berkali-kali dengan mengubah posisi atau ukurannya.",
+  "description": "Menggabungkan lantai, plafon rendah, dan jalur alternatif.",
+  "hint": "Buat jalur melalui ruang di bawah plafon. Perhatikan tinggi lompatan agar tidak menabrak spike di bawah platform.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
   "spawn": {
     "x": 34,
-    "y": 370
+    "y": 272
   },
   "goal": {
-    "x": 650,
-    "y": 92
+    "x": 74,
+    "y": 58
   },
   "objects": [
     {
       "type": "solid",
       "kind": "ground",
       "x": 0,
-      "y": 420,
-      "w": 180,
-      "h": 60
+      "y": 300,
+      "w": 190,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
-      "kind": "wall",
-      "x": 0,
-      "y": 310,
-      "w": 300,
-      "h": 24
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 295,
-      "y": 310,
-      "w": 110,
-      "h": 24
+      "kind": "platform",
+      "x": 190,
+      "y": 204,
+      "w": 360,
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "ground",
       "x": 520,
-      "y": 336,
+      "y": 240,
       "w": 200,
-      "h": 144
+      "h": 120,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 180,
-      "y": 396,
+      "x": 260,
+      "y": 180,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 204,
-      "y": 396,
+      "x": 284,
+      "y": 180,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 228,
-      "y": 396,
+      "x": 308,
+      "y": 180,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 252,
-      "y": 396,
+      "x": 332,
+      "y": 180,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 356,
+      "y": 180,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     }
   ]
 }

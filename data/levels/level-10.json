@@ -2,309 +2,595 @@
   "id": 10,
   "title": "Final Protocol",
   "diff": "hard",
-  "description": "Finale: kombinasi gap, vertical navigation, rotating platforms, dan hazard.",
-  "hint": "Gunakan semua yang sudah dipelajari. Buat rute yang aman, lalu gunakan <strong>Run Code</strong> untuk menguji. Tidak perlu langsung sempurna — iterasi adalah bagian dari permainan.",
+  "description": "Finale: kombinasi gap, vertical navigation, dan rotating platforms.",
+  "hint": "Gunakan semua konsep yang sudah dipelajari. Rencanakan jalur sebelum menjalankan kode.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
   "spawn": {
     "x": 34,
-    "y": 350
+    "y": 272
   },
   "goal": {
-    "x": 655,
-    "y": 166
+    "x": 630,
+    "y": 34
   },
   "objects": [
     {
       "type": "solid",
       "kind": "ground",
       "x": 0,
-      "y": 392,
-      "w": 150,
-      "h": 88
+      "y": 300,
+      "w": 120,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 610,
+      "y": 130,
+      "w": 110,
+      "h": 230,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "solid",
       "kind": "wall",
-      "x": 0,
-      "y": 0,
-      "w": 72,
-      "h": 300
+      "x": 260,
+      "y": 190,
+      "w": 30,
+      "h": 170,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 430,
+      "y": 110,
+      "w": 30,
+      "h": 150,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 500,
+      "y": 210,
+      "w": 110,
+      "h": 20,
+      "angle": -12,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "lava",
-      "x": 150,
-      "y": 450,
-      "w": 250,
-      "h": 30
-    },
-    {
-      "type": "solid",
-      "kind": "platform",
-      "x": 400,
-      "y": 350,
-      "w": 180,
-      "h": 24
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 610,
-      "y": 78,
-      "w": 30,
-      "h": 402
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 670,
-      "y": 0,
-      "w": 50,
-      "h": 480
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 280,
-      "y": 0,
-      "w": 30,
-      "h": 150
-    },
-    {
-      "type": "solid",
-      "kind": "wall",
-      "x": 472,
-      "y": 150,
-      "w": 30,
-      "h": 170
-    },
-    {
-      "type": "solid",
-      "kind": "platform",
-      "x": 520,
-      "y": 252,
-      "w": 130,
-      "h": 22,
-      "angle": -12
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 280,
-      "y": 300,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 304,
-      "y": 300,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 328,
-      "y": 300,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 352,
-      "y": 300,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "right"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 160,
-      "y": 368,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 184,
-      "y": 368,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 208,
-      "y": 368,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 232,
-      "y": 368,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 256,
-      "y": 368,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 72,
-      "y": 110,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "down"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 96,
-      "y": 110,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "down"
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
       "x": 120,
-      "y": 110,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "down"
+      "y": 330,
+      "w": 490,
+      "h": 30,
+      "collider": {
+        "shape": "box"
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
       "x": 144,
-      "y": 110,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
       "x": 168,
-      "y": 110,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
       "x": 192,
-      "y": 110,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
       "x": 216,
-      "y": 110,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "down"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 356,
-      "y": 226,
+      "x": 240,
+      "y": 276,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 380,
-      "y": 226,
+      "x": 290,
+      "y": 190,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 404,
-      "y": 226,
+      "x": 290,
+      "y": 214,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
       "kind": "spike",
-      "x": 428,
-      "y": 226,
+      "x": 290,
+      "y": 238,
       "w": 24,
       "h": 24,
       "angle": 0,
-      "dir": "up"
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
-      "kind": "diamond",
-      "x": 350,
-      "y": 70,
-      "w": 38,
-      "h": 38,
-      "angle": 45,
-      "dir": "up"
+      "kind": "spike",
+      "x": 290,
+      "y": 262,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     },
     {
       "type": "hazard",
-      "kind": "diamond",
-      "x": 430,
-      "y": 120,
-      "w": 38,
-      "h": 38,
-      "angle": 45,
-      "dir": "up"
+      "kind": "spike",
+      "x": 306,
+      "y": 190,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 306,
+      "y": 214,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 306,
+      "y": 238,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 306,
+      "y": 262,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 40,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 64,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 88,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 112,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 136,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 160,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 184,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 208,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 232,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 256,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 484,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 508,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 532,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 556,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 580,
+      "y": 86,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 330,
+      "y": 236,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 354,
+      "y": 236,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 378,
+      "y": 236,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 402,
+      "y": 236,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 470,
+      "y": 210,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 470,
+      "y": 234,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 470,
+      "y": 258,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
     }
   ]
 }

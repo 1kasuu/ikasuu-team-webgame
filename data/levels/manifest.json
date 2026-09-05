@@ -1,5 +1,6 @@
 {
-  "version": 1,
+  "version": 2,
+  "arena": {"width": 720, "height": 360},
   "levels": [
     "level-01.json",
     "level-02.json",

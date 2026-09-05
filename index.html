@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>CodePlatform — Learn. Code. Play.</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -63,6 +64,10 @@ height: 20px;</pre></article>
       <article class="tutorial-card"><span class="lesson-num">05</span><h3>Warna</h3><p>Warna membantu membaca hasil kode dan membedakan platform.</p><pre>background:#2a4278;</pre></article>
       <article class="tutorial-card"><span class="lesson-num">06</span><h3>Rotasi</h3><p>Platform yang diputar juga dihitung sesuai bentuk visualnya.</p><pre>transform:rotate(-15deg);</pre></article>
     </div>
+    <div class="tutorial-card tutorial-presets"><span class="lesson-num">PRESET</span><h3>Shortcut platform</h3><p>Di editor kode, ketik salah satu preset berikut untuk memasukkan layout siap pakai:</p><pre>!lompatan-pendek
+!platform-kanan
+!platform-tengah
+!platform-kiri</pre></div>
     <div class="tutorial-card challenge"><div><h2>Siap mencoba?</h2><p>Mulai dari Stage 1. Tidak ada tuntutan untuk langsung benar — jalankan, lihat hasilnya, lalu perbaiki.</p></div><button class="btn btn-primary" onclick="showStageScreen()">Mulai Stage 1 →</button></div>
   </div>
 </section>
@@ -73,35 +78,56 @@ height: 20px;</pre></article>
   <div class="settings-wrap">
     <div class="settings-card"><div><h3>Tema</h3><p>Ubah tampilan antarmuka.</p></div><div class="settings-actions"><button class="setting-choice" onclick="toggleTheme()"><span id="settings-theme-icon">🌙</span><span id="settings-theme-label">Dark</span></button></div></div>
     <div class="settings-card"><div><h3>Mode input awal</h3><p>Pilih mode yang aktif ketika game dibuka.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-play" onclick="setInputMode('play')">▶ Play</button><button class="setting-choice" id="settings-code" onclick="setInputMode('code')">&lt;/&gt; Code</button></div></div>
+    <div class="settings-card"><div><h3>Backsound</h3><p>Gunakan file <code>audio/background.opus</code> milikmu sendiri.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-bgm" onclick="toggleBgm()">♫ Backsound <span id="settings-bgm-state">Off</span></button></div></div>
     <div class="settings-card danger-card"><div><h3>Hapus progres</h3><p>Mengunci kembali semua stage resmi dan menghapus stage custom tersimpan.</p></div><button class="btn btn-danger" onclick="resetProgress()">Reset Progress</button></div>
   </div>
 </section>
 
 <!-- STAGE EDITOR -->
 <section id="editor-screen" class="app-screen hidden screen-scroll">
-  <div class="editor-page-top"><button class="back-btn" onclick="showHome()">← Home</button><div><div class="screen-title">Stage <span>Editor</span></div><div class="screen-sub">Buat stage sendiri, simpan di browser, lalu export sebagai JSON.</div></div><div class="editor-top-actions"><button class="small-action" onclick="importStageJSON()">Import JSON</button><button class="small-action primary" onclick="exportEditorJSON()">Export JSON</button></div></div>
+  <div class="editor-page-top">
+    <button class="back-btn" onclick="showHome()">← Home</button>
+    <div><div class="screen-title">Stage <span>Editor</span></div><div class="screen-sub">Buat stage sendiri dengan workflow mirip editor level 2D.</div></div>
+    <div class="editor-top-actions"><button class="small-action" onclick="importStageJSON()">Import JSON</button><button class="small-action primary" onclick="exportEditorJSON()">Export JSON</button></div>
+  </div>
   <div class="editor-layout">
     <aside class="editor-sidebar">
       <label>Nama Stage<input id="editor-title" value="My Custom Stage"></label>
       <label>Difficulty<select id="editor-diff"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label>
       <label>Deskripsi<textarea id="editor-desc">Buat jalurmu sendiri.</textarea></label>
-      <div class="tool-title">Tambahkan objek</div>
-      <div class="palette">
-        <button onclick="setEditorTool('solid')">■ Platform</button><button onclick="setEditorTool('spike')">▲ Spike</button><button onclick="setEditorTool('lava')">▬ Lava</button><button onclick="setEditorTool('diamond')">◆ Hazard</button>
+      <div class="tool-title">Mode</div>
+      <div class="editor-tool-row">
+        <button class="editor-tool active" data-tool="edit" onclick="setEditorTool('edit')">↖ Edit</button>
+        <button class="editor-tool" data-tool="place" onclick="setEditorTool('place')">＋ Place</button>
+        <button class="editor-tool" data-tool="delete" onclick="setEditorTool('delete')">⌫ Delete</button>
       </div>
-      <div class="tool-title">Objek terpilih</div>
-      <div id="editor-inspector" class="inspector muted">Klik objek pada arena untuk memilihnya.</div>
-      <div class="editor-actions"><button class="btn btn-primary" onclick="saveCustomStage()">Simpan Stage</button><button class="btn btn-secondary" onclick="clearEditor()">Bersihkan</button><button class="btn btn-secondary" onclick="playtestEditor()">▶ Playtest</button></div>
+      <div class="tool-title">Place Object</div>
+      <div class="palette">
+        <button class="editor-place-kind active" data-kind="solid" onclick="setEditorPlaceKind('solid')">■ Platform</button>
+        <button class="editor-place-kind" data-kind="spike" onclick="setEditorPlaceKind('spike')">▲ Spike</button>
+        <button class="editor-place-kind" data-kind="lava" onclick="setEditorPlaceKind('lava')">▬ Lava</button>
+      </div>
+      <div class="tool-title">Arena Size</div>
+      <div class="size-row"><label>Width<input id="editor-width" type="number" min="360" max="1400" step="8" value="720"></label><label>Height<input id="editor-height" type="number" min="240" max="900" step="8" value="360"></label></div>
+      <div class="tool-title editor-history-title">History</div>
+      <div class="history-row"><button class="editor-utility" onclick="undoEditor()">↶ Undo</button><button class="editor-utility" onclick="redoEditor()">↷ Redo</button><button class="editor-utility" onclick="copySelected()">Copy</button><button class="editor-utility" onclick="pasteSelected()">Paste</button></div>
+      <div class="tool-title">Selected Object</div>
+      <div id="editor-inspector" class="inspector muted">Pilih objek dengan <strong>Edit</strong>, lalu ubah propertinya di sini.</div>
+      <div class="editor-actions"><button class="btn btn-primary" onclick="saveCustomStage()">Simpan Stage <kbd>Ctrl+S</kbd></button><button class="btn btn-secondary" onclick="clearEditor()">Bersihkan</button><button class="btn btn-secondary" onclick="playtestEditor()">▶ Playtest</button></div>
       <input type="file" id="json-file-input" accept="application/json,.json" hidden>
+      <div class="editor-shortcuts"><strong>Shortcut</strong><span>V / 1 Edit</span><span>P / 2 Place</span><span>X / 3 Delete</span><span>Del / Backspace Delete</span><span>Ctrl+C / V / D</span><span>Ctrl+Z / Y</span></div>
     </aside>
-    <div class="editor-canvas-wrap"><div id="editor-arena" class="editor-arena"><div class="editor-start-marker"></div><div class="editor-goal-marker">GOAL</div></div><div class="editor-help">Pilih tool, lalu klik arena. Drag objek untuk memindahkan. Shift + klik untuk memilih. Klik objek dua kali untuk menghapus.</div></div>
+    <div id="editor-canvas-wrap" class="editor-canvas-wrap">
+      <div class="editor-viewport"><div id="editor-arena" class="editor-arena"><div id="editor-start-marker" class="editor-marker editor-start-marker" title="Spawn Point">SPAWN</div><div id="editor-goal-marker" class="editor-marker editor-goal-marker" title="Goal">GOAL</div></div></div>
+      <div class="editor-help">Edit = pilih/geser · Place = klik untuk menaruh · Delete = klik untuk menghapus · Spawn dan Goal juga bisa digeser.</div>
+    </div>
   </div>
 </section>
 
 <!-- GAME -->
 <section id="game-screen" class="app-screen hidden game-screen">
   <div id="topbar">
-    <button class="back-game" onclick="showStageScreen()">←</button>
+    <button class="back-game" onclick="backFromGame()" title="Kembali">← <span class="back-game-label">Kembali</span></button>
     <div class="logo"><span class="logo-mark">&lt;/&gt;</span> CodePlatform</div>
     <div id="stage-label">Stage</div><div id="stage-name">—</div>
     <button id="theme-toggle" onclick="toggleTheme()" title="Switch tema"><span id="theme-icon">🌙</span><div class="toggle-track"><div class="toggle-thumb"></div></div><span id="theme-label">Dark</span></button>
@@ -109,7 +135,7 @@ height: 20px;</pre></article>
     <button class="btn btn-menu" onclick="showStageScreen()">⊞ Stages</button>
   </div>
   <div id="main">
-    <div id="left-panel"><div id="arena-wrapper"><div id="arena"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div></div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
+    <div id="left-panel"><div id="arena-wrapper"><div id="arena" tabindex="0"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div></div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
     <div id="splitter"></div>
     <div id="right-panel"><div id="editor-header"><div class="tab active">📄 arena_code.html</div></div><div id="editor-body"><div id="warn-banner"><span class="warn-icon">⚠</span><span id="warn-text">Kode terlarang terdeteksi.</span><button id="warn-close" onclick="closeWarn()">✕</button></div><div id="editor-scroll"><div id="line-numbers">1</div><textarea id="code-input" placeholder="<!-- Tulis HTML/CSS di sini -->
 <!-- Contoh platform -->
@@ -124,6 +150,7 @@ height: 20px;</pre></article>
 <div id="win-modal" class="modal-overlay hidden"><div class="modal"><div class="modal-icon">🎉</div><div class="modal-title">Level Selesai!</div><div class="modal-sub" id="win-sub"></div><div class="modal-btns"><button class="btn btn-primary" onclick="nextStage()">Lanjut ke Stage Berikutnya →</button><button class="btn btn-secondary" onclick="restartStage()">↺ Ulangi Stage Ini</button><button class="btn btn-secondary" onclick="showStageScreen()">⊞ Kembali ke Stage</button></div></div></div>
 <div id="confirm-modal" class="modal-overlay hidden"><div class="modal"><div class="modal-icon">⚠️</div><div class="modal-title">Reset Level?</div><div class="modal-sub">Posisi karakter akan dikembalikan ke awal dan kode editor dibersihkan.</div><div class="modal-btns"><button class="btn btn-danger" onclick="doReset()">Ya, Reset</button><button class="btn btn-secondary" onclick="closeConfirm()">Batal</button></div></div></div>
 <div id="toast" class="toast"></div>
+<audio id="bgm" preload="none" loop aria-hidden="true"></audio>
 
 <script src="js/game.js"></script>
 </body>
