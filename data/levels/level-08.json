@@ -1,0 +1,117 @@
+{
+  "id": 8,
+  "title": "Gravity Illusions",
+  "diff": "hard",
+  "description": "Jalur terbuka dengan obstacle berbentuk unik dan platform miring.",
+  "hint": "Mulai berpikir dalam bentuk dan ruang. Rotasi <code>transform:rotate()</code> pada platform kode sekarang benar-benar diperhitungkan oleh hitbox.",
+  "spawn": {
+    "x": 34,
+    "y": 388
+  },
+  "goal": {
+    "x": 650,
+    "y": 306
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 416,
+      "w": 160,
+      "h": 64,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 594,
+      "y": 170,
+      "w": 42,
+      "h": 240,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 646,
+      "y": 0,
+      "w": 74,
+      "h": 480,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "lava",
+      "x": 160,
+      "y": 450,
+      "w": 420,
+      "h": 30,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "diamond",
+      "x": 278,
+      "y": 116,
+      "w": 42,
+      "h": 42,
+      "angle": 45,
+      "dir": "up",
+      "collider": {
+        "shape": "diamond",
+        "inset": 2
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "diamond",
+      "x": 380,
+      "y": 188,
+      "w": 42,
+      "h": 42,
+      "angle": 45,
+      "dir": "up",
+      "collider": {
+        "shape": "diamond",
+        "inset": 2
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "diamond",
+      "x": 470,
+      "y": 94,
+      "w": 42,
+      "h": 42,
+      "angle": 45,
+      "dir": "up",
+      "collider": {
+        "shape": "diamond",
+        "inset": 2
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "diamond",
+      "x": 520,
+      "y": 280,
+      "w": 42,
+      "h": 42,
+      "angle": 45,
+      "dir": "up",
+      "collider": {
+        "shape": "diamond",
+        "inset": 2
+      }
+    }
+  ]
+}
