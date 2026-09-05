@@ -1,20 +1,12 @@
 # Changelog CodePlatform
 
-## [1.3.1] - 2026-09-05
+## [v1.0.0-alpha.3] - 2026-09-05
 
 ### Diubah
 - Menambahkan pengaturan **volume BackSound** pada menu Pengaturan.
 - Volume BackSound dapat diatur menggunakan slider dari **0% hingga 100%**.
 - Persentase volume ditampilkan secara realtime saat slider digeser.
 - Pengaturan volume BackSound disimpan di `localStorage` agar tetap tersimpan setelah halaman dimuat kembali.
-
-### Catatan
-- File musik tetap tidak disertakan dalam project. Tambahkan file musik milik sendiri ke `audio/background.opus`.
-- BackSound dapat diaktifkan/nonaktifkan melalui toggle pada menu Pengaturan.
-
----
-
-## [1.3.0] - 2026-09-05
 
 ### Ditambahkan
 - Alur kerja **2D Stage Editor bergaya Unity** dengan tools **Edit / Place / Delete**.
