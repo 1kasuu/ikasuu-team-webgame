@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "title": "First Step",
+  "diff": "easy",
+  "description": "Belajar membaca arena dan membuat satu jembatan dengan HTML/CSS.",
+  "hint": "Gunakan <strong>div</strong> dengan <code>position:absolute</code> untuk membuat platform melewati lava. Mulai dari platform kecil dan lihat bagaimana karakter mendarat di atasnya.",
+  "spawn": {
+    "x": 34,
+    "y": 358
+  },
+  "goal": {
+    "x": 650,
+    "y": 84
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 406,
+      "w": 190,
+      "h": 74
+    },
+    {
+      "type": "hazard",
+      "kind": "lava",
+      "x": 190,
+      "y": 450,
+      "w": 330,
+      "h": 30
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 520,
+      "y": 336,
+      "w": 200,
+      "h": 144
+    }
+  ]
+}

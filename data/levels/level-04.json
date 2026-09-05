@@ -1,0 +1,125 @@
+{
+  "id": 4,
+  "title": "Cross the Tower",
+  "diff": "easy",
+  "description": "Navigasi vertikal dengan dinding yang diposisikan silang.",
+  "hint": "Kamu akan belajar bahwa platform tidak selalu horizontal. Gunakan beberapa platform kecil untuk membuat rute naik dan turun di sekitar dinding tengah.",
+  "spawn": {
+    "x": 34,
+    "y": 370
+  },
+  "goal": {
+    "x": 648,
+    "y": 92
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 410,
+      "w": 220,
+      "h": 70
+    },
+    {
+      "type": "hazard",
+      "kind": "lava",
+      "x": 220,
+      "y": 450,
+      "w": 300,
+      "h": 30
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 520,
+      "y": 350,
+      "w": 200,
+      "h": 130
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 285,
+      "y": 0,
+      "w": 26,
+      "h": 228
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 310,
+      "y": 252,
+      "w": 26,
+      "h": 228
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 330,
+      "y": 166,
+      "w": 150,
+      "h": 22
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 150,
+      "y": 198,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 174,
+      "y": 198,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 285,
+      "y": 210,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 336,
+      "y": 228,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 228,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 384,
+      "y": 228,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left"
+    }
+  ]
+}

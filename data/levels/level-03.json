@@ -1,0 +1,89 @@
+{
+  "id": 3,
+  "title": "Low Ceiling",
+  "diff": "easy",
+  "description": "Mulai menggabungkan lantai, dinding, dan jalur alternatif.",
+  "hint": "Buat platform untuk melompati spike tanpa menyentuh plafon rendah. Kode yang sama bisa dipakai berkali-kali dengan mengubah posisi atau ukurannya.",
+  "spawn": {
+    "x": 34,
+    "y": 370
+  },
+  "goal": {
+    "x": 650,
+    "y": 92
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 420,
+      "w": 180,
+      "h": 60
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 0,
+      "y": 310,
+      "w": 300,
+      "h": 24
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 295,
+      "y": 310,
+      "w": 110,
+      "h": 24
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 520,
+      "y": 336,
+      "w": 200,
+      "h": 144
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 180,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 204,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 228,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 252,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    }
+  ]
+}

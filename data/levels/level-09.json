@@ -1,0 +1,393 @@
+{
+  "id": 9,
+  "title": "Precision Run",
+  "diff": "hard",
+  "description": "Rangkaian celah sempit yang menuntut presisi dan pemahaman collision.",
+  "hint": "Tidak semua celah harus diisi penuh. Platform yang terlalu panjang justru bisa menutup rute. Uji kode sedikit demi sedikit.",
+  "spawn": {
+    "x": 34,
+    "y": 360
+  },
+  "goal": {
+    "x": 670,
+    "y": 54
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 398,
+      "w": 126,
+      "h": 82
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 634,
+      "y": 90,
+      "w": 86,
+      "h": 390
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 90,
+      "y": 286,
+      "w": 520,
+      "h": 24
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 90,
+      "y": 188,
+      "w": 540,
+      "h": 24
+    },
+    {
+      "type": "hazard",
+      "kind": "lava",
+      "x": 126,
+      "y": 450,
+      "w": 508,
+      "h": 30
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 70,
+      "y": 0,
+      "w": 18,
+      "h": 250
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 610,
+      "y": 0,
+      "w": 18,
+      "h": 250
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 122,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 146,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 170,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 194,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 218,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 242,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 266,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 290,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 314,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 338,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 362,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 386,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 410,
+      "y": 260,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 220,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 244,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 268,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 292,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 316,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 340,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 364,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 388,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 412,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 436,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 460,
+      "y": 164,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 110,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 134,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 158,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 182,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 470,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 494,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 518,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 542,
+      "y": 0,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "down"
+    }
+  ]
+}

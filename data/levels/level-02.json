@@ -1,0 +1,125 @@
+{
+  "id": 2,
+  "title": "Spike School",
+  "diff": "easy",
+  "description": "Perkenalan pertama dengan hazard dan lompatan.",
+  "hint": "Kali ini kamu hanya perlu membuat jalur aman melewati deretan spike. Gunakan satu atau beberapa <strong>platform</strong> dan perhatikan tinggi lompatanmu.",
+  "spawn": {
+    "x": 34,
+    "y": 358
+  },
+  "goal": {
+    "x": 650,
+    "y": 354
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 420,
+      "w": 720,
+      "h": 60
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 190,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 214,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 238,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 286,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 310,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 334,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 358,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 406,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 430,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 454,
+      "y": 396,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "up"
+    }
+  ]
+}
