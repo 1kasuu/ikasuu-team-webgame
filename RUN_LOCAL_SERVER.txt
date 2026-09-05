@@ -1,1 +1,0 @@
-Jalankan dari folder project dengan local server, misalnya: python -m http.server 8000 lalu buka http://localhost:8000/
