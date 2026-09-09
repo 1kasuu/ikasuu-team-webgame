@@ -1,0 +1,205 @@
+{
+  "id": 4,
+  "title": "Cross the Tower",
+  "diff": "easy",
+  "description": "Navigasi vertikal dengan koridor silang dan dinding spike.",
+  "hint": "Bangun platform kecil untuk berpindah koridor. Dinding tengah dan spike memaksa kamu naik lalu berbelok ke kanan.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
+  "spawn": {
+    "x": 36,
+    "y": 272
+  },
+  "goal": {
+    "x": 602,
+    "y": 56
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 300,
+      "w": 300,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 0,
+      "y": 88,
+      "w": 120,
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 600,
+      "y": 110,
+      "w": 120,
+      "h": 250,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 300,
+      "y": 150,
+      "w": 30,
+      "h": 150,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "wall",
+      "x": 330,
+      "y": 150,
+      "w": 30,
+      "h": 150,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "platform",
+      "x": 330,
+      "y": 150,
+      "w": 150,
+      "h": 20,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 120,
+      "y": 96,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 120,
+      "y": 120,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 120,
+      "y": 144,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 120,
+      "y": 168,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "right",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 174,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 198,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 222,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "spike",
+      "x": 360,
+      "y": 246,
+      "w": 24,
+      "h": 24,
+      "angle": 0,
+      "dir": "left",
+      "collider": {
+        "shape": "triangle",
+        "inset": 3
+      }
+    }
+  ]
+}

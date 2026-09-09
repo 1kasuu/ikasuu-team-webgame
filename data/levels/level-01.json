@@ -1,0 +1,56 @@
+{
+  "id": 1,
+  "title": "First Step",
+  "diff": "easy",
+  "description": "Belajar membaca arena dan membuat satu jembatan dengan HTML/CSS.",
+  "hint": "Bangun platform melewati lava. Fokus pada <code>position:absolute</code>, <code>left</code>, <code>bottom</code>, <code>width</code>, dan <code>height</code>.",
+  "arena": {
+    "width": 720,
+    "height": 360
+  },
+  "spawn": {
+    "x": 34,
+    "y": 272
+  },
+  "goal": {
+    "x": 640,
+    "y": 166
+  },
+  "objects": [
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 0,
+      "y": 300,
+      "w": 180,
+      "h": 60,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "hazard",
+      "kind": "lava",
+      "x": 180,
+      "y": 330,
+      "w": 340,
+      "h": 30,
+      "collider": {
+        "shape": "box"
+      }
+    },
+    {
+      "type": "solid",
+      "kind": "ground",
+      "x": 520,
+      "y": 220,
+      "w": 200,
+      "h": 140,
+      "angle": 0,
+      "collider": {
+        "shape": "box"
+      }
+    }
+  ]
+}
