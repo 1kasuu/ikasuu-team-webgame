@@ -1,3 +1,35 @@
+# CodePlatform v1.4.1 — Bugfix & Mobile Pass
+
+## 🐛 Diperbaiki
+
+- **Transform editor**: object bisa hancur/terbalik saat resize pakai handle selain kanan-bawah (se) — rumus anchor `left`/`top` salah untuk 3 dari 4 sudut, sekarang diperbaiki jadi `Math.min(anchor, pointer)` sehingga benar untuk semua arah, termasuk pada object yang sudah diputar (rotated).
+- **Hitbox tidak terlihat** untuk object Spike — sebelumnya pakai `outline` yang mengikuti bounding box persegi, bukan bentuk segitiga (`clip-path`) sehingga hitbox nyaris tak terlihat. Sekarang pakai teknik stacked `drop-shadow` yang mengikuti siluet asli object.
+- **Input A/D mati saat Caps Lock aktif** — `keydown`/`keyup` sebelumnya menyimpan `e.key` apa adanya (jadi `"A"`/`"D"` uppercase saat Caps Lock nyala), sementara gerakan mengecek huruf kecil. Sekarang key dinormalisasi ke lowercase sebelum disimpan.
+- **Arena Stage Editor terpotong ~50% di layar mobile** — arena (720×360 atau custom) sebelumnya di-render 100% zoom lalu di-center oleh flexbox tanpa auto-fit, sehingga sisi kiri/kanan arena terpotong di luar viewport pada layar sempit. Sekarang arena otomatis fit + center ke viewport saat editor dibuka, saat ukuran arena diubah, dan saat resize layar mobile.
+- **Panel inspector mobile menutupi hampir seluruh layar tanpa cara menutupnya** — ditambahkan tombol "×" eksplisit untuk menutup panel (deselect) di layar mobile.
+- **Level JSON tanpa `id` didiamkan dibuang dari daftar** oleh loader — sekarang dinormalisasi dengan default yang konsisten (id dari posisi manifest, `objects: []`, arena/spawn/goal default) sehingga level yang datanya belum lengkap/kosong tetap dianggap valid dan bisa dilanjutkan lewat Stage Editor.
+- Penguatan scroll di iOS Safari (`-webkit-overflow-scrolling:touch`, `overscroll-behavior:contain`) pada Stage List dan panel inspector mobile.
+- `touch-action:none` pada splitter horizontal mobile agar drag tidak bentrok dengan gesture scroll browser.
+
+## ✨ Ditambahkan
+
+- **8 resize handle** pada transform editor: 4 sudut (nw/ne/sw/se) + 4 tepi (n/s/e/w), lengkap dengan style dan cursor masing-masing.
+- **Resize satu arah**: menarik handle tepi (n/s/e/w) sekarang hanya mengubah sisi yang ditarik, sisi lain tidak ikut berubah.
+- **Free Mode**: toggle baru (tombol toolbar + checkbox di panel Options) untuk menggeser object dengan presisi 1px tanpa Snap/Grid.
+- Warna hitbox dibedakan sesuai tipe: **hijau** untuk Solid/Block, **merah** untuk Hazard (Spike & Lava).
+
+## 🔄 Diubah
+
+- Stage baru dari "Buat Stage Sendiri" sekarang dimulai benar-benar kosong (`objects: []`), tidak lagi otomatis diisi 1 block solid default — supaya level sepenuhnya dibangun sendiri lewat Stage Editor.
+
+## 📝 Catatan
+
+- Tidak ada perubahan pada sistem simpan/ekspor stage (`saveCustomStages`, `saveCustomStage`, `exportEditorJSON`, `importStageJSON`) maupun isi file `data/levels/level-01.json` s/d `level-10.json` — perubahan loader hanya membuat proses **pembacaan** manifest lebih toleran terhadap level yang datanya belum lengkap.
+- Grid toggle vs Snap to Grid, splitter horizontal mobile, dan centering Home Menu sudah diverifikasi berfungsi dengan benar sebelum perubahan ini — tidak memerlukan perbaikan lebih lanjut.
+
+
+---
+
 # CodePlatform v1.4.0 — Editor v2
 
 ## ✨ Ditambahkan

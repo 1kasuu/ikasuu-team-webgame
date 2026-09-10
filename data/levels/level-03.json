@@ -1,127 +1,250 @@
 {
-  "id": 3,
-  "title": "Low Ceiling",
-  "diff": "easy",
-  "description": "Menggabungkan lantai, plafon rendah, dan jalur alternatif.",
-  "hint": "Buat jalur melalui ruang di bawah plafon. Perhatikan tinggi lompatan agar tidak menabrak spike di bawah platform.",
-  "arena": {
-    "width": 720,
-    "height": 360
-  },
-  "spawn": {
-    "x": 34,
-    "y": 272
-  },
-  "goal": {
-    "x": 74,
-    "y": 58
-  },
-  "objects": [
-    {
-      "type": "solid",
-      "kind": "ground",
-      "x": 0,
-      "y": 300,
-      "w": 190,
-      "h": 60,
-      "angle": 0,
-      "collider": {
-        "shape": "box"
-      }
+    "id": 3,
+    "title": "Low Ceiling",
+    "diff": "easy",
+    "description": "Menggabungkan lantai, plafon rendah, dan jalur alternatif.",
+    "hint": "Gunakan HTML/CSS untuk membangun jalur lalu capai goal.",
+    "arena": {
+        "width": 644,
+        "height": 308
     },
-    {
-      "type": "solid",
-      "kind": "platform",
-      "x": 190,
-      "y": 204,
-      "w": 360,
-      "h": 20,
-      "angle": 0,
-      "collider": {
-        "shape": "box"
-      }
+    "spawn": {
+        "x": 80,
+        "y": 208
     },
-    {
-      "type": "solid",
-      "kind": "ground",
-      "x": 520,
-      "y": 240,
-      "w": 200,
-      "h": 120,
-      "angle": 0,
-      "collider": {
-        "shape": "box"
-      }
+    "goal": {
+        "x": 74,
+        "y": 58
     },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 260,
-      "y": 180,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up",
-      "collider": {
-        "shape": "triangle",
-        "inset": 3
-      }
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 284,
-      "y": 180,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up",
-      "collider": {
-        "shape": "triangle",
-        "inset": 3
-      }
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 308,
-      "y": 180,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up",
-      "collider": {
-        "shape": "triangle",
-        "inset": 3
-      }
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 332,
-      "y": 180,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up",
-      "collider": {
-        "shape": "triangle",
-        "inset": 3
-      }
-    },
-    {
-      "type": "hazard",
-      "kind": "spike",
-      "x": 356,
-      "y": 180,
-      "w": 24,
-      "h": 24,
-      "angle": 0,
-      "dir": "up",
-      "collider": {
-        "shape": "triangle",
-        "inset": 3
-      }
-    }
-  ]
+    "objects": [
+        {
+            "type": "solid",
+            "kind": "ground",
+            "x": 0,
+            "y": 248,
+            "w": 190,
+            "h": 60,
+            "angle": 0,
+            "collider": {
+                "shape": "box"
+            },
+            "dir": "up",
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 0,
+            "y": 120,
+            "w": 196,
+            "h": 56,
+            "angle": 0,
+            "collider": {
+                "shape": "box"
+            },
+            "dir": "up",
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "solid",
+            "kind": "ground",
+            "x": 444,
+            "y": 188,
+            "w": 200,
+            "h": 120,
+            "angle": 0,
+            "collider": {
+                "shape": "box"
+            },
+            "dir": "up",
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "hazard",
+            "kind": "spike",
+            "x": 195,
+            "y": 120,
+            "w": 24,
+            "h": 24,
+            "angle": 0,
+            "dir": "up",
+            "collider": {
+                "shape": "triangle",
+                "inset": 3
+            },
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "hazard",
+            "kind": "spike",
+            "x": 241,
+            "y": 120,
+            "w": 24,
+            "h": 24,
+            "angle": 0,
+            "dir": "up",
+            "collider": {
+                "shape": "triangle",
+                "inset": 3
+            },
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "hazard",
+            "kind": "spike",
+            "x": 218,
+            "y": 120,
+            "w": 24,
+            "h": 24,
+            "angle": 0,
+            "dir": "up",
+            "collider": {
+                "shape": "triangle",
+                "inset": 3
+            },
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "hazard",
+            "kind": "spike",
+            "x": 264,
+            "y": 120,
+            "w": 24,
+            "h": 24,
+            "angle": 0,
+            "dir": "up",
+            "collider": {
+                "shape": "triangle",
+                "inset": 3
+            },
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "hazard",
+            "kind": "spike",
+            "x": 288,
+            "y": 120,
+            "w": 24,
+            "h": 24,
+            "angle": 0,
+            "dir": "up",
+            "collider": {
+                "shape": "triangle",
+                "inset": 3
+            },
+            "locked": false,
+            "visible": true,
+            "layer": 0
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 196,
+            "y": 144,
+            "w": 140,
+            "h": 32.33332824707031,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 312,
+            "y": 118,
+            "w": 142.8333740234375,
+            "h": 28,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 0,
+            "y": 0,
+            "w": 28,
+            "h": 280,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 28,
+            "y": 0,
+            "w": 616,
+            "h": 28,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        },
+        {
+            "type": "solid",
+            "kind": "solid",
+            "x": 616,
+            "y": 0,
+            "w": 28,
+            "h": 280,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        },
+        {
+            "type": "hazard",
+            "kind": "lava",
+            "x": 192,
+            "y": 280,
+            "w": 252,
+            "h": 28,
+            "angle": 0,
+            "dir": "up",
+            "layer": 0,
+            "locked": false,
+            "visible": true,
+            "collider": {
+                "shape": "box"
+            }
+        }
+    ]
 }

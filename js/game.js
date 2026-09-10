@@ -163,6 +163,9 @@ function showEditorScreen() {
     playtestOrigin = null;
     showScreen("editor-screen");
     renderEditor();
+    // Fit + center the arena for the viewport we're actually opening into
+    // (crucial on mobile, where the arena is usually wider than the screen).
+    requestAnimationFrame(() => rescaleEditorArena());
 }
 function backFromGame() {
     if (currentStage?.custom && playtestOrigin === "editor") {
@@ -253,6 +256,36 @@ function initBgmGesture() {
 }
 
 /* ---------- LEVEL LOADING ---------- */
+// A level JSON file is allowed to be empty (e.g. "{}" or missing fields) —
+// that's an intentional official slot meant to be built out later via the
+// Stage Editor. The loader must still treat it as a valid, playable
+// (just empty) level instead of silently dropping it, and must fill in the
+// same defaults the Stage Editor itself uses so the schema stays consistent
+// across editor / renderer / physics.
+function normalizeStageData(raw, fallbackArena, positionInManifest) {
+    const s = raw && typeof raw === "object" ? raw : {};
+    const id = Number.isFinite(Number(s.id))
+        ? Number(s.id)
+        : positionInManifest + 1;
+    const arenaSrc =
+        s.arena && Number.isFinite(Number(s.arena.width)) && Number.isFinite(Number(s.arena.height))
+            ? s.arena
+            : fallbackArena || { width: 720, height: 360 };
+    return {
+        id,
+        title: s.title || `Level ${id}`,
+        diff: s.diff || "medium",
+        description: s.description || "",
+        hint: s.hint || s.description || "",
+        arena: {
+            width: Number(arenaSrc.width) || 720,
+            height: Number(arenaSrc.height) || 360,
+        },
+        spawn: s.spawn || { x: 34, y: 272 },
+        goal: s.goal || { x: 620, y: 246 },
+        objects: Array.isArray(s.objects) ? s.objects : [],
+    };
+}
 async function loadAllStages() {
     try {
         const mr = await fetch(LEVEL_BASE + "manifest.json", {
@@ -266,15 +299,24 @@ async function loadAllStages() {
             manifest.levels.map(async (file) => {
                 const r = await fetch(LEVEL_BASE + file, { cache: "no-store" });
                 if (!r.ok) throw new Error(`${file}: HTTP ${r.status}`);
-                const data = await r.json();
+                // An empty file / "{}" / null body is a valid empty level,
+                // not a parse failure — only genuinely malformed JSON throws.
+                const text = await r.text();
+                let data;
+                try {
+                    data = text.trim() ? JSON.parse(text) : {};
+                } catch (e) {
+                    throw new Error(`${file}: JSON tidak valid (${e.message})`);
+                }
                 return { file, data };
             }),
         );
         const failures = results.filter((r) => r.status === "rejected");
         stages = results
             .filter((r) => r.status === "fulfilled")
-            .map((r) => r.value.data)
-            .filter((s) => s && Number.isFinite(Number(s.id)))
+            .map((r, i) =>
+                normalizeStageData(r.value.data, manifest.arena, i),
+            )
             .sort((a, b) => Number(a.id) - Number(b.id));
         if (!stages.length)
             throw new Error("Tidak ada level JSON yang berhasil dimuat.");
@@ -1124,7 +1166,11 @@ document.addEventListener("keydown", (e) => {
         isTextInput(e.target)
     )
         return;
-    const k = e.key === " " ? "Space" : e.key;
+    // Normalize letter keys to lowercase so movement (keys.a / keys.d) keeps
+    // working when Caps Lock is on — with Caps Lock active, e.key reports
+    // "A"/"D" (uppercase) even without Shift, which previously never matched.
+    const raw = e.key === " " ? "Space" : e.key;
+    const k = raw.length === 1 ? raw.toLowerCase() : raw;
     keys[k] = true;
     if (
         ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(k)
@@ -1134,16 +1180,69 @@ document.addEventListener("keydown", (e) => {
     }
 });
 document.addEventListener("keyup", (e) => {
-    const k = e.key === " " ? "Space" : e.key;
+    const raw = e.key === " " ? "Space" : e.key;
+    const k = raw.length === 1 ? raw.toLowerCase() : raw;
     keys[k] = false;
 });
 window.addEventListener("blur", () => {
     keys = {};
     jumpQueued = false;
+    clearTouchButtonVisuals();
 });
 arena?.addEventListener("pointerdown", () => {
     if (inputMode === "play") focusGame();
 });
+
+/* ---------- TOUCH CONTROLS (mobile left / right / jump) ----------
+   Reuses the same `keys` / `jumpQueued` state the keyboard handlers above
+   already write to, so updatePhysics() needs no changes at all — a held
+   touch button behaves exactly like a held arrow key. */
+function clearTouchButtonVisuals() {
+    document
+        .querySelectorAll("#touch-controls .touch-btn.is-active")
+        .forEach((b) => b.classList.remove("is-active"));
+}
+(function initTouchControls() {
+    const leftBtn = $("touch-left"),
+        rightBtn = $("touch-right"),
+        jumpBtn = $("touch-jump");
+    if (!leftBtn || !rightBtn || !jumpBtn) return;
+    function bindHoldButton(btn, key) {
+        const press = (e) => {
+            e.preventDefault();
+            if (inputMode !== "play") return;
+            keys[key] = true;
+            btn.classList.add("is-active");
+        };
+        const release = (e) => {
+            e.preventDefault();
+            keys[key] = false;
+            btn.classList.remove("is-active");
+        };
+        btn.addEventListener("pointerdown", press);
+        btn.addEventListener("pointerup", release);
+        btn.addEventListener("pointercancel", release);
+        btn.addEventListener("pointerleave", release);
+        btn.addEventListener("contextmenu", (e) => e.preventDefault());
+    }
+    bindHoldButton(leftBtn, "ArrowLeft");
+    bindHoldButton(rightBtn, "ArrowRight");
+    const pressJump = (e) => {
+        e.preventDefault();
+        if (inputMode !== "play") return;
+        jumpQueued = true;
+        jumpBtn.classList.add("is-active");
+    };
+    const releaseJump = (e) => {
+        e.preventDefault();
+        jumpBtn.classList.remove("is-active");
+    };
+    jumpBtn.addEventListener("pointerdown", pressJump);
+    jumpBtn.addEventListener("pointerup", releaseJump);
+    jumpBtn.addEventListener("pointercancel", releaseJump);
+    jumpBtn.addEventListener("pointerleave", releaseJump);
+    jumpBtn.addEventListener("contextmenu", (e) => e.preventDefault());
+})();
 
 /* ---------- ARENA SCALE / SPLITTER ---------- */
 function rescaleArena() {
@@ -1722,6 +1821,7 @@ document.addEventListener("mousedown", (e) => {
 /* ---------- STAGE EDITOR v2 ---------- */
 let editorGridVisible = true,
     editorSnap = true,
+    editorFreeMode = false,
     editorHitboxes = false,
     editorZoomLevel = 1,
     editorPan = { x: 0, y: 0 };
@@ -1862,21 +1962,9 @@ function emptyEditor() {
         diff: "medium",
         description: "Buat jalurmu sendiri.",
         arena: { width: 720, height: 360 },
-        objects: [
-            {
-                type: "solid",
-                kind: "solid",
-                x: 0,
-                y: 300,
-                w: 220,
-                h: 60,
-                angle: 0,
-                collider: { shape: "box" },
-                layer: 0,
-                locked: false,
-                visible: true,
-            },
-        ],
+        // Start truly empty — the whole point of the Stage Editor is that
+        // the player builds the level themselves, object by object.
+        objects: [],
         selected: null,
         selection: [],
         tool: "build",
@@ -1921,7 +2009,18 @@ function setEditorPlaceKind(kind) {
     renderEditor();
 }
 function editorGridSize() {
+    // Free Mode always wins: 1px precision, ignoring both Snap and Grid.
+    if (editorFreeMode) return 1;
     return editorSnap ? EDITOR_GRID : 1;
+}
+function toggleEditorFreeMode(v) {
+    editorFreeMode = v === undefined ? !editorFreeMode : !!v;
+    const c = $("editor-freemode-toggle");
+    if (c) c.checked = editorFreeMode;
+    const snapToggle = $("editor-snap-toggle");
+    if (snapToggle) snapToggle.disabled = editorFreeMode;
+    syncEditorControls();
+    renderEditor();
 }
 function snap(v) {
     const g = editorGridSize();
@@ -2222,6 +2321,11 @@ function startTransform(e, type, handle) {
     const b = selectionBounds();
     const keepAspect = Math.abs(b.w) > 0 && Math.abs(b.h) > 0;
     let changed = false;
+    // Which axes this handle controls: corner handles (nw/ne/sw/se) control
+    // both axes; edge handles (n/s/e/w) control only one axis, so the other
+    // side of the selection must stay completely untouched.
+    const controlsX = handle === "move" ? false : /[ew]/.test(handle || "");
+    const controlsY = handle === "move" ? false : /[ns]/.test(handle || "");
     const anchor = {
         x: handle?.includes("w") ? b.x + b.w : b.x,
         y: handle?.includes("n") ? b.y + b.h : b.y,
@@ -2281,17 +2385,24 @@ function startTransform(e, type, handle) {
                 o.angle = (base.angle || 0) + (ang * 180) / Math.PI;
             });
         } else if (type === "resize") {
-            let right = anchor.x <= p.x,
-                bottom = anchor.y <= p.y;
-            let nw = Math.max(8, Math.abs(p.x - anchor.x)),
-                nh = Math.max(8, Math.abs(p.y - anchor.y));
-            if (ev.shiftKey && keepAspect) {
+            // nw/nh: full-precision size along each axis, derived straight
+            // from the pointer position relative to the fixed anchor point.
+            // Using Math.min/max instead of the anchor-side "right/bottom"
+            // flags keeps this correct no matter which of the 8 handles is
+            // being dragged (previously only the se handle behaved right).
+            let nw = controlsX
+                    ? Math.max(8, Math.abs(p.x - anchor.x))
+                    : b.w,
+                nh = controlsY
+                    ? Math.max(8, Math.abs(p.y - anchor.y))
+                    : b.h;
+            if (ev.shiftKey && keepAspect && controlsX && controlsY) {
                 const ratio = b.w / b.h;
                 if (nw / nh > ratio) nh = nw / ratio;
                 else nw = nh * ratio;
             }
-            const left = right ? anchor.x : p.x - nw,
-                top = bottom ? anchor.y : p.y - nh;
+            const left = controlsX ? Math.min(anchor.x, p.x) : b.x,
+                top = controlsY ? Math.min(anchor.y, p.y) : b.y;
             const sx = (left - b.x) / (b.w || 1),
                 sy = (top - b.y) / (b.h || 1),
                 sw = nw / (b.w || 1),
@@ -2378,9 +2489,13 @@ function renderTransformControls() {
     });
     [
         ["nw", "resize"],
+        ["n", "resize"],
         ["ne", "resize"],
-        ["sw", "resize"],
+        ["e", "resize"],
         ["se", "resize"],
+        ["s", "resize"],
+        ["sw", "resize"],
+        ["w", "resize"],
     ].forEach(([pos, type]) => {
         const h = document.createElement("button");
         h.className = "transform-control handle " + pos;
@@ -2505,11 +2620,13 @@ function setEditorArenaWidth(v) {
     customEditor.arena.width = clamp(Math.round(Number(v) || 720), 360, 2000);
     commitEditorHistory();
     renderEditor();
+    rescaleEditorArena();
 }
 function setEditorArenaHeight(v) {
     customEditor.arena.height = clamp(Math.round(Number(v) || 360), 240, 1200);
     commitEditorHistory();
     renderEditor();
+    rescaleEditorArena();
 }
 function renderInspector() {
     const box = $("editor-inspector");
@@ -2579,13 +2696,18 @@ function syncEditorControls() {
             customEditor.mode || "build",
         ).toUpperCase();
     if ($("editor-snap-status"))
-        $("editor-snap-status").textContent = editorSnap
-            ? "Snap ON"
-            : "Snap OFF";
+        $("editor-snap-status").textContent = editorFreeMode
+            ? "Free Mode"
+            : editorSnap
+              ? "Snap ON"
+              : "Snap OFF";
     if ($("editor-grid-status"))
         $("editor-grid-status").textContent = editorGridVisible
             ? "Grid ON"
             : "Grid OFF";
+    if ($("editor-freemode-toggle"))
+        $("editor-freemode-toggle").checked = editorFreeMode;
+    if ($("editor-snap-toggle")) $("editor-snap-toggle").disabled = editorFreeMode;
 }
 function copySelected() {
     editorClipboardMulti = editorSelection
@@ -2955,6 +3077,33 @@ window.addEventListener("resize", () => {
     rescaleEditorArena();
 });
 function rescaleEditorArena() {
+    // On small/mobile viewports the arena (often 720x360 or bigger) is
+    // wider than the whole screen. Without an explicit fit, the arena was
+    // simply flex-centered at 100% zoom, which pushes most of it off both
+    // edges of the viewport (only a clipped middle strip stayed visible).
+    // Keep it auto-fit + centered on mobile; leave desktop zoom untouched.
+    if (matchMedia("(max-width:900px)").matches) fitEditorZoomToViewport();
+    else updateEditorCamera();
+}
+function fitEditorZoomToViewport() {
+    const viewport = $("editor-viewport");
+    if (!viewport || !customEditor.arena) return;
+    const vw = viewport.clientWidth,
+        vh = viewport.clientHeight;
+    if (!vw || !vh) return;
+    const fit = Math.min(
+        vw / customEditor.arena.width,
+        vh / customEditor.arena.height,
+        1,
+    );
+    editorZoomLevel = clamp(fit, 0.1, 4);
+    // .editor-world is flex-centered by its *unscaled* layout box, so the
+    // extra pan needed to re-center the now-shrunk box is exactly half the
+    // pixels the scale removed — independent of viewport size.
+    editorPan = {
+        x: (customEditor.arena.width * (1 - editorZoomLevel)) / 2,
+        y: (customEditor.arena.height * (1 - editorZoomLevel)) / 2,
+    };
     updateEditorCamera();
 }
 function initEditorPointerPan() {

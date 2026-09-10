@@ -101,6 +101,7 @@ height: 20px;</pre></article>
         <button class="gd-tool-btn" onclick="redoEditor()" title="Redo">↷</button>
         <button class="gd-tool-btn" onclick="toggleEditorGrid()" title="Grid">#</button>
         <button class="gd-tool-btn" onclick="toggleEditorSnap()" title="Snap">⌖</button>
+        <button class="gd-tool-btn" onclick="toggleEditorFreeMode()" title="Free Mode (geser 1px tanpa snap/grid)">✥</button>
         <button class="gd-tool-btn" onclick="toggleEditorHitboxes()" title="Hitboxes">▱</button>
         <button class="gd-tool-btn" onclick="saveCustomStage()" title="Save">💾</button>
         <button class="gd-play-btn" onclick="playtestEditor()">▶ Playtest</button>
@@ -125,6 +126,7 @@ height: 20px;</pre></article>
       </div>
 
       <aside class="gd-editor-inspector-panel">
+        <button type="button" class="gd-panel-close" onclick="deselectAllEditor()" title="Tutup panel">×</button>
         <div class="gd-panel-block">
           <div class="gd-panel-title">STAGE</div>
           <label>Nama<input id="editor-title" value="My Custom Stage"></label>
@@ -155,6 +157,7 @@ height: 20px;</pre></article>
           <label class="gd-check"><input id="editor-hide-selected" type="checkbox" onchange="toggleSelectedVisible(!this.checked)"> Hide selected</label>
           <label class="gd-check"><input id="editor-grid-toggle" type="checkbox" checked onchange="toggleEditorGrid(this.checked)"> Show grid</label>
           <label class="gd-check"><input id="editor-snap-toggle" type="checkbox" checked onchange="toggleEditorSnap(this.checked)"> Snap to grid</label>
+          <label class="gd-check"><input id="editor-freemode-toggle" type="checkbox" onchange="toggleEditorFreeMode(this.checked)"> Free Mode (1px, tanpa snap/grid)</label>
           <label class="gd-check"><input id="editor-hitbox-toggle" type="checkbox" onchange="toggleEditorHitboxes(this.checked)"> Show hitboxes</label>
         </div>
         <div class="gd-panel-footer">
@@ -202,7 +205,7 @@ height: 20px;</pre></article>
     <button class="btn btn-menu" onclick="showStageScreen()">⊞ Stages</button>
   </div>
   <div id="main">
-    <div id="left-panel"><div id="arena-wrapper"><div id="arena" tabindex="0"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div></div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
+    <div id="left-panel"><div id="arena-wrapper"><div id="arena" tabindex="0"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div><div id="touch-controls"><div class="touch-dpad"><button type="button" id="touch-left" class="touch-btn" aria-label="Gerak kiri">◀</button><button type="button" id="touch-right" class="touch-btn" aria-label="Gerak kanan">▶</button></div><button type="button" id="touch-jump" class="touch-btn touch-jump-btn" aria-label="Lompat">⤴<span class="touch-jump-text">JUMP</span></button></div></div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
     <div id="splitter"></div>
     <div id="right-panel"><div id="editor-header"><div class="tab active">📄 arena_code.html</div></div><div id="editor-body"><div id="warn-banner"><span class="warn-icon">⚠</span><span id="warn-text">Kode terlarang terdeteksi.</span><button id="warn-close" onclick="closeWarn()">✕</button></div><div id="editor-scroll"><div id="line-numbers">1</div><textarea id="code-input" placeholder="<!-- Tulis HTML/CSS di sini -->
 <!-- Contoh platform -->
