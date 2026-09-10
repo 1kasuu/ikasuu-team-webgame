@@ -1,52 +1,113 @@
-# Changelog CodePlatform
+# CodePlatform v1.4.0 — Editor v2
 
-## [v1.0.0-alpha.3] - 2026-09-05
+## ✨ Ditambahkan
 
-### Diubah
-- Menambahkan pengaturan **volume BackSound** pada menu Pengaturan.
-- Volume BackSound dapat diatur menggunakan slider dari **0% hingga 100%**.
-- Persentase volume ditampilkan secara realtime saat slider digeser.
-- Pengaturan volume BackSound disimpan di `localStorage` agar tetap tersimpan setelah halaman dimuat kembali.
+- Stage Editor dengan workflow Build / Edit / Delete bergaya Geometry Dash.
+- Object palette untuk Block, Spike, Lava, Spawn, dan Goal.
+- Swipe / Paint Placement untuk menaruh banyak object.
+- Multi-select, selection box, dan selection indicator.
+- Transform handles untuk Move, Resize, dan Rotate.
+- Transform dengan modifier Shift dan Alt.
+- Flip X / Flip Y.
+- Align dan Distribute.
+- Grid dan Snap dengan ukuran grid 8 px.
+- Copy, Paste, Duplicate, Delete, Undo, dan Redo.
+- Editor history hingga 200 langkah.
+- Object lock dan visibility.
+- Layer property untuk object.
+- Pan dan zoom pada editor viewport.
+- Playtest dari awal dan Play From Selection.
+- Show Hitboxes untuk debugging editor.
+- Pengaturan ukuran arena custom hingga 2000×1200.
+- Shortcut editor context-aware.
+- Shortcut game yang tidak lagi memakai Ctrl+E/Ctrl+R yang rawan bentrok browser:
+  - Run Code: Ctrl + Alt + Enter
+  - Restart: Ctrl + Alt + Backspace
 
-### Ditambahkan
-- Alur kerja **2D Stage Editor bergaya Unity** dengan tools **Edit / Place / Delete**.
-- Sistem riwayat editor dengan fitur **Undo / Redo**.
-- Shortcut keyboard editor untuk **Delete, Backspace, Copy, Paste, Duplicate, Undo, Redo, dan Save**, serta shortcut cepat untuk berpindah tools.
-- Marker **Spawn Point** dan **Goal** yang dapat digeser.
-- Pengaturan ukuran arena secara custom untuk stage buatan sendiri.
-- Kemampuan mengedit custom stage langsung dari **Stage List**.
-- Jalur kembali khusus dari mode game/playtest ke **Stage Editor**.
-- Dukungan background music melalui `audio/background.opus`.
-- Toggle **BackSound** pada menu **Pengaturan**.
-- Bagian tutorial untuk preset command:
-  - `!lompatan-pendek`
-  - `!platform-kanan`
-  - `!platform-tengah`
-  - `!platform-kiri`
-- Kontrol mobile/editor yang lebih lengkap.
+## 🔄 Diubah
 
-### Diubah
-- Ukuran dasar arena official diubah menjadi **720×360** agar lebih sesuai dengan referensi Geometry Dash yang diberikan.
-- Seluruh 10 layout stage resmi dibangun ulang berdasarkan gambar referensi yang diberikan dan penempatan objek disesuaikan untuk meningkatkan **playability** serta progression.
-- Tipe hazard diamond/saw sebelumnya dihapus dari editor dan data level resmi; bentuk yang dimaksud sekarang menggunakan **pasangan spike**.
-- Sistem pemuatan level menggunakan `Promise.allSettled()` sehingga satu file JSON yang bermasalah tidak menyebabkan seluruh level yang valid gagal dimuat.
-- Renderer stage dan physics sekarang menggunakan ukuran arena yang ditentukan masing-masing stage.
-- Scaling arena dibuat terpusat sejak frame pertama dan dihitung ulang menggunakan `ResizeObserver` serta event resize.
-- Input saat mode **Play** sekarang otomatis mengembalikan fokus ke arena setelah pergantian dari mode editor.
-- Tombol **Back** dalam mode game mengarahkan kembali ke editor ketika berasal dari playtest custom stage.
-- Stage Editor menggunakan **grid snapping** untuk mempermudah penempatan objek.
-- Custom stage sekarang memiliki ID yang stabil sehingga penyimpanan hasil edit memperbarui stage yang sama, bukan membuat duplikat baru.
+- UI Stage Editor diubah menjadi lebih mirip editor Geometry Dash.
+- Transform object menggunakan interaksi langsung dengan drag/handle seperti editor desain modern.
+- Object baru mengikuti ukuran default yang konsisten dengan official stage.
+- Spawn dan Goal menjadi object yang dapat dipindahkan di editor.
+- Custom stage mempertahankan ID stabil saat disimpan ulang.
 
-### Diperbaiki
-- Icon player tidak lagi berubah menjadi memiliki sudut membulat ketika melompat atau berotasi.
-- Posisi arena pada perangkat mobile sekarang berada di tengah.
-- Tampilan arena saat pertama kali dibuka tidak lagi bergantung pada pengguna yang harus menggeser splitter secara manual.
-- Fokus tombol **Play** tidak lagi menghalangi input keyboard setelah tombol ditekan.
-- Kembali dari playtest custom stage tidak lagi langsung mengarahkan pengguna ke **Stage List**.
-- Inisialisasi marker editor tidak lagi menghasilkan error `null .style`.
-- Scrollbar dan tombol scrollbar sekarang mengikuti tema website dan tidak lagi menampilkan tampilan default browser yang berwarna terang.
-- Data stage tidak lagi bergantung pada sistem rendering hazard diamond yang sudah dihapus.
+## 🐛 Diperbaiki
 
-### Catatan
-- Background music sengaja **tidak disertakan** dalam project. Tambahkan file musik milik sendiri ke `audio/background.opus`.
-- Jalankan project menggunakan **local HTTP server**, misalnya VS Code Live Server, agar file JSON level dapat dimuat oleh browser.
+- Selection tidak lagi hanya bergantung pada satu object.
+- Spike, Block, dan Lava dapat diedit melalui workflow editor yang sama.
+- Shortcut editor tidak mengambil alih ketika user sedang mengetik di field input.
+
+## 📝 Catatan
+
+- UI editor mengambil inspirasi workflow Geometry Dash, sedangkan interaksi resize/rotate dibuat nyaman seperti Canva/Figma.
+- Physics dan collision tetap ditangani engine CodePlatform dan tidak bergantung pada DOM editor.
+
+
+---
+
+# CodePlatform v1.4.0 — Editor v2
+
+## ✨ Ditambahkan
+
+- Stage Editor dengan workflow Build / Edit / Delete bergaya Geometry Dash.
+- Object palette untuk Block, Spike, Lava, Spawn, dan Goal.
+- Swipe / Paint Placement untuk menaruh banyak object.
+- Multi-select, selection box, dan selection indicator.
+- Transform handles untuk Move, Resize, dan Rotate.
+- Transform dengan modifier Shift dan Alt.
+- Flip X / Flip Y.
+- Align dan Distribute.
+- Grid dan Snap dengan ukuran grid 8 px.
+- Copy, Paste, Duplicate, Delete, Undo, dan Redo.
+- Editor history hingga 200 langkah.
+- Object lock dan visibility.
+- Layer property untuk object.
+- Pan dan zoom pada editor viewport.
+- Playtest dari awal dan Play From Selection.
+- Show Hitboxes untuk debugging editor.
+- Pengaturan ukuran arena custom hingga 2000×1200.
+- Shortcut editor context-aware.
+- Shortcut game yang tidak lagi memakai Ctrl+E/Ctrl+R yang rawan bentrok browser:
+  - Run Code: Ctrl + Alt + Enter
+  - Restart: Ctrl + Alt + Backspace
+
+## 🔄 Diubah
+
+- UI Stage Editor diubah menjadi lebih mirip editor Geometry Dash.
+- Transform object menggunakan interaksi langsung dengan drag/handle seperti editor desain modern.
+- Object baru mengikuti ukuran default yang konsisten dengan official stage.
+- Spawn dan Goal menjadi object yang dapat dipindahkan di editor.
+- Custom stage mempertahankan ID stabil saat disimpan ulang.
+
+## 🐛 Diperbaiki
+
+- Selection tidak lagi hanya bergantung pada satu object.
+- Spike, Block, dan Lava dapat diedit melalui workflow editor yang sama.
+- Shortcut editor tidak mengambil alih ketika user sedang mengetik di field input.
+
+## 📝 Catatan
+
+- UI editor mengambil inspirasi workflow Geometry Dash, sedangkan interaksi resize/rotate dibuat nyaman seperti Canva/Figma.
+- Physics dan collision tetap ditangani engine CodePlatform dan tidak bergantung pada DOM editor.
+
+
+---
+
+# CodePlatform v1.3.0
+
+
+## 🔧 Pembaruan Perbaikan
+
+- Ukuran default **Spike** di Stage Editor sekarang sama dengan spike pada stage official, yaitu **24×24**.
+- Spike sekarang dapat dipilih, digeser, diubah ukuran, dan dihapus dalam **Edit Mode**.
+- Player icon tidak lagi menampilkan mata dan tetap berbentuk kotak sempurna saat melompat/berotasi.
+- Posisi dan ukuran marker **Goal** di editor dibuat tetap sehingga tidak melebar saat digeser.
+- Glow Goal dirapikan agar tetap sejajar dengan frame goal.
+- Shortcut **Run Code** diubah dari `Ctrl+R` menjadi `Ctrl+Q`.
+- BackSound sekarang mencoba melakukan playback kembali setelah interaksi pertama pengguna untuk mengatasi pembatasan autoplay browser.
+- Penanganan error BackSound dibuat lebih jelas ketika file `audio/background.opus` tidak tersedia atau gagal dimuat.
+- Posisi menu Home dipusatkan kembali.
+- Splitter pada mode mobile sekarang tersedia dan dapat digeser **atas/bawah** untuk mengatur tinggi arena dan editor.
+- Scaling arena diberi beberapa tahap reflow/resize agar arena langsung tampil saat level pertama kali dibuka.
+

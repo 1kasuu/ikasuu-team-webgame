@@ -78,50 +78,117 @@ height: 20px;</pre></article>
   <div class="settings-wrap">
     <div class="settings-card"><div><h3>Tema</h3><p>Ubah tampilan antarmuka.</p></div><div class="settings-actions"><button class="setting-choice" onclick="toggleTheme()"><span id="settings-theme-icon">🌙</span><span id="settings-theme-label">Dark</span></button></div></div>
     <div class="settings-card"><div><h3>Mode input awal</h3><p>Pilih mode yang aktif ketika game dibuka.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-play" onclick="setInputMode('play')">▶ Play</button><button class="setting-choice" id="settings-code" onclick="setInputMode('code')">&lt;/&gt; Code</button></div></div>
-    <div class="settings-card bgm-settings-card"><div><h3>Backsound</h3><p>Gunakan file <code>audio/background.opus</code> milikmu sendiri.</p></div><div class="settings-actions bgm-controls"><button class="setting-choice" id="settings-bgm" onclick="toggleBgm()">♫ Backsound <span id="settings-bgm-state">Off</span></button><label class="volume-control" for="settings-bgm-volume"><span>Volume</span><input id="settings-bgm-volume" type="range" min="0" max="100" step="1" value="45" oninput="setBgmVolume(this.value)" aria-label="Volume backsound"><output id="settings-bgm-volume-value">45%</output></label></div></div>
+    <div class="settings-card"><div><h3>Backsound</h3><p>Gunakan file <code>audio/background.opus</code> milikmu sendiri.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-bgm" onclick="toggleBgm()">♫ Backsound <span id="settings-bgm-state">Off</span></button></div></div>
     <div class="settings-card danger-card"><div><h3>Hapus progres</h3><p>Mengunci kembali semua stage resmi dan menghapus stage custom tersimpan.</p></div><button class="btn btn-danger" onclick="resetProgress()">Reset Progress</button></div>
   </div>
 </section>
 
 <!-- STAGE EDITOR -->
-<section id="editor-screen" class="app-screen hidden screen-scroll">
-  <div class="editor-page-top">
-    <button class="back-btn" onclick="showHome()">← Home</button>
-    <div><div class="screen-title">Stage <span>Editor</span></div><div class="screen-sub">Buat stage sendiri dengan workflow mirip editor level 2D.</div></div>
-    <div class="editor-top-actions"><button class="small-action" onclick="importStageJSON()">Import JSON</button><button class="small-action primary" onclick="exportEditorJSON()">Export JSON</button></div>
-  </div>
-  <div class="editor-layout">
-    <aside class="editor-sidebar">
-      <label>Nama Stage<input id="editor-title" value="My Custom Stage"></label>
-      <label>Difficulty<select id="editor-diff"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label>
-      <label>Deskripsi<textarea id="editor-desc">Buat jalurmu sendiri.</textarea></label>
-      <div class="tool-title">Mode</div>
-      <div class="editor-tool-row">
-        <button class="editor-tool active" data-tool="edit" onclick="setEditorTool('edit')">↖ Edit</button>
-        <button class="editor-tool" data-tool="place" onclick="setEditorTool('place')">＋ Place</button>
-        <button class="editor-tool" data-tool="delete" onclick="setEditorTool('delete')">⌫ Delete</button>
+<section id="editor-screen" class="app-screen hidden screen-scroll editor-screen">
+  <div class="gd-editor-shell">
+    <div class="gd-editor-topbar">
+      <div class="gd-editor-left">
+        <button class="back-btn gd-icon-btn" onclick="backFromEditor()" title="Kembali">←</button>
+        <div class="gd-editor-brand">EDIT <span>STAGE</span></div>
       </div>
-      <div class="tool-title">Place Object</div>
-      <div class="palette">
-        <button class="editor-place-kind active" data-kind="solid" onclick="setEditorPlaceKind('solid')">■ Platform</button>
-        <button class="editor-place-kind" data-kind="spike" onclick="setEditorPlaceKind('spike')">▲ Spike</button>
-        <button class="editor-place-kind" data-kind="lava" onclick="setEditorPlaceKind('lava')">▬ Lava</button>
+      <div class="gd-editor-modes">
+        <button class="gd-mode-btn active" data-editor-mode="build" onclick="setEditorMode('build')">BUILD</button>
+        <button class="gd-mode-btn" data-editor-mode="edit" onclick="setEditorMode('edit')">EDIT</button>
+        <button class="gd-mode-btn" data-editor-mode="delete" onclick="setEditorMode('delete')">DELETE</button>
       </div>
-      <div class="tool-title">Arena Size</div>
-      <div class="size-row"><label>Width<input id="editor-width" type="number" min="360" max="1400" step="8" value="720"></label><label>Height<input id="editor-height" type="number" min="240" max="900" step="8" value="360"></label></div>
-      <div class="tool-title editor-history-title">History</div>
-      <div class="history-row"><button class="editor-utility" onclick="undoEditor()">↶ Undo</button><button class="editor-utility" onclick="redoEditor()">↷ Redo</button><button class="editor-utility" onclick="copySelected()">Copy</button><button class="editor-utility" onclick="pasteSelected()">Paste</button></div>
-      <div class="tool-title">Selected Object</div>
-      <div id="editor-inspector" class="inspector muted">Pilih objek dengan <strong>Edit</strong>, lalu ubah propertinya di sini.</div>
-      <div class="editor-actions"><button class="btn btn-primary" onclick="saveCustomStage()">Simpan Stage <kbd>Ctrl+S</kbd></button><button class="btn btn-secondary" onclick="clearEditor()">Bersihkan</button><button class="btn btn-secondary" onclick="playtestEditor()">▶ Playtest</button></div>
-      <input type="file" id="json-file-input" accept="application/json,.json" hidden>
-      <div class="editor-shortcuts"><strong>Shortcut</strong><span>V / 1 Edit</span><span>P / 2 Place</span><span>X / 3 Delete</span><span>Del / Backspace Delete</span><span>Ctrl+C / V / D</span><span>Ctrl+Z / Y</span></div>
-    </aside>
-    <div id="editor-canvas-wrap" class="editor-canvas-wrap">
-      <div class="editor-viewport"><div id="editor-arena" class="editor-arena"><div id="editor-start-marker" class="editor-marker editor-start-marker" title="Spawn Point">SPAWN</div><div id="editor-goal-marker" class="editor-marker editor-goal-marker" title="Goal">GOAL</div></div></div>
-      <div class="editor-help">Edit = pilih/geser · Place = klik untuk menaruh · Delete = klik untuk menghapus · Spawn dan Goal juga bisa digeser.</div>
+      <div class="gd-editor-actions">
+        <button class="gd-tool-btn" onclick="undoEditor()" title="Undo">↶</button>
+        <button class="gd-tool-btn" onclick="redoEditor()" title="Redo">↷</button>
+        <button class="gd-tool-btn" onclick="toggleEditorGrid()" title="Grid">#</button>
+        <button class="gd-tool-btn" onclick="toggleEditorSnap()" title="Snap">⌖</button>
+        <button class="gd-tool-btn" onclick="toggleEditorHitboxes()" title="Hitboxes">▱</button>
+        <button class="gd-tool-btn" onclick="saveCustomStage()" title="Save">💾</button>
+        <button class="gd-play-btn" onclick="playtestEditor()">▶ Playtest</button>
+      </div>
+    </div>
+
+    <div class="gd-editor-main">
+      <div id="editor-canvas-wrap" class="editor-canvas-wrap gd-editor-stage-wrap">
+        <div class="editor-viewport" id="editor-viewport">
+          <div id="editor-world" class="editor-world">
+            <div id="editor-arena" class="editor-arena">
+              <div id="editor-start-marker" class="editor-marker editor-start-marker" title="Spawn Point">S</div>
+              <div id="editor-goal-marker" class="editor-marker editor-goal-marker" title="Goal">G</div>
+              <div id="editor-selection-layer" class="editor-selection-layer"></div>
+            </div>
+          </div>
+        </div>
+        <div class="gd-editor-statusbar">
+          <div><span id="editor-mode-status">BUILD</span> · <span id="editor-snap-status">Snap ON</span> · <span id="editor-grid-status">Grid ON</span></div>
+          <div><button class="zoom-btn" onclick="editorZoom(-1)">−</button><span id="editor-zoom-label">100%</span><button class="zoom-btn" onclick="editorZoom(1)">＋</button></div>
+        </div>
+      </div>
+
+      <aside class="gd-editor-inspector-panel">
+        <div class="gd-panel-block">
+          <div class="gd-panel-title">STAGE</div>
+          <label>Nama<input id="editor-title" value="My Custom Stage"></label>
+          <label>Difficulty<select id="editor-diff"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label>
+          <label>Deskripsi<textarea id="editor-desc">Buat jalurmu sendiri.</textarea></label>
+        </div>
+        <div class="gd-panel-block">
+          <div class="gd-panel-title">ARENA</div>
+          <div class="gd-two-col"><label>W<input id="editor-width" type="number" min="360" max="2000" step="8" value="720"></label><label>H<input id="editor-height" type="number" min="240" max="1200" step="8" value="360"></label></div>
+        </div>
+        <div class="gd-panel-block gd-selection-panel">
+          <div class="gd-panel-title">OBJECT</div>
+          <div id="editor-inspector" class="inspector muted">Pilih object untuk mengedit propertinya.</div>
+        </div>
+        <div class="gd-panel-block">
+          <div class="gd-panel-title">TOOLS</div>
+          <div class="gd-mini-grid">
+            <button onclick="alignSelection('left')">Align L</button><button onclick="alignSelection('center-x')">Center X</button>
+            <button onclick="alignSelection('right')">Align R</button><button onclick="alignSelection('top')">Align T</button>
+            <button onclick="alignSelection('middle-y')">Middle Y</button><button onclick="alignSelection('bottom')">Align B</button>
+            <button onclick="distributeSelection('x')">Dist H</button><button onclick="distributeSelection('y')">Dist V</button>
+            <button onclick="flipSelection('x')">Flip X</button><button onclick="flipSelection('y')">Flip Y</button>
+          </div>
+        </div>
+        <div class="gd-panel-block">
+          <div class="gd-panel-title">OPTIONS</div>
+          <label class="gd-check"><input id="editor-lock-selected" type="checkbox" onchange="toggleSelectedLocked(this.checked)"> Lock selected</label>
+          <label class="gd-check"><input id="editor-hide-selected" type="checkbox" onchange="toggleSelectedVisible(!this.checked)"> Hide selected</label>
+          <label class="gd-check"><input id="editor-grid-toggle" type="checkbox" checked onchange="toggleEditorGrid(this.checked)"> Show grid</label>
+          <label class="gd-check"><input id="editor-snap-toggle" type="checkbox" checked onchange="toggleEditorSnap(this.checked)"> Snap to grid</label>
+          <label class="gd-check"><input id="editor-hitbox-toggle" type="checkbox" onchange="toggleEditorHitboxes(this.checked)"> Show hitboxes</label>
+        </div>
+        <div class="gd-panel-footer">
+          <button class="gd-secondary-action" onclick="importStageJSON()">Import</button>
+          <button class="gd-secondary-action" onclick="exportEditorJSON()">Export</button>
+          <button class="gd-secondary-action" onclick="clearEditor()">Clear</button>
+        </div>
+        <div class="gd-shortcuts">
+          <strong>SHORTCUTS</strong>
+          <span>V / 1 Edit · P / 2 Build · X / 3 Delete</span>
+          <span>Delete / Backspace · Ctrl+C / V / D</span>
+          <span>Ctrl+Z / Ctrl+Y · Ctrl+S</span>
+          <span>Ctrl+A Select All · Esc Deselect</span>
+          <span>Shift+Click Multi-select · Shift Snap constrain</span>
+        </div>
+      </aside>
+    </div>
+
+    <div class="gd-editor-palette">
+      <div class="gd-palette-tools">
+        <button class="gd-palette-kind active" data-kind="solid" onclick="setEditorPlaceKind('solid')"><span>■</span> BLOCK</button>
+        <button class="gd-palette-kind" data-kind="spike" onclick="setEditorPlaceKind('spike')"><span>▲</span> SPIKE</button>
+        <button class="gd-palette-kind" data-kind="lava" onclick="setEditorPlaceKind('lava')"><span>▬</span> LAVA</button>
+        <button class="gd-palette-kind" data-kind="spawn" onclick="setEditorPlaceKind('spawn')"><span>S</span> SPAWN</button>
+        <button class="gd-palette-kind" data-kind="goal" onclick="setEditorPlaceKind('goal')"><span>G</span> GOAL</button>
+      </div>
+      <div class="gd-palette-meta">
+        <button class="gd-mini-action" onclick="selectAllEditor()">Select All</button>
+        <button class="gd-mini-action" onclick="deselectAllEditor()">Deselect</button>
+        <button class="gd-mini-action" onclick="playtestFromSelection()">▶ From Selection</button>
+      </div>
     </div>
   </div>
+  <input type="file" id="json-file-input" accept="application/json,.json" hidden>
 </section>
 
 <!-- GAME -->
@@ -139,7 +206,7 @@ height: 20px;</pre></article>
     <div id="splitter"></div>
     <div id="right-panel"><div id="editor-header"><div class="tab active">📄 arena_code.html</div></div><div id="editor-body"><div id="warn-banner"><span class="warn-icon">⚠</span><span id="warn-text">Kode terlarang terdeteksi.</span><button id="warn-close" onclick="closeWarn()">✕</button></div><div id="editor-scroll"><div id="line-numbers">1</div><textarea id="code-input" placeholder="<!-- Tulis HTML/CSS di sini -->
 <!-- Contoh platform -->
-<div style=&quot;position:absolute;left:200px;bottom:120px;width:180px;height:20px;background:#2a4278;&quot;></div>" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea></div><div id="stage-hint"></div></div><div id="editor-toolbar"><button class="btn btn-run" onclick="runCode()">▶ Run Code <kbd class="btn-kbd">Ctrl+R</kbd></button><button class="btn btn-reset" onclick="confirmReset()">↺ Reset Level <kbd class="btn-kbd">Ctrl+E</kbd></button></div></div>
+<div style=&quot;position:absolute;left:200px;bottom:120px;width:180px;height:20px;background:#2a4278;&quot;></div>" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea></div><div id="stage-hint"></div></div><div id="editor-toolbar"><button class="btn btn-run" onclick="runCode()">▶ Run Code <kbd class="btn-kbd">Ctrl+Alt+Enter</kbd></button><button class="btn btn-reset" onclick="confirmReset()">↺ Reset Level <kbd class="btn-kbd">Ctrl+Alt+Backspace</kbd></button></div></div>
   </div>
 </section>
 
