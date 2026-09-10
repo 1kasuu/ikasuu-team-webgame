@@ -66,6 +66,7 @@ v1.0.0  Initial release
 v1.1.0  Feature update
 v1.2.0  Collision/JSON architecture
 v1.3.0  Editor, responsive, audio hook, stage rebuild
+v1.4.0  Editor v2 transform workflow and advanced level editing
 ```
 
 See `CHANGELOG.md` for release history.
