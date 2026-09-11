@@ -29,7 +29,8 @@
 </section>
 
 <!-- STAGE SELECT -->
-<section id="stage-screen" class="app-screen hidden screen-scroll">
+<section id="stage-screen" class="app-screen hidden">
+  <div class="screen-scroll">
   <div class="screen-top">
     <button class="back-btn" onclick="showHome()">← Home</button>
     <div>
@@ -43,10 +44,12 @@
     <div class="section-heading"><span>Stage Buatanmu</span><small>tersimpan di perangkat ini</small></div>
     <div id="custom-stage-grid"></div>
   </div>
+  </div>
 </section>
 
 <!-- TUTORIAL -->
-<section id="tutorial-screen" class="app-screen hidden screen-scroll">
+<section id="tutorial-screen" class="app-screen hidden">
+  <div class="screen-scroll">
   <div class="screen-top">
     <button class="back-btn" onclick="showHome()">← Home</button>
     <div><div class="screen-title">Cara <span>Bermain</span></div><div class="screen-sub">Pelajari konsep yang benar-benar kamu butuhkan untuk menyelesaikan game.</div></div>
@@ -70,16 +73,20 @@ height: 20px;</pre></article>
 !platform-kiri</pre></div>
     <div class="tutorial-card challenge"><div><h2>Siap mencoba?</h2><p>Mulai dari Stage 1. Tidak ada tuntutan untuk langsung benar — jalankan, lihat hasilnya, lalu perbaiki.</p></div><button class="btn btn-primary" onclick="showStageScreen()">Mulai Stage 1 →</button></div>
   </div>
+  </div>
 </section>
 
 <!-- SETTINGS -->
-<section id="settings-screen" class="app-screen hidden screen-scroll">
+<section id="settings-screen" class="app-screen hidden">
+  <div class="screen-scroll">
   <div class="screen-top"><button class="back-btn" onclick="showHome()">← Home</button><div><div class="screen-title">Pengaturan</div><div class="screen-sub">Sesuaikan pengalaman bermain.</div></div><div></div></div>
   <div class="settings-wrap">
     <div class="settings-card"><div><h3>Tema</h3><p>Ubah tampilan antarmuka.</p></div><div class="settings-actions"><button class="setting-choice" onclick="toggleTheme()"><span id="settings-theme-icon">🌙</span><span id="settings-theme-label">Dark</span></button></div></div>
     <div class="settings-card"><div><h3>Mode input awal</h3><p>Pilih mode yang aktif ketika game dibuka.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-play" onclick="setInputMode('play')">▶ Play</button><button class="setting-choice" id="settings-code" onclick="setInputMode('code')">&lt;/&gt; Code</button></div></div>
     <div class="settings-card"><div><h3>Backsound</h3><p>Gunakan file <code>audio/background.opus</code> milikmu sendiri.</p></div><div class="settings-actions"><button class="setting-choice" id="settings-bgm" onclick="toggleBgm()">♫ Backsound <span id="settings-bgm-state">Off</span></button></div></div>
+    <div class="settings-card"><div><h3>Volume</h3><p>Atur volume backsound.</p></div><div class="settings-volume"><span>🔈</span><input id="settings-volume-slider" type="range" min="0" max="100" step="1" value="45" oninput="setBgmVolume(this.value/100)"><span>🔊</span><span id="settings-volume-value" class="settings-volume-value">45%</span></div></div>
     <div class="settings-card danger-card"><div><h3>Hapus progres</h3><p>Mengunci kembali semua stage resmi dan menghapus stage custom tersimpan.</p></div><button class="btn btn-danger" onclick="resetProgress()">Reset Progress</button></div>
+  </div>
   </div>
 </section>
 
@@ -101,6 +108,7 @@ height: 20px;</pre></article>
         <button class="gd-tool-btn" onclick="redoEditor()" title="Redo">↷</button>
         <button class="gd-tool-btn" onclick="toggleEditorGrid()" title="Grid">#</button>
         <button class="gd-tool-btn" onclick="toggleEditorSnap()" title="Snap">⌖</button>
+        <button class="gd-tool-btn" onclick="toggleEditorFreeMode()" title="Free Mode (geser 1px tanpa snap/grid)">✥</button>
         <button class="gd-tool-btn" onclick="toggleEditorHitboxes()" title="Hitboxes">▱</button>
         <button class="gd-tool-btn" onclick="saveCustomStage()" title="Save">💾</button>
         <button class="gd-play-btn" onclick="playtestEditor()">▶ Playtest</button>
@@ -125,6 +133,7 @@ height: 20px;</pre></article>
       </div>
 
       <aside class="gd-editor-inspector-panel">
+        <button type="button" class="gd-panel-close" onclick="deselectAllEditor(); this.blur();" title="Tutup panel">×</button>
         <div class="gd-panel-block">
           <div class="gd-panel-title">STAGE</div>
           <label>Nama<input id="editor-title" value="My Custom Stage"></label>
@@ -155,6 +164,7 @@ height: 20px;</pre></article>
           <label class="gd-check"><input id="editor-hide-selected" type="checkbox" onchange="toggleSelectedVisible(!this.checked)"> Hide selected</label>
           <label class="gd-check"><input id="editor-grid-toggle" type="checkbox" checked onchange="toggleEditorGrid(this.checked)"> Show grid</label>
           <label class="gd-check"><input id="editor-snap-toggle" type="checkbox" checked onchange="toggleEditorSnap(this.checked)"> Snap to grid</label>
+          <label class="gd-check"><input id="editor-freemode-toggle" type="checkbox" onchange="toggleEditorFreeMode(this.checked)"> Free Mode (1px, tanpa snap/grid)</label>
           <label class="gd-check"><input id="editor-hitbox-toggle" type="checkbox" onchange="toggleEditorHitboxes(this.checked)"> Show hitboxes</label>
         </div>
         <div class="gd-panel-footer">
@@ -202,7 +212,15 @@ height: 20px;</pre></article>
     <button class="btn btn-menu" onclick="showStageScreen()">⊞ Stages</button>
   </div>
   <div id="main">
-    <div id="left-panel"><div id="arena-wrapper"><div id="arena" tabindex="0"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div></div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
+    <div id="left-panel"><div id="arena-wrapper"><div id="arena" tabindex="0"><div id="spawn-marker"></div><div id="goal"><div class="door-glow"></div><div class="door-frame"></div><div class="door-inner"></div><div class="star">★</div></div><div id="player"><div class="p-body"></div><div class="p-eye"></div></div><div id="user-elements"></div><div id="hud"><div class="hud-badge">Deaths: <span id="death-count">0</span></div><div class="hud-badge">Runs: <span id="run-count">0</span></div></div><div id="key-hints"><div class="key-chip">← → / A D</div><div class="key-chip">SPACE / ↑</div></div><div id="death-flash"></div></div>
+      <div id="touch-controls">
+        <div class="touch-dpad">
+          <button type="button" class="touch-btn" id="touch-left" aria-label="Kiri">◀</button>
+          <button type="button" class="touch-btn" id="touch-right" aria-label="Kanan">▶</button>
+        </div>
+        <button type="button" class="touch-btn touch-jump" id="touch-jump" aria-label="Lompat">▲</button>
+      </div>
+    </div><div id="arena-status"><div class="dot" id="status-dot"></div><span id="status-text">Siap</span><span id="coords">x:0 y:0</span></div></div>
     <div id="splitter"></div>
     <div id="right-panel"><div id="editor-header"><div class="tab active">📄 arena_code.html</div></div><div id="editor-body"><div id="warn-banner"><span class="warn-icon">⚠</span><span id="warn-text">Kode terlarang terdeteksi.</span><button id="warn-close" onclick="closeWarn()">✕</button></div><div id="editor-scroll"><div id="line-numbers">1</div><textarea id="code-input" placeholder="<!-- Tulis HTML/CSS di sini -->
 <!-- Contoh platform -->
@@ -211,7 +229,7 @@ height: 20px;</pre></article>
 </section>
 
 <!-- AUTOCOMPLETE -->
-<div id="ac-dropdown"><div id="ac-list"></div><div id="ac-doc"></div><div id="ac-status"><span><kbd>↑</kbd><kbd>↓</kbd> navigasi &nbsp;<kbd>↵</kbd> pilih &nbsp;<kbd>Esc</kbd> tutup</span><span id="ac-count">0 saran</span></div></div>
+<div id="ac-dropdown"><div id="ac-list"></div><div id="ac-doc"></div><div id="ac-status"><span class="ac-kbd-hints"><kbd>↑</kbd><kbd>↓</kbd> navigasi &nbsp;<kbd>↵</kbd> pilih &nbsp;<kbd>Esc</kbd> tutup</span><span id="ac-count">0 saran</span></div></div>
 
 <!-- WIN -->
 <div id="win-modal" class="modal-overlay hidden"><div class="modal"><div class="modal-icon">🎉</div><div class="modal-title">Level Selesai!</div><div class="modal-sub" id="win-sub"></div><div class="modal-btns"><button class="btn btn-primary" onclick="nextStage()">Lanjut ke Stage Berikutnya →</button><button class="btn btn-secondary" onclick="restartStage()">↺ Ulangi Stage Ini</button><button class="btn btn-secondary" onclick="showStageScreen()">⊞ Kembali ke Stage</button></div></div></div>
