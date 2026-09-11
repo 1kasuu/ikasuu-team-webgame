@@ -179,6 +179,10 @@ function backFromGame() {
 /* ---------- THEME + AUDIO ---------- */
 let isDark = localStorage.getItem("cp_theme") !== "light";
 let bgmEnabled = localStorage.getItem("cp_bgm") === "on";
+let bgmVolume = Math.max(
+    0,
+    Math.min(1, Number(localStorage.getItem("cp_bgm_volume") ?? 0.45)),
+);
 function applyTheme() {
     document.documentElement.setAttribute(
         "data-theme",
@@ -205,6 +209,10 @@ function syncSettingsUI() {
     $("settings-bgm-state")?.replaceChildren(
         document.createTextNode(bgmEnabled ? "On" : "Off"),
     );
+    if ($("settings-volume-slider"))
+        $("settings-volume-slider").value = Math.round(bgmVolume * 100);
+    if ($("settings-volume-value"))
+        $("settings-volume-value").textContent = Math.round(bgmVolume * 100) + "%";
 }
 function prepareBgm() {
     if (!bgm) return;
@@ -212,13 +220,17 @@ function prepareBgm() {
         bgm.src = BGM_SRC;
         bgm.loop = true;
         bgm.preload = "auto";
-        bgm.volume = Math.max(
-            0,
-            Math.min(1, Number(localStorage.getItem("cp_bgm_volume") || 0.45)),
-        );
+        bgm.volume = bgmVolume;
         bgm.dataset.ready = "1";
         bgm.load();
     }
+}
+function setBgmVolume(v) {
+    bgmVolume = Math.max(0, Math.min(1, Number(v)));
+    localStorage.setItem("cp_bgm_volume", String(bgmVolume));
+    if (bgm) bgm.volume = bgmVolume;
+    if ($("settings-volume-value"))
+        $("settings-volume-value").textContent = Math.round(bgmVolume * 100) + "%";
 }
 function tryPlayBgm() {
     if (!bgm || !bgmEnabled) return;
@@ -1184,65 +1196,51 @@ document.addEventListener("keyup", (e) => {
     const k = raw.length === 1 ? raw.toLowerCase() : raw;
     keys[k] = false;
 });
+/* ---------- TOUCH MOVEMENT CONTROLS ---------- */
+// On-screen Left / Right / Jump buttons for touch devices, since there is
+// no physical keyboard to drive `keys.a` / `keys.d` / jumpQueued otherwise.
+function initTouchControls() {
+    const bind = (id, onDown, onUp) => {
+        const el = $(id);
+        if (!el) return;
+        const down = (e) => {
+            e.preventDefault();
+            el.classList.add("pressed");
+            onDown();
+        };
+        const up = (e) => {
+            e.preventDefault();
+            el.classList.remove("pressed");
+            onUp?.();
+        };
+        el.addEventListener("pointerdown", down);
+        el.addEventListener("pointerup", up);
+        el.addEventListener("pointercancel", up);
+        el.addEventListener("pointerleave", up);
+        // Prevent the press turning into a click/context-menu/text-select.
+        el.addEventListener("contextmenu", (e) => e.preventDefault());
+    };
+    bind(
+        "touch-left",
+        () => (keys.a = true),
+        () => (keys.a = false),
+    );
+    bind(
+        "touch-right",
+        () => (keys.d = true),
+        () => (keys.d = false),
+    );
+    bind("touch-jump", () => {
+        jumpQueued = true;
+    });
+}
 window.addEventListener("blur", () => {
     keys = {};
     jumpQueued = false;
-    clearTouchButtonVisuals();
 });
 arena?.addEventListener("pointerdown", () => {
     if (inputMode === "play") focusGame();
 });
-
-/* ---------- TOUCH CONTROLS (mobile left / right / jump) ----------
-   Reuses the same `keys` / `jumpQueued` state the keyboard handlers above
-   already write to, so updatePhysics() needs no changes at all — a held
-   touch button behaves exactly like a held arrow key. */
-function clearTouchButtonVisuals() {
-    document
-        .querySelectorAll("#touch-controls .touch-btn.is-active")
-        .forEach((b) => b.classList.remove("is-active"));
-}
-(function initTouchControls() {
-    const leftBtn = $("touch-left"),
-        rightBtn = $("touch-right"),
-        jumpBtn = $("touch-jump");
-    if (!leftBtn || !rightBtn || !jumpBtn) return;
-    function bindHoldButton(btn, key) {
-        const press = (e) => {
-            e.preventDefault();
-            if (inputMode !== "play") return;
-            keys[key] = true;
-            btn.classList.add("is-active");
-        };
-        const release = (e) => {
-            e.preventDefault();
-            keys[key] = false;
-            btn.classList.remove("is-active");
-        };
-        btn.addEventListener("pointerdown", press);
-        btn.addEventListener("pointerup", release);
-        btn.addEventListener("pointercancel", release);
-        btn.addEventListener("pointerleave", release);
-        btn.addEventListener("contextmenu", (e) => e.preventDefault());
-    }
-    bindHoldButton(leftBtn, "ArrowLeft");
-    bindHoldButton(rightBtn, "ArrowRight");
-    const pressJump = (e) => {
-        e.preventDefault();
-        if (inputMode !== "play") return;
-        jumpQueued = true;
-        jumpBtn.classList.add("is-active");
-    };
-    const releaseJump = (e) => {
-        e.preventDefault();
-        jumpBtn.classList.remove("is-active");
-    };
-    jumpBtn.addEventListener("pointerdown", pressJump);
-    jumpBtn.addEventListener("pointerup", releaseJump);
-    jumpBtn.addEventListener("pointercancel", releaseJump);
-    jumpBtn.addEventListener("pointerleave", releaseJump);
-    jumpBtn.addEventListener("contextmenu", (e) => e.preventDefault());
-})();
 
 /* ---------- ARENA SCALE / SPLITTER ---------- */
 function rescaleArena() {
@@ -3180,6 +3178,7 @@ function init() {
     });
     syncBgm();
     initBgmGesture();
+    initTouchControls();
     updateLineNumbers();
     setEditorMode("build");
     renderEditor();
